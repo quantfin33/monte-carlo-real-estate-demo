@@ -36,6 +36,12 @@ For a custom-software or digital-transformation team, the useful signal is the w
 - **Reporting path:** Export surfaces and structured artifacts show how the workflow could later support repeatable client-facing outputs.
 - **Future integration path:** The current repo can be framed as a candidate for future reporting, API, assistant, or business-system workflows without claiming those integrations already exist.
 
+## Integration-Ready Export Roadmap
+
+The package includes a local deterministic business-summary export artifact at `artifacts/integration_demo/sample_business_summary.json`. It demonstrates how the current dashboard could later feed reporting, API wrapper, AI/MCP tool, or ERP/Odoo handoff workflows through a structured payload.
+
+This is not a live integration layer: the package does not include Odoo, MCP, ERP, CRM, SAP, OpenAI, or hosted API connectivity. See [docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md](docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md) for the bounded roadmap and validation gates.
+
 ## Quick Start
 
 ### Prerequisites
@@ -83,6 +89,7 @@ monte-carlo-demo-package/
 ├── ui_metrics.py               # UI-facing metrics helpers
 ├── run_ui.py                   # Canonical local launcher
 ├── run_tests.py                # Test runner
+├── scripts/                    # Local export and verification helpers
 ├── docs/                       # Safe claims, demo script, contracts
 ├── tests/                      # Unit, integration, audit, and contract tests
 ├── screenshots/                # Curated review screenshots
@@ -143,6 +150,7 @@ python -m pytest tests/test_metrics_full.py -q -o addopts=''
 - [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md)
 - [README_UI_LAUNCH.md](README_UI_LAUNCH.md)
 - [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md)
+- [docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md](docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md)
 - [docs/KEEWAYS_DEMO_SCRIPT.md](docs/KEEWAYS_DEMO_SCRIPT.md)
 - [docs/KEEWAYS_POSITIONING_MEMO.md](docs/KEEWAYS_POSITIONING_MEMO.md)
 - [docs/metrics_contract.md](docs/metrics_contract.md)

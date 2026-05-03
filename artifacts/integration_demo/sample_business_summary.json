@@ -1,0 +1,72 @@
+{
+  "core_metrics": {
+    "cash_on_cash": {
+      "p50": 0.1592668855511168
+    },
+    "debt_yield": {
+      "p50": 0.2955399421573205
+    },
+    "dscr": {
+      "p50": 4.378369513441784
+    },
+    "equity_multiple": {
+      "p50": 2.2843129148832992
+    },
+    "exit_cap": {
+      "p50": 0.08372425888815707
+    },
+    "irr": {
+      "p5": 0.1470732044892252,
+      "p50": 0.17105184155969655,
+      "p95": 0.19626434597187917
+    },
+    "ltv": {
+      "p50": 0.4624545493358454
+    },
+    "npv": {
+      "p50": 34639581.49848502
+    }
+  },
+  "generated_at": "2026-05-03T21:32:22Z",
+  "intended_future_targets": [
+    "reporting",
+    "API wrapper",
+    "MCP tool layer",
+    "ERP/Odoo handoff"
+  ],
+  "non_claims": [
+    "Live Odoo integration is not included.",
+    "Live ERP, CRM, or SAP integration is not included.",
+    "A live MCP server is not included.",
+    "Hosted deployment is not included.",
+    "Autonomous investment advice is not included."
+  ],
+  "package_metadata": {
+    "artifact_type": "local deterministic business-summary export",
+    "name": "monte-carlo-real-estate-demo",
+    "seed": 12345,
+    "simulation_count": 500,
+    "source": "rmc_model.run_simulation"
+  },
+  "risk_flags": [
+    "Median IRR is above the 15% dashboard reference threshold.",
+    "Median DSCR is above the 1.25x lender-style reference threshold.",
+    "Median debt yield is above the 8% lender-style reference threshold.",
+    "Median LTV is within the 65% reference threshold."
+  ],
+  "scenario": {
+    "description": "Default annual-model assumptions exported for local portfolio review.",
+    "name": "Base demo scenario"
+  },
+  "validation_boundary": {
+    "annual_model_core_validated": true,
+    "hosted_release": false,
+    "live_crm_integration": false,
+    "live_erp_integration": false,
+    "live_mcp_server": false,
+    "live_odoo_integration": false,
+    "live_sap_integration": false,
+    "openai_agent_integration": false,
+    "visual_demo_ready": true
+  }
+}

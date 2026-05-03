@@ -1,24 +1,32 @@
 # Keeways Safe Claims
 
-Date: 2026-05-03
+Date: 2026-05-04
 
 ## Purpose
 
-This note defines what can be stated safely to Keeways based on the current live workspace and fresh verification evidence.
+This note defines what can be stated safely to Keeways based on the clean GitHub package, included artifacts, and prior verification evidence.
 
 ## Evidence Baseline
 
-Current evidence used for this note:
+Package-included evidence:
 
 - `UI.py`
 - `rmc_model.py`
 - `README.md`
-- `docs/KEEWAYS_CURRENT_TRUTH_NOTE.md`
+- `COMPANY_DEMO_HANDOFF.md`
+- `README_UI_LAUNCH.md`
+- `docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md`
+- `docs/KEEWAYS_DEMO_SCRIPT.md`
+- `docs/KEEWAYS_POSITIONING_MEMO.md`
+- `docs/KEEWAYS_SAFE_CLAIMS.md`
 - `artifacts/logic_report.json`
 - `artifacts/wiring_report.json`
-- `artifacts/stress_matrix/summary.json`
-- `artifacts/keeways_verification/20260503_091402/summary.json`
-- `artifacts/keeways_browser/20260503_0917/browser_gate_summary.json`
+- `artifacts/integration_demo/sample_business_summary.json`
+- `scripts/export_demo_business_summary.py`
+- `tests/test_integration_payload_contract.py`
+
+Prior full-workspace verification evidence, referenced as historical support and not all included in this package:
+
 - `python run_tests.py smoke`: pass
 - `python -m pytest tests/test_ui_session_defaults.py tests/test_ui_integration.py -q -o addopts=''`: 9 passed
 - `python -m pytest tests/test_core_model.py tests/audit/test_explain_p50.py tests/audit/test_stochastic_stats_corr.py -q -o addopts=''`: 24 passed
@@ -29,13 +37,16 @@ Current evidence used for this note:
 - `python scripts/keeways_verify.py`: completed with `overall_pass: true`
 - Browser gate in the verified local environment: completed with a visible 5,000-result run, model-derived Tornado chart, Heatmap 1 chart, Trace / Explain surface, and exports
 
+Do not infer that omitted full-workspace scripts or browser artifacts are included in the clean GitHub package.
+
 ## Safe Current Claims
 
 - This repository currently provides a Streamlit-based Monte Carlo real-estate analytics dashboard.
 - The live dashboard preserves a broad business-facing workflow rather than a stripped-down demo surface.
 - The app exposes simulation controls, scenario/risk inputs, IRR distribution analysis, covenant views, sensitivity visuals, exports, and a preserved Trace / Explain surface.
-- The current smoke path is healthy.
+- The smoke path passed in the verified local environment.
 - Current UI/session-default tests and current core/explainability/correlation tests passed in the verified local environment.
+- A local deterministic business-summary export payload exists for future reporting or handoff-pattern discussion.
 - Current Tornado sensitivity output is bounded and model-derived rather than hardcoded demo data.
 - The bounded stress matrix passed across base, high debt, low rent growth, high OpEx, vacancy auto-lease off, and high exit-cap scenarios for seeds `42`, `123`, and `314`.
 - A browser-driven default run completed with `5,000` results and rendered the main dashboard, model-derived Tornado, Heatmap 1, Trace / Explain, and exports.
@@ -59,6 +70,7 @@ Do not claim any of the following:
 
 - live ERP, SAP, Odoo, or CRM integration
 - an implemented MCP server or production AI-agent layer
+- OpenAI or AI-agent integration
 - full production validation of every advanced metric and workflow surface
 - that historical acceptance artifacts alone prove current runtime quality
 - that every visible control currently drives a verified downstream model effect

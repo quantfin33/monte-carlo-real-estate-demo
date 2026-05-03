@@ -11,6 +11,8 @@ The current audited claim boundary is:
 - intended for demo and local review, not for hosted release use
 - broader end-to-end product validation remains incomplete
 
+The package includes a local integration-ready export payload as a future handoff pattern, but no live business-system or agent integration is claimed.
+
 ## What Is Verified Now
 
 Based on the current handoff verification materials prepared for this package:
@@ -69,6 +71,7 @@ The clean handoff package should center on:
 - `run_ui.sh`
 - `run.sh`
 - `run_tests.py`
+- `scripts/export_demo_business_summary.py`
 - `pyproject.toml`
 - `requirements.txt`
 - `requirements_testing.txt`
@@ -78,6 +81,7 @@ The clean handoff package should center on:
 - `screenshots/`
 - `artifacts/logic_report.json`
 - `artifacts/wiring_report.json`
+- `artifacts/integration_demo/sample_business_summary.json`
 
 ## Screenshots Included
 
