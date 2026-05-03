@@ -1,174 +1,126 @@
-# RMC Monte Carlo Simulation Model
+# Monte Carlo Real Estate Analytics Dashboard
 
-This repository contains a Streamlit-based Monte Carlo real-estate investment analytics dashboard.
+This is a Python/Streamlit portfolio project for business-facing real-estate scenario analysis. It demonstrates dashboard development, Monte Carlo simulation workflow, local setup documentation, screenshots, tests, and bounded handoff notes for reviewers. The project is positioned as a local visual demo with a validated annual-model core, not as a hosted release product.
 
-Current audited readiness boundary:
+For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md) for the concise handoff summary and [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for local launch instructions.
 
-- visual demo ready
-- validated annual-model core
-- intended for demo and local review, not for live deployment
-- broader end-to-end product validation remains incomplete
+## Project Status
 
-Use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md) for the clean company-facing handoff summary, [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for the local launch path, [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md) for bounded external wording, and [docs/KEEWAYS_DEMO_SCRIPT.md](docs/KEEWAYS_DEMO_SCRIPT.md) for the demo flow.
+| Area | Current status |
+| --- | --- |
+| Visual demo | Ready for screenshots, walkthrough, and local review |
+| Model core | Validated annual-model core with current test evidence |
+| Deployment | Local/demo review only; no hosted release is claimed |
+| Broader validation | Incomplete across every advanced workflow surface |
+| Integrations | Future direction only; no shipped business-system integration is claimed |
 
-## Project Overview
+## Screenshots
 
-The app is strongest today as a visual analytics and decision-support surface for underwriting-style scenario analysis. It combines Monte Carlo simulation, annual-model output validation, sensitivity views, covenant inspection, and exportable reporting in a single local dashboard.
+![Dashboard home before loading results](screenshots/keeways-review-home.png)
 
-The current package intentionally preserves the richer UI surfaces, including Tornado, Heatmaps, Trace / Explain, and exports, while keeping claim boundaries explicit where broader validation is still incomplete.
+![Dashboard home after loading results](screenshots/keeways-review-home-after-load.png)
 
-## 🏗️ Architecture Overview
+![Dashboard after running a simulation](screenshots/keeways-review-after-run.png)
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Streamlit UI Layer                      │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐  │
-│  │   Controls  │ │  Results    │ │   Heatmaps &        │  │
-│  │   & Inputs  │ │  Display    │ │   Sensitivity       │  │
-│  └─────────────┘ └─────────────┘ └─────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                 Simulation Engine Layer                     │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐  │
-│  │  Parameter  │ │  Monte     │ │   Correlation       │  │
-│  │  Validation │ │  Carlo     │ │   Engine            │  │
-│  └─────────────┘ └─────────────┘ └─────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                 Financial Model Layer                       │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐  │
-│  │  Lease Roll │ │  Debt       │ │   Exit & Tax        │  │
-│  │  Logic      │ │  Modeling   │ │   Calculations      │  │
-│  └─────────────┘ └─────────────┘ └─────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-```
+## Why This Matters
 
-## 🔧 Core Components
+The project is strongest as a business analytics dashboard rather than a finance spreadsheet. It gives a reviewer a working example of how client-facing software can turn assumptions into scenario outputs, risk views, sensitivity visuals, and exportable reporting.
 
-### **UI.py** - Streamlit Interface
-- Dynamic parameter controls with real-time validation
-- Cached simulation results for performance
-- Interactive heatmaps and sensitivity analysis
-- Professional styling and responsive design
+For a custom-software or digital-transformation team, the useful signal is the workflow: collect inputs, run a model, display decision metrics, preserve validation notes, and provide a path toward repeatable reporting or later business-system integration.
 
-### **rmc_model.py** - Simulation Engine
-- Monte Carlo simulation with configurable parameters
-- Advanced correlation modeling (Stage 1 & Stage 2)
-- Comprehensive financial metrics calculation
-- Robust error handling and validation
+## Business Workflow Fit
 
-### **Key Features**
-- **Multi-scenario analysis** (Base, Downside, Upside)
-- **Advanced correlation modeling** with Cholesky decomposition
-- **Dynamic defeasance controls** for debt refinancing
-- **Comprehensive sensitivity analysis** with 2D heatmaps
-- **Professional reporting** with detailed metrics
+- **Dashboard UI:** Streamlit interface for configuring property, leasing, debt, tax, reserve, and risk assumptions.
+- **Scenario analysis:** Monte Carlo runs with IRR, NPV, cash-on-cash, equity multiple, and risk/covenant views.
+- **Decision support:** Sensitivity views, Heatmaps, Tornado, and Trace / Explain surfaces are preserved with explicit validation boundaries.
+- **Reporting path:** Export surfaces and structured artifacts show how the workflow could later support repeatable client-facing outputs.
+- **Future integration path:** The current repo can be framed as a candidate for future reporting, API, assistant, or business-system workflows without claiming those integrations already exist.
 
 ## Quick Start
 
 ### Prerequisites
+
 - Python 3.11+
 - A local virtual environment
 - Runtime dependencies installed from `requirements.txt`
 
 ### Installation
+
 ```bash
-# Create and activate a virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
-
-# Install runtime dependencies
 python -m pip install -r requirements.txt
-
-# Run the canonical launcher
 python run_ui.py
 ```
 
-### Usage
-1. **Configure Parameters**: Set your real estate investment parameters
-2. **Run Simulations**: Execute Monte Carlo simulations with configurable sample sizes
-3. **Analyze Results**: View IRR distributions, sensitivity heatmaps, and detailed metrics
-4. **Export Data**: Download results for further analysis
+When Streamlit starts, open the local URL printed in the terminal.
 
-## Company Handoff Notes
+## Validation Evidence
 
-For portfolio or company handoff, use these files in this order:
+The package includes test and audit material so technical reviewers can inspect more than screenshots:
 
-- [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md)
-- [README_UI_LAUNCH.md](README_UI_LAUNCH.md)
-- [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md)
-- [docs/KEEWAYS_DEMO_SCRIPT.md](docs/KEEWAYS_DEMO_SCRIPT.md)
+- `python run_tests.py smoke` for a quick model smoke path
+- `tests/test_core_model.py` for core model behavior checks
+- `tests/test_engine_output_contract.py` for engine output contract coverage
+- `tests/audit/test_trace_payload_contract.py` and `tests/audit/test_explain_p50.py` for trace/explain behavior
+- `artifacts/logic_report.json` with `all_pass: true` for the included sanity artifact
+- `artifacts/wiring_report.json` for UI-to-engine wiring visibility
+- [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md) for the current claim boundary
 
-Do not describe this repository as ready for live deployment, as a fully complete underwriting platform, or as a system with live business-platform or agent-tool connections already shipped.
+The validation evidence supports the current demo and annual-model core. It does not prove that every visible control, advanced KPI, or preserved workflow surface has complete downstream model coverage.
 
-## 📊 Key Metrics Calculated
-
-- **IRR (Internal Rate of Return)**
-- **NPV (Net Present Value)**
-- **Cash-on-Cash Return**
-- **Equity Multiple**
-- **DSCR (Debt Service Coverage Ratio)**
-- **LTV (Loan-to-Value)**
-- **Break-even Occupancy**
-
-## 🔬 Advanced Features
-
-### **Correlation Modeling**
-- **Stage 1**: Latent market strength (occupancy ↔ rent growth)
-- **Stage 2**: Generalized correlation engine for multiple variables
-- **Cholesky decomposition** for mathematically valid correlations
-
-### **Sensitivity Analysis**
-- **2D Heatmaps**: Exit cap rate × Rent growth, Vacancy × Interest rate
-- **Parameter ranges**: Configurable for your specific analysis needs
-- **Cached results**: Fast iteration and analysis
-
-### **Defeasance Controls**
-- **Flat vs. Curve** discount methods
-- **Risk-free rate** configuration
-- **Fee structure** modeling
-- **Lockout periods** and refinancing constraints
-
-## 📈 Performance Characteristics
-
-- **Simulation Speed**: 10,000 runs in ~30 seconds (M1 Mac)
-- **Memory Usage**: Efficient pandas operations with minimal overhead
-- **Scalability**: Linear scaling with simulation count
-- **Caching**: Streamlit caching for repeated calculations
-
-## Package Structure
+## Repo Map
 
 ```text
 monte-carlo-demo-package/
-├── README.md
-├── README_UI_LAUNCH.md
-├── COMPANY_DEMO_HANDOFF.md
-├── UI.py
-├── rmc_model.py
-├── engine_output_contract.py
-├── trace_tools.py
-├── ui_metrics.py
-├── metrics_schema.py
-├── metrics_utils.py
-├── metrics_registry.py
-├── run_ui.py
-├── run_ui.sh
-├── run.sh
-├── run_tests.py
-├── pyproject.toml
-├── requirements.txt
-├── requirements_testing.txt
-├── docs/
-├── tests/
-├── screenshots/
-└── artifacts/
+├── README.md                  # Reviewer-facing overview
+├── COMPANY_DEMO_HANDOFF.md     # Company-facing handoff notes
+├── README_UI_LAUNCH.md         # Local launch guide
+├── UI.py                       # Streamlit dashboard
+├── rmc_model.py                # Monte Carlo model core
+├── engine_output_contract.py   # Output contract helpers
+├── trace_tools.py              # Trace / Explain support
+├── ui_metrics.py               # UI-facing metrics helpers
+├── run_ui.py                   # Canonical local launcher
+├── run_tests.py                # Test runner
+├── docs/                       # Safe claims, demo script, contracts
+├── tests/                      # Unit, integration, audit, and contract tests
+├── screenshots/                # Curated review screenshots
+└── artifacts/                  # Logic and wiring reports
 ```
 
+## Core Components
+
+### `UI.py` - Streamlit Interface
+
+- Dynamic parameter controls with validation messaging
+- Cached simulation results for local review performance
+- Interactive distribution, sensitivity, covenant, trace, and export surfaces
+- Guarded display behavior where some advanced metrics remain under verification
+
+### `rmc_model.py` - Simulation Engine
+
+- Monte Carlo simulation with configurable assumptions
+- Annual-model core used by the dashboard
+- Correlation, debt, exit, tax, reserve, and leasing logic
+- Error handling and parameter normalization for local runs
+
+### Metrics And Contracts
+
+- `ui_metrics.py`, `metrics_schema.py`, `metrics_utils.py`, and `metrics_registry.py` support structured metric display.
+- [docs/metrics_contract.md](docs/metrics_contract.md) documents the metrics API contract.
+- [docs/metric_inputs_map.md](docs/metric_inputs_map.md) maps metrics to the inputs expected to influence them.
+
+## Key Capabilities
+
+- Multi-scenario review across base, downside, and upside assumptions
+- IRR, NPV, cash-on-cash, equity multiple, DSCR, LTV, and break-even occupancy views
+- Directional sensitivity analysis with Heatmaps and model-derived Tornado output
+- Covenant and risk inspection surfaces
+- Preserved Trace / Explain and export workflow for review
+
 ## Testing
+
 ```bash
 # Install test dependencies
 python -m pip install -r requirements_testing.txt
@@ -188,6 +140,8 @@ python -m pytest tests/test_metrics_full.py -q -o addopts=''
 
 ## Documentation
 
+- [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md)
+- [README_UI_LAUNCH.md](README_UI_LAUNCH.md)
 - [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md)
 - [docs/KEEWAYS_DEMO_SCRIPT.md](docs/KEEWAYS_DEMO_SCRIPT.md)
 - [docs/KEEWAYS_POSITIONING_MEMO.md](docs/KEEWAYS_POSITIONING_MEMO.md)
@@ -195,39 +149,12 @@ python -m pytest tests/test_metrics_full.py -q -o addopts=''
 - [docs/metric_inputs_map.md](docs/metric_inputs_map.md)
 - [docs/adr/0001_domain_invariants.md](docs/adr/0001_domain_invariants.md)
 
-## Screenshots
+## Review Access Note
 
-- [screenshots/keeways-review-home.png](screenshots/keeways-review-home.png)
-- [screenshots/keeways-review-home-after-load.png](screenshots/keeways-review-home-after-load.png)
-- [screenshots/keeways-review-after-run.png](screenshots/keeways-review-after-run.png)
-
-## 🎯 Roadmap
-
-- [ ] **Performance Optimization**: GPU acceleration for large simulations
-- [ ] **Advanced Correlations**: Machine learning-based correlation detection
-- [ ] **Cloud Deployment**: AWS/Azure deployment options
-- [ ] **API Layer**: REST API for integration with other tools
-- [ ] **Mobile Support**: Responsive design for mobile devices
+This repository is intended to start private. If it is shared privately, reviewers need GitHub collaborator access before they can open the link. If it is made public later, verify that this README and the screenshots render correctly before sending it.
 
 ## Future Workflow Direction
 
-This dashboard is also a candidate for a later workflow layer that could expose simulation, metrics, risk summary, trace, and reporting flows to assistants or adjacent business systems. This is a forward-looking direction only; the current package does not include a shipped agent-tool layer or live business-system connectivity.
+This dashboard is a candidate for a later workflow layer around simulation runs, metric retrieval, risk summaries, trace/explain output, and report generation. That direction fits a broader business-dashboard or digital-transformation story, but it remains future work in this package.
 
-- Keep the existing Streamlit experience and financial model as the source of truth.
-- Add a thin structured tool layer around simulation runs, metric retrieval, trace/explain flows, and export generation.
-- Return structured outputs so an assistant can compare scenarios, summarize risk, and generate repeatable client-facing deliverables.
-- Treat broader business-system handoff as a later phase, not a current capability.
-
-## Keeways Readiness Notes
-
-The current Keeways packaging pass keeps the richer UI surfaces visible and uses guarded placeholders, captions, and validation-state messaging instead of deleting advanced sections. For the sendable package, rely on:
-
-- [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md)
-- [docs/KEEWAYS_POSITIONING_MEMO.md](docs/KEEWAYS_POSITIONING_MEMO.md)
-- [docs/KEEWAYS_DEMO_SCRIPT.md](docs/KEEWAYS_DEMO_SCRIPT.md)
-
-For external Keeways-facing wording, treat occupancy-sensitive advanced metrics and any placeholder-backed preserved surfaces as under verification unless the safe-claims note says otherwise.
-
----
-
-**Built with ❤️ for real estate professionals who demand precision and insight.**
+Keep external wording aligned with [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md): describe this as a demo-ready analytics dashboard with a validated annual-model core and preserved advanced workflow surfaces, not as a finished platform.

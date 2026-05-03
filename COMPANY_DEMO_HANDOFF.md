@@ -8,7 +8,7 @@ The current audited claim boundary is:
 
 - visual demo ready
 - validated annual-model core
-- intended for demo and local review, not for live deployment
+- intended for demo and local review, not for hosted release use
 - broader end-to-end product validation remains incomplete
 
 ## What Is Verified Now
@@ -73,7 +73,6 @@ The clean handoff package should center on:
 - `requirements.txt`
 - `requirements_testing.txt`
 - `.streamlit/`
-- `.github/workflows/`
 - `docs/`
 - `tests/`
 - `screenshots/`
@@ -88,24 +87,27 @@ The curated `screenshots/` folder should contain:
 - `keeways-review-home-after-load.png`
 - `keeways-review-after-run.png`
 
+## Private GitHub Review Note
+
+This repository is expected to start as a private GitHub portfolio repo. If it is shared while private, each reviewer needs collaborator access before the link will open. If the repo is made public later, verify that `README.md` and the embedded screenshots render correctly before sending it.
+
 ## Known Limitations
 
-- this package is intended for demo and local review rather than live deployment
-- the parent git workspace is still messy and this subtree is largely untracked
+- this package is intended for demo and local review rather than hosted release use
 - some advanced workflow surfaces remain visible with qualified wording rather than full end-to-end revalidation
 - `sale_month` is still excluded from safe company-facing claims
-- live deployment security and release readiness have not been established
+- hosted release security and release readiness have not been established
 
 ## Explicit Non-Claims
 
 Do not claim any of the following:
 
-- ready for live deployment
-- fully complete financial product validation
+- ready for hosted release use
+- complete validation of every financial workflow
 - validated intra-year timing support
-- live business-system or agent-tool integrations already shipped
+- business-system or assistant-workflow integrations already shipped
 - proof that every visible control has a verified downstream model effect
 
 ## Safe Company-Facing Claim
 
-This project is a polished Monte Carlo real-estate analytics dashboard with a validated annual-model core, preserved advanced workflow surfaces, current demo evidence, and a clear future path toward deeper business-system integration.
+This project is a polished Monte Carlo real-estate analytics dashboard with a validated annual-model core, preserved advanced workflow surfaces, current demo evidence, and a possible future path toward deeper reporting or business-system workflows.
