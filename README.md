@@ -42,6 +42,14 @@ The package includes a local deterministic business-summary export artifact at `
 
 This is not a live integration layer: the package does not include Odoo, MCP, ERP, CRM, SAP, OpenAI, or hosted API connectivity. See [docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md](docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md) for the bounded roadmap and validation gates.
 
+## Optional AI Analyst Chat
+
+The dashboard includes an optional AI Analyst Chat surface for explaining the current simulation outputs in business-facing language. It builds a structured context from the active results and can summarize headline metrics, visible risk flags, missing data, and trace boundaries.
+
+The app runs without an API key and provides deterministic fallback analysis for demo review. Live LLM responses are attempted only when `OPENAI_API_KEY` is configured and the optional OpenAI SDK is available in the local environment.
+
+This chat layer is not investment advice, not a production AI agent, and not a live MCP, Odoo, ERP, CRM, SAP, or hosted API integration. Future MCP/API/ERP handoff remains roadmap-only.
+
 ## Quick Start
 
 ### Prerequisites

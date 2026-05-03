@@ -13,6 +13,8 @@ The current audited claim boundary is:
 
 The package includes a local integration-ready export payload as a future handoff pattern, but no live business-system or agent integration is claimed.
 
+The package also includes an optional AI Analyst Chat layer for explaining current simulation outputs when configured, while keeping integrations and investment advice outside the claim boundary.
+
 ## What Is Verified Now
 
 Based on the current handoff verification materials prepared for this package:

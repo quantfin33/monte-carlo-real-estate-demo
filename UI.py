@@ -39,6 +39,13 @@ try:
 except Exception:
     trace_tools = None
 
+try:
+    import ai_context
+    import ai_analyst
+except Exception:
+    ai_context = None
+    ai_analyst = None
+
 # --- Lightweight app logger (structure/debug only) ---
 def _app_log(msg: str):
     try:
@@ -49,6 +56,64 @@ def _app_log(msg: str):
             f.flush()
     except Exception:
         pass
+
+
+def _render_ai_analyst_chat_section() -> None:
+    st.header("AI Analyst Chat (optional)")
+    st.caption("Ask about the current simulation output. Live AI is optional; fallback mode works without an API key.")
+
+    analyst_df = st.session_state.get("df")
+    if analyst_df is None or analyst_df.empty:
+        st.info("Run a simulation first to enable AI analysis.")
+        return
+
+    if ai_context is None or ai_analyst is None:
+        st.warning("AI analyst helpers are unavailable in this runtime. The rest of the dashboard is unaffected.")
+        return
+
+    if not ai_analyst.has_live_openai_configured():
+        st.info("AI chat is optional. Configure `OPENAI_API_KEY` to enable live responses. The app still works without it, and fallback analysis is available below.")
+
+    try:
+        context = ai_context.build_ai_context(
+            analyst_df,
+            trace_payload=st.session_state.get("trace_payload"),
+            selected_scenario=st.session_state.get("scenario"),
+        )
+    except Exception as exc:
+        st.warning(f"AI analysis context could not be built from the current results: {exc}")
+        return
+
+    fingerprint_payload = {
+        "scenario": context.get("scenario", {}).get("name"),
+        "row_count": context.get("simulation", {}).get("row_count"),
+        "irr_p50": context.get("core_metrics", {}).get("irr", {}).get("p50"),
+        "npv_p50": context.get("core_metrics", {}).get("npv", {}).get("p50"),
+    }
+    context_fingerprint = json.dumps(fingerprint_payload, sort_keys=True, default=str)
+    if st.session_state.get("ai_context_fingerprint") != context_fingerprint:
+        st.session_state["ai_context_fingerprint"] = context_fingerprint
+        st.session_state["ai_chat_messages"] = []
+
+    for message in st.session_state.get("ai_chat_messages", []):
+        with st.chat_message(message.get("role", "assistant")):
+            st.markdown(message.get("content", ""))
+
+    question = st.chat_input(
+        "Ask about the current simulation results, risks, charts, or trace surface.",
+        key="ai_analyst_chat_input",
+    )
+    if not question:
+        return
+
+    st.session_state["ai_chat_messages"].append({"role": "user", "content": question})
+    with st.chat_message("user"):
+        st.markdown(question)
+
+    answer = ai_analyst.answer_question(question, context)
+    st.session_state["ai_chat_messages"].append({"role": "assistant", "content": answer})
+    with st.chat_message("assistant"):
+        st.markdown(answer)
 
 
 # derive defaults from the engine, with safe fallbacks
@@ -682,6 +747,8 @@ for k, v in {
     "df": None,        # simulation results
     "df_hm": None,     # heatmap results
     "hm2_df": None,    # heatmap 2 results
+    "ai_chat_messages": [],
+    "ai_context_fingerprint": None,
     "hm_sims": 400,    # sims per cell
     "exit_caps": ["7.5%", "8.0%", "8.5%", "9.0%", "9.5%"],
     "rent_growths": ["1.0%", "2.0%", "3.0%", "4.0%", "5.0%"],
@@ -4091,6 +4158,12 @@ else:
 
 # Final spacing
 st.write("")
+st.write("")
+st.markdown("---")
+
+# --- Optional AI Analyst Chat Section ---
+_render_ai_analyst_chat_section()
+
 st.write("")
 st.markdown("---")
 
