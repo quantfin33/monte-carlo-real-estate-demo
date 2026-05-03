@@ -1154,6 +1154,7 @@ def run_model(params=None, return_params_only=False):
     trace_noi_series = []
     trace_debt_service_series = []
     trace_capex_event_series = []
+    trace_refi_cash_out_series = []
 
     # running total of capital improvements to be added to tax basis at sale
     capex_cumulative = 0.0
@@ -1427,6 +1428,8 @@ def run_model(params=None, return_params_only=False):
     sale_timing_adjustment = 0.0  # Will be used to adjust cash flow timing
     
     for year in range(1, sale_year + 1):
+        refi_cash_out_this_year = 0.0
+
         # Determine months to simulate in this model year (supports mid-year sale)
         months_in_year = 12
         if (year == sale_year) and isinstance(sale_month_param, (int, float)):
@@ -1786,12 +1789,7 @@ def run_model(params=None, return_params_only=False):
                     else:
                         amort_payment = set_amort_payment(principal_out)
                         amort_started = True
-                    cash_flows_to_equity.append(refi_cash_out)
-                    trace_event_years.append(year)
-                    trace_event_types.append('refi')
-                    trace_noi_series.append(None)
-                    trace_debt_service_series.append(None)
-                    trace_capex_event_series.append(None)
+                    refi_cash_out_this_year = refi_cash_out
                     refi_done = True
                     refi_block_reason = None
                     # Schedule tax reassessment off the new appraised value (effective next year by default)
@@ -1851,29 +1849,32 @@ def run_model(params=None, return_params_only=False):
         total_capex_cash_out = building_capex_net + tilc_capex + reserve_accrual
 
         # equity cash flow
-        cf_year = noi - annual_debt_payment - total_capex_cash_out
-        
+        cf_year_operating = noi - annual_debt_payment - total_capex_cash_out
+        cf_year = cf_year_operating + refi_cash_out_this_year
+
         # FIX: SALE MONTH LOGIC - Apply timing adjustment to affect IRR calculation
         # This ensures earlier sale months result in higher IRR (correct financial behavior)
         if year == sale_year and sale_month_param is not None:
             # Apply timing adjustment to cash flow for IRR calculation
             # Earlier months = higher IRR due to time value of money
             # Later months = lower IRR due to delayed cash flows
-            cf_year_adjusted = cf_year * timing_multiplier
+            cf_year_adjusted = (cf_year_operating * timing_multiplier) + refi_cash_out_this_year
             cash_flows_to_equity.append(cf_year_adjusted)
             trace_event_years.append(year)
-            trace_event_types.append('operations')
+            trace_event_types.append('operations+refi' if refi_cash_out_this_year else 'operations')
             trace_noi_series.append(float(noi) if np.isfinite(noi) else None)
             trace_debt_service_series.append(float(annual_debt_payment) if np.isfinite(annual_debt_payment) else None)
             trace_capex_event_series.append(float(total_capex_cash_out) if np.isfinite(total_capex_cash_out) else None)
+            trace_refi_cash_out_series.append(float(refi_cash_out_this_year) if np.isfinite(refi_cash_out_this_year) else 0.0)
         else:
             # Normal cash flow (no timing adjustment)
             cash_flows_to_equity.append(cf_year)
             trace_event_years.append(year)
-            trace_event_types.append('operations')
+            trace_event_types.append('operations+refi' if refi_cash_out_this_year else 'operations')
             trace_noi_series.append(float(noi) if np.isfinite(noi) else None)
             trace_debt_service_series.append(float(annual_debt_payment) if np.isfinite(annual_debt_payment) else None)
             trace_capex_event_series.append(float(total_capex_cash_out) if np.isfinite(total_capex_cash_out) else None)
+            trace_refi_cash_out_series.append(float(refi_cash_out_this_year) if np.isfinite(refi_cash_out_this_year) else 0.0)
         
         # DEBUG: Print cash flow calculation for NNN recovery tracing
         if DEBUG_NNN_RECOVERY and year == 1:
@@ -2435,6 +2436,7 @@ def run_model(params=None, return_params_only=False):
             'noi': list(trace_noi_series),
             'debt_service': list(trace_debt_service_series),
             'capex': list(trace_capex_event_series),
+            'refi_cash_out': list(trace_refi_cash_out_series),
             'cash_flows': [float(x) for x in cash_flows_to_equity],
             'cash_flows_to_equity': [float(x) for x in cash_flows_to_equity],
         }
