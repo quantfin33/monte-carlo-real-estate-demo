@@ -1,0 +1,106 @@
+{
+  "seed": 12345,
+  "n": 500,
+  "percentiles": {
+    "IRR": {
+      "present": true,
+      "p5": 0.1470732044892252,
+      "p50": 0.17105184155969655,
+      "p95": 0.19626434597187917,
+      "monotonic": true
+    },
+    "NPV": {
+      "present": true,
+      "p5": 25511034.163000904,
+      "p50": 34639581.49848502,
+      "p95": 43870819.912126906,
+      "monotonic": true
+    },
+    "CoC": {
+      "present": true,
+      "p5": 0.15141087092280042,
+      "p50": 0.1592668855511168,
+      "p95": 0.16798327234525662,
+      "monotonic": true
+    },
+    "EquityMultiple": {
+      "present": true,
+      "p5": 2.1063798050711164,
+      "p50": 2.2843129148832992,
+      "p95": 2.489550136137313,
+      "monotonic": true
+    }
+  },
+  "directions": {
+    "exit_cap_vs_irr": {
+      "expect": "neg",
+      "delta": -0.024330497424835673,
+      "pass": true
+    },
+    "rent_growth_vs_irr": {
+      "expect": "pos",
+      "delta": 0.0017413181390560362,
+      "pass": true
+    },
+    "rent_growth_vs_npv": {
+      "expect": "pos",
+      "delta": 859356.640451245,
+      "pass": true
+    },
+    "debt_ratio_vs_irr_vol": {
+      "expect": "pos",
+      "delta": 0.007352264693928037,
+      "pass": true
+    },
+    "debt_ratio_vs_dscr": {
+      "expect": "neg",
+      "delta": -1.7090018014218007,
+      "pass": true
+    },
+    "vacancy_auto_lease_vs_noi_y1": {
+      "expect": "on>off",
+      "delta": 3247564.1879999954,
+      "pass": true
+    },
+    "vacancy_auto_lease_vs_tilc": {
+      "expect": "off\u22480",
+      "delta": 0.0,
+      "pass": true
+    },
+    "vacancy_auto_lease_vs_irr": {
+      "expect": "on>off",
+      "delta": 0.08185498445384012,
+      "pass": true
+    },
+    "opex_growth_vs_mindscr": {
+      "expect": "neg",
+      "delta": -0.001104743683151721,
+      "pass": true
+    },
+    "opex_growth_vs_npv": {
+      "expect": "neg",
+      "delta": -8085.820793695748,
+      "pass": true
+    }
+  },
+  "occupancy": {
+    "occupancy_metrics_present": {
+      "pass": true
+    },
+    "occupancy_bounds": {
+      "pass": true
+    }
+  },
+  "trace_irr": {
+    "pass": true,
+    "bps_diff": 0.0,
+    "irr_engine": 0.18435844476335883,
+    "irr_recomputed": 0.18435844476335883
+  },
+  "outliers": {
+    "IRR_gt_100pct": 0,
+    "CoC_gt_1000pct": 0,
+    "runs_with_negative_NOI": 0
+  },
+  "all_pass": true
+}

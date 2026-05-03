@@ -1,0 +1,1705 @@
+[
+  {
+    "params_key": "GLOBAL_RECOVERY_TYPE",
+    "ui_keys": [
+      "recovery_type"
+    ],
+    "casts": [
+      "str"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "acq_cost_rate",
+    "ui_keys": [
+      "acq_cost_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "amort_years",
+    "ui_keys": [
+      "amort_years"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "DSCR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "amortization_granularity",
+    "ui_keys": [
+      "amortization_granularity"
+    ],
+    "casts": [
+      "str"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "backfill_prob",
+    "ui_keys": [
+      "backfill_prob"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "capex_schedule",
+    "ui_keys": [
+      "capex_schedule"
+    ],
+    "casts": [
+      "raw"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "Capex_Building_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "contingency_reserve",
+    "ui_keys": [
+      "contingency_reserve"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "controllable_opex_pct",
+    "ui_keys": [
+      "controllable_opex_pct"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "correlations",
+    "ui_keys": [
+      "correlations"
+    ],
+    "casts": [
+      "raw"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "DSCR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "covenant_action",
+    "ui_keys": [
+      "covenant_action"
+    ],
+    "casts": [
+      "str"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "covenant_thresholds",
+    "ui_keys": [
+      "covenant_thresholds"
+    ],
+    "casts": [
+      "raw"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "covenant_track",
+    "ui_keys": [
+      "covenant_track"
+    ],
+    "casts": [
+      "bool"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "debt_ratio",
+    "ui_keys": [
+      "debt_ratio"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "apply_preset",
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "DSCR",
+      "LTV",
+      "DebtYield_Y1"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "debug_return_schedule",
+    "ui_keys": [
+      "debug_return_schedule"
+    ],
+    "casts": [
+      "bool"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "default_controllable_cap_pct",
+    "ui_keys": [
+      "default_controllable_cap_pct"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_compute_recoveries"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "discount_rate",
+    "ui_keys": [
+      "discount_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "downtime_months",
+    "ui_keys": [
+      "downtime_months"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "PhysicalOccupancyRate"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "exit_cap_left",
+    "ui_keys": [
+      "exit_cap_left"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "exit_cap_mode",
+    "ui_keys": [
+      "exit_cap_mode"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "exit_cap_override",
+    "ui_keys": [
+      "exit_cap_override"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "exit_cap_right",
+    "ui_keys": [
+      "exit_cap_right"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "financing_fee_rate",
+    "ui_keys": [
+      "financing_fee_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "frictional_vacancy_floor",
+    "ui_keys": [
+      "frictional_vacancy_floor"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "in_place_rent_psf",
+    "ui_keys": [
+      "in_place_rent_psf"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_reconstruct_lease_roll",
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC",
+      "EquityMultiple",
+      "BreakEvenOcc",
+      "PhysicalOccupancyRate",
+      "EconomicOccupancyRate"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "in_term_bump_freq_years",
+    "ui_keys": [
+      "in_term_bump_freq_years"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "in_term_bump_pct",
+    "ui_keys": [
+      "in_term_bump_pct"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "initial_occupancy",
+    "ui_keys": [
+      "initial_occupancy"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_reconstruct_lease_roll",
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "interest_only_years",
+    "ui_keys": [
+      "interest_only_years"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "DSCR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "interest_rate",
+    "ui_keys": [
+      "interest_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "DSCR",
+      "DebtYield_Y1"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "latent_market",
+    "ui_keys": [
+      "latent_market"
+    ],
+    "casts": [
+      "raw"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "PhysicalOccupancyRate"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "lc_pct_new",
+    "ui_keys": [
+      "lc_pct_new"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "Capex_TILC_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "lc_pct_renew",
+    "ui_keys": [
+      "lc_pct_renew"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "Capex_TILC_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "market_rent_growth_max",
+    "ui_keys": [
+      "market_rent_growth_max"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "market_rent_growth_min",
+    "ui_keys": [
+      "market_rent_growth_min"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "market_rent_psf",
+    "ui_keys": [
+      "market_rent_psf"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC",
+      "EquityMultiple"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "operating_expenses_start",
+    "ui_keys": [
+      "operating_expenses_start"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "opex_growth_rate",
+    "ui_keys": [
+      "opex_growth_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "post_refi_io_years",
+    "ui_keys": [
+      "post_refi_io_years"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "DSCR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "prepay",
+    "ui_keys": [
+      "prepay"
+    ],
+    "casts": [
+      "raw"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "prepay_at_sale",
+    "ui_keys": [
+      "prepay_at_sale"
+    ],
+    "casts": [
+      "bool"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "price_terminal_with_buyer_tax",
+    "ui_keys": [
+      "price_terminal_with_buyer_tax"
+    ],
+    "casts": [
+      "bool"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "property_tax_rate",
+    "ui_keys": [
+      "property_tax_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "BreakEvenOcc"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "purchase_price",
+    "ui_keys": [
+      "purchase_price"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "rate_cap_cost",
+    "ui_keys": [
+      "rate_cap_cost"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "recoveries_during_free_months",
+    "ui_keys": [
+      "recoveries_during_free_months"
+    ],
+    "casts": [
+      "bool"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "OperatingExpenseRatio"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "refi_boxes",
+    "ui_keys": [
+      "refi_boxes"
+    ],
+    "casts": [
+      "raw"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "refi_cost_rate",
+    "ui_keys": [
+      "refi_cost_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "refi_year",
+    "ui_keys": [
+      "refi_year"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "DSCR",
+      "LTV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "renew_downtime_months",
+    "ui_keys": [
+      "renew_downtime_months"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "renew_free_months",
+    "ui_keys": [
+      "renew_free_months"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "renew_prob",
+    "ui_keys": [
+      "renew_prob"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_reconstruct_lease_roll",
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "CoC",
+      "Capex_TILC_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "renewal_spread_std",
+    "ui_keys": [
+      "renewal_spread_std"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "rent_spread_std",
+    "ui_keys": [
+      "rent_spread_std"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "reserve_escalation",
+    "ui_keys": [
+      "reserve_escalation"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "reserve_per_rsf",
+    "ui_keys": [
+      "reserve_per_rsf"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "Capex_Building_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "reserve_policy",
+    "ui_keys": [
+      "reserve_policy"
+    ],
+    "casts": [
+      "str"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "Capex_Building_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "reserve_start_year",
+    "ui_keys": [
+      "reserve_start_year"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "sale_cost_rate",
+    "ui_keys": [
+      "sale_cost_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "seller_reserve_credit",
+    "ui_keys": [
+      "seller_reserve_credit"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "tax_growth_rate",
+    "ui_keys": [
+      "tax_growth_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "apply_preset",
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "tax_mode",
+    "ui_keys": [
+      "tax_mode"
+    ],
+    "casts": [
+      "str"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "apply_preset",
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "ti_psf_new",
+    "ui_keys": [
+      "ti_psf_new"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "Capex_TILC_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "ti_psf_renew",
+    "ui_keys": [
+      "ti_psf_renew"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "Capex_TILC_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "total_rsf",
+    "ui_keys": [
+      "total_rsf"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_reconstruct_lease_roll",
+      "_init_lease_state",
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "transfer_tax_buy_rate",
+    "ui_keys": [
+      "transfer_tax_buy_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "transfer_tax_sell_rate",
+    "ui_keys": [
+      "transfer_tax_sell_rate"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "vacancy_absorption_pct_annual",
+    "ui_keys": [
+      "vacancy_absorption_pct_annual"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "PhysicalOccupancyRate"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "vacancy_auto_lease",
+    "ui_keys": [
+      "vacancy_auto_lease"
+    ],
+    "casts": [
+      "bool"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "apply_preset",
+      "_advance_one_year_lease_roll"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "vacancy_months_to_stabilize",
+    "ui_keys": [
+      "vacancy_months_to_stabilize"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "PhysicalOccupancyRate"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "vacancy_target_rent_psf",
+    "ui_keys": [
+      "vacancy_target_rent_psf"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "vacant_downtime_months",
+    "ui_keys": [
+      "vacant_downtime_months"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "PhysicalOccupancyRate"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "vacant_free_months_new",
+    "ui_keys": [
+      "vacant_free_months_new"
+    ],
+    "casts": [
+      "int"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "Capex_TILC_Total"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "vacant_new_lease_term_years",
+    "ui_keys": [
+      "vacant_new_lease_term_years"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "vacant_rent_psf",
+    "ui_keys": [
+      "vacant_rent_psf"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": "Deprecated in engine; not used for revenue (ok: display-only)."
+  },
+  {
+    "params_key": "walt_years",
+    "ui_keys": [
+      "walt_years"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "_reconstruct_lease_roll",
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "Capex_TILC_Total",
+      "PhysicalOccupancyRate"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "wc_true_up_close_dollar",
+    "ui_keys": [
+      "wc_true_up_close_dollar"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "wc_true_up_close_pct_of_opex",
+    "ui_keys": [
+      "wc_true_up_close_pct_of_opex"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "wc_true_up_sale_dollar",
+    "ui_keys": [
+      "wc_true_up_sale_dollar"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "wc_true_up_sale_pct_of_opex",
+    "ui_keys": [
+      "wc_true_up_sale_pct_of_opex"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV"
+    ],
+    "notes": ""
+  },
+  {
+    "params_key": "working_capital_reserve",
+    "ui_keys": [
+      "working_capital_reserve"
+    ],
+    "casts": [
+      "float"
+    ],
+    "assigned_in": [
+      "p",
+      "params"
+    ],
+    "engine_consumers": [
+      "run_model"
+    ],
+    "output_metrics": [
+      "IRR",
+      "NPV",
+      "CoC"
+    ],
+    "notes": ""
+  }
+]

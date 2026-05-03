@@ -1,0 +1,11 @@
+[theme]
+base = "light"
+primaryColor = "#0f766e"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f6f9fc"
+textColor = "#0f172a"
+font = "sans serif"
+
+# To override at runtime, create ~/.streamlit/config.toml with a [theme] section
+# and set fields like primaryColor, base ("light"/"dark"), and custom fonts.
+
