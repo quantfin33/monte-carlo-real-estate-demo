@@ -42,13 +42,13 @@ The package includes a local deterministic business-summary export artifact at `
 
 This is not a live integration layer: the package does not include Odoo, MCP, ERP, CRM, SAP, OpenAI, or hosted API connectivity. See [docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md](docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md) for the bounded roadmap and validation gates.
 
-## Optional AI Analyst Chat
+## AI Analyst
 
-The dashboard includes an optional AI Analyst Chat surface for explaining the current simulation outputs in business-facing language. It builds a structured context from the active results and can summarize headline metrics, visible risk flags, missing data, and trace boundaries.
+The dashboard includes an AI Analyst surface for explaining the current simulation outputs in business-facing language. It builds a structured context from the active results and can summarize headline metrics, visible risk flags, missing data, trace boundaries, and number-sanity caveats for unusually strong or review-worthy outputs.
 
-The app runs without an API key and provides deterministic fallback analysis for demo review. Live LLM responses are attempted only when `OPENAI_API_KEY` is configured and the optional OpenAI SDK is available in the local environment.
+Demo analyst mode works without an API key and remains available for local review. Live LLM responses are attempted only when `OPENAI_API_KEY` is configured and the optional OpenAI SDK is available in the local environment.
 
-This chat layer is not investment advice, not a production AI agent, and not a live MCP, Odoo, ERP, CRM, SAP, or hosted API integration. Future MCP/API/ERP handoff remains roadmap-only.
+The AI Analyst explains what the model currently shows, why strong outputs may appear, and what assumptions should be reviewed. It is not investment advice, not a production AI agent, and not a live MCP, Odoo, ERP, CRM, SAP, or hosted API integration. Future MCP/API/ERP handoff remains roadmap-only.
 
 ## Quick Start
 
@@ -77,6 +77,7 @@ The package includes test and audit material so technical reviewers can inspect 
 - `tests/test_core_model.py` for core model behavior checks
 - `tests/test_engine_output_contract.py` for engine output contract coverage
 - `tests/audit/test_trace_payload_contract.py` and `tests/audit/test_explain_p50.py` for trace/explain behavior
+- `tests/test_ai_context.py`, `tests/test_ai_analyst.py`, and `tests/test_number_sanity.py` for the AI Analyst explanation boundary
 - `artifacts/logic_report.json` with `all_pass: true` for the included sanity artifact
 - `artifacts/wiring_report.json` for UI-to-engine wiring visibility
 - [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md) for the current claim boundary

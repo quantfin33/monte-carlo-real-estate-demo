@@ -16,6 +16,12 @@ def _sample_results() -> pd.DataFrame:
             "DebtYield_Y1": [0.07, 0.08, 0.09, 0.10, 0.11],
             "LTV": [0.55, 0.58, 0.60, 0.62, 0.65],
             "ExitCap": [0.075, 0.08, 0.085, 0.09, 0.095],
+            "_Debug_InitialOccupancy": [0.826, 0.826, 0.826, 0.826, 0.826],
+            "PhysicalOccupancyRate": [0.96, 0.97, 0.98, 0.99, 1.00],
+            "EconomicOccupancyRate": [0.95, 0.96, 0.97, 0.98, 0.99],
+            "Prepay_Cost_Total": [0, 250_000, 500_000, 750_000, 1_000_000],
+            "Defeasance_Cost_Refi": [0, 0, 400_000, 600_000, 800_000],
+            "Prepay_Cost_Sale": [0, 100_000, 200_000, 300_000, 400_000],
         }
     )
 
@@ -39,6 +45,25 @@ def test_ai_context_builds_supported_metrics():
     assert metrics["ltv"]["p50"] == 0.6
     assert metrics["exit_cap"]["p50"] == 0.085
 
+    supporting = context["supporting_metrics"]
+    assert supporting["initial_occupancy"]["p50"] == 0.826
+    assert supporting["physical_occupancy"]["p50"] == 0.98
+    assert supporting["economic_occupancy"]["p50"] == 0.97
+    assert supporting["prepay_cost_total"]["p50"] == 500_000.0
+    assert supporting["defeasance_cost_refi"]["p50"] == 400_000.0
+    assert supporting["prepay_cost_sale"]["p50"] == 200_000.0
+
+
+def test_ai_context_includes_number_sanity_report():
+    context = build_ai_context(_sample_results(), selected_scenario="Base")
+
+    assert "number_sanity_report" in context
+    report = context["number_sanity_report"]
+    assert "headline_assessment" in report
+    assert "review_flags" in report
+    assert "caveats" in report
+    assert "non_claims" in report
+
 
 def test_ai_context_missing_metrics_warn_without_crashing():
     context = build_ai_context(pd.DataFrame({"IRR": [0.10, 0.12, 0.14]}))
@@ -47,6 +72,8 @@ def test_ai_context_missing_metrics_warn_without_crashing():
     assert context["core_metrics"]["npv"]["available"] is False
     assert any("npv is not available in current context" in warning for warning in context["warnings"])
     assert any("dscr is not available in current context" in warning for warning in context["warnings"])
+    assert "number_sanity_report" in context
+    assert "core.npv" in context["number_sanity_report"]["unavailable_or_placeholder_metrics"]
 
 
 def test_ai_context_includes_non_claims():
@@ -83,3 +110,38 @@ def test_ai_context_summarizes_optional_trace_payload():
     assert context["trace"]["engine_irr"] == 0.12
     assert context["trace"]["computed_irr"] == 0.12
     assert context["trace"]["consistency_passed"] is True
+
+
+def test_ai_context_summarizes_optional_sensitivity_payloads():
+    heatmap_1 = pd.DataFrame(
+        {
+            "ExitCap": [0.075, 0.080],
+            "RentGrowth": [0.02, 0.03],
+            "IRR_pct": [16.5, 17.2],
+        }
+    )
+    tornado = pd.DataFrame(
+        {
+            "parameter": ["Exit Cap", "Rent Growth"],
+            "low_case": ["low", "low"],
+            "high_case": ["high", "high"],
+            "low_delta": [-0.01, -0.02],
+            "high_delta": [0.02, 0.03],
+            "abs_impact": [0.02, 0.03],
+        }
+    )
+
+    context = build_ai_context(
+        _sample_results(),
+        heatmap_1=heatmap_1,
+        tornado=tornado,
+    )
+
+    assert context["sensitivity"]["heatmap_1"]["available"] is True
+    assert context["sensitivity"]["heatmap_1"]["row_count"] == 2
+    assert context["sensitivity"]["tornado"]["available"] is True
+    assert context["sensitivity"]["tornado"]["max_abs_delta"] == 0.03
+    assert any(
+        "directional scenario surfaces" in caveat
+        for caveat in context["number_sanity_report"]["caveats"]
+    )

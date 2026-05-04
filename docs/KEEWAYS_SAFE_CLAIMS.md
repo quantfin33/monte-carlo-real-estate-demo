@@ -26,8 +26,10 @@ Package-included evidence:
 - `tests/test_integration_payload_contract.py`
 - `ai_context.py`
 - `ai_analyst.py`
+- `number_sanity.py`
 - `tests/test_ai_context.py`
 - `tests/test_ai_analyst.py`
+- `tests/test_number_sanity.py`
 
 Prior full-workspace verification evidence, referenced as historical support and not all included in this package:
 
@@ -51,7 +53,7 @@ Do not infer that omitted full-workspace scripts or browser artifacts are includ
 - The smoke path passed in the verified local environment.
 - Current UI/session-default tests and current core/explainability/correlation tests passed in the verified local environment.
 - A local deterministic business-summary export payload exists for future reporting or handoff-pattern discussion.
-- An optional AI Analyst Chat layer can explain current simulation outputs when configured, with deterministic fallback behavior when live AI is not configured.
+- AI Analyst can explain current simulation outputs and surface sanity-review caveats using demo fallback mode or live OpenAI mode when configured.
 - Current Tornado sensitivity output is bounded and model-derived rather than hardcoded demo data.
 - The bounded stress matrix passed across base, high debt, low rent growth, high OpEx, vacancy auto-lease off, and high exit-cap scenarios for seeds `42`, `123`, and `314`.
 - A browser-driven default run completed with `5,000` results and rendered the main dashboard, model-derived Tornado, Heatmap 1, Trace / Explain, and exports.
@@ -75,7 +77,7 @@ Do not claim any of the following:
 
 - live ERP, SAP, Odoo, or CRM integration
 - an implemented MCP server or production AI-agent layer
-- autonomous advisor, investment recommendation engine, or production AI agent
+- autonomous advisor, investment recommendation engine, investment recommendations, or production AI agent
 - live OpenAI or AI-agent integration beyond the optional local analyst chat boundary
 - full production validation of every advanced metric and workflow surface
 - that historical acceptance artifacts alone prove current runtime quality

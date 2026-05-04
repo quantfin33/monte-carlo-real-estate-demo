@@ -5,6 +5,8 @@ from typing import Any
 
 import pandas as pd
 
+from number_sanity import build_number_sanity_report
+
 
 NON_CLAIMS = [
     "not investment advice",
@@ -123,10 +125,70 @@ def _trace_context(trace_payload: Any) -> dict[str, Any]:
     }
 
 
+def _sensitivity_context(payload: Any, *, label: str) -> dict[str, Any]:
+    if payload is None:
+        return {
+            "available": False,
+            "label": label,
+            "summary": f"{label} is not available in current context.",
+        }
+
+    if isinstance(payload, dict):
+        available = bool(payload.get("available", payload))
+        summary = payload.get("summary") if isinstance(payload.get("summary"), str) else None
+        return {
+            "available": available,
+            "label": payload.get("label", label),
+            "summary": summary or f"{label} metadata is available in current context.",
+        }
+
+    if not hasattr(payload, "columns"):
+        return {
+            "available": False,
+            "label": label,
+            "summary": f"{label} is not available in current context.",
+        }
+
+    df = payload
+    if df.empty:
+        return {
+            "available": False,
+            "label": label,
+            "row_count": 0,
+            "summary": f"{label} is empty in current context.",
+        }
+
+    context: dict[str, Any] = {
+        "available": True,
+        "label": label,
+        "row_count": int(len(df)),
+        "columns": [str(column) for column in df.columns],
+    }
+
+    if "IRR_pct" in df.columns:
+        irr_pct = pd.to_numeric(df["IRR_pct"], errors="coerce").dropna()
+        if not irr_pct.empty:
+            context["irr_pct_min"] = _round_or_none(float(irr_pct.min()))
+            context["irr_pct_max"] = _round_or_none(float(irr_pct.max()))
+            context["irr_pct_mean"] = _round_or_none(float(irr_pct.mean()))
+
+    tornado_cols = {"parameter", "low_delta", "high_delta"}
+    if tornado_cols.issubset(set(df.columns)):
+        deltas = pd.to_numeric(df[["low_delta", "high_delta"]].stack(), errors="coerce").dropna()
+        if not deltas.empty:
+            context["max_abs_delta"] = _round_or_none(float(deltas.abs().max()))
+
+    context["summary"] = f"{label} metadata is available as a directional sensitivity surface."
+    return context
+
+
 def build_ai_context(
     df: pd.DataFrame,
     trace_payload: dict[str, Any] | None = None,
     selected_scenario: str | None = None,
+    heatmap_1: Any | None = None,
+    heatmap_2: Any | None = None,
+    tornado: Any | None = None,
 ) -> dict[str, Any]:
     """Build a compact, deterministic context for the optional analyst chat."""
 
@@ -158,7 +220,25 @@ def build_ai_context(
         if warning:
             warnings.append(warning)
 
-    return {
+    supporting_metric_specs = {
+        "initial_occupancy": (["_Debug_InitialOccupancy", "InitialOccupancy", "initial_occupancy"], "decimal_rate"),
+        "physical_occupancy": (["PhysicalOccupancyRate"], "decimal_rate"),
+        "economic_occupancy": (["EconomicOccupancyRate"], "decimal_rate"),
+        "prepay_cost_total": (["Prepay_Cost_Total"], "dollars"),
+        "defeasance_cost_refi": (["Defeasance_Cost_Refi"], "dollars"),
+        "prepay_cost_sale": (["Prepay_Cost_Sale"], "dollars"),
+    }
+    supporting_metrics: dict[str, dict[str, Any]] = {}
+    for metric_name, (candidates, unit) in supporting_metric_specs.items():
+        metric, _warning = _metric_context(
+            df,
+            metric_name,
+            candidates,
+            unit=unit,
+        )
+        supporting_metrics[metric_name] = metric
+
+    context = {
         "project_status": {
             "visual_demo_ready": True,
             "annual_model_core_validated": True,
@@ -173,8 +253,16 @@ def build_ai_context(
             "row_count": int(len(df)),
         },
         "core_metrics": core_metrics,
+        "supporting_metrics": supporting_metrics,
         "risk_flags": _build_risk_flags(core_metrics),
         "trace": _trace_context(trace_payload),
+        "sensitivity": {
+            "heatmap_1": _sensitivity_context(heatmap_1, label="Heatmap 1"),
+            "heatmap_2": _sensitivity_context(heatmap_2, label="Heatmap 2"),
+            "tornado": _sensitivity_context(tornado, label="Tornado"),
+        },
         "warnings": warnings,
         "non_claims": list(NON_CLAIMS),
     }
+    context["number_sanity_report"] = build_number_sanity_report(context)
+    return context

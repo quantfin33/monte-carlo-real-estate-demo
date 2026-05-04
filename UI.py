@@ -59,12 +59,12 @@ def _app_log(msg: str):
 
 
 def _render_ai_analyst_chat_section() -> None:
-    st.header("AI Analyst Chat (optional)")
-    st.caption("Ask about the current simulation output. Live AI is optional; fallback mode works without an API key.")
+    st.header("AI Analyst")
+    st.caption("Ask the dashboard to explain the latest simulation results, risks, sensitivity views, and trace outputs.")
 
     analyst_df = st.session_state.get("df")
     if analyst_df is None or analyst_df.empty:
-        st.info("Run a simulation first to enable AI analysis.")
+        st.info("Run a simulation first to activate AI analysis.")
         return
 
     if ai_context is None or ai_analyst is None:
@@ -72,13 +72,16 @@ def _render_ai_analyst_chat_section() -> None:
         return
 
     if not ai_analyst.has_live_openai_configured():
-        st.info("AI chat is optional. Configure `OPENAI_API_KEY` to enable live responses. The app still works without it, and fallback analysis is available below.")
+        st.info("Demo analyst mode is active. Add `OPENAI_API_KEY` to enable live AI responses.")
 
     try:
         context = ai_context.build_ai_context(
             analyst_df,
             trace_payload=st.session_state.get("trace_payload"),
             selected_scenario=st.session_state.get("scenario"),
+            heatmap_1=st.session_state.get("df_hm"),
+            heatmap_2=st.session_state.get("hm2_df"),
+            tornado=st.session_state.get("tornado_df"),
         )
     except Exception as exc:
         st.warning(f"AI analysis context could not be built from the current results: {exc}")
@@ -99,10 +102,24 @@ def _render_ai_analyst_chat_section() -> None:
         with st.chat_message(message.get("role", "assistant")):
             st.markdown(message.get("content", ""))
 
-    question = st.chat_input(
+    quick_prompts = [
+        "Explain these results in simple business terms",
+        "What are the main risks?",
+        "Why are the returns strong?",
+        "What should I review before trusting this scenario?",
+    ]
+    prompt_cols = st.columns(2)
+    selected_prompt = None
+    for index, prompt in enumerate(quick_prompts):
+        with prompt_cols[index % 2]:
+            if st.button(prompt, key=f"ai_quick_prompt_{index}", use_container_width=True):
+                selected_prompt = prompt
+
+    typed_question = st.chat_input(
         "Ask about the current simulation results, risks, charts, or trace surface.",
         key="ai_analyst_chat_input",
     )
+    question = selected_prompt or typed_question
     if not question:
         return
 
@@ -4161,7 +4178,7 @@ st.write("")
 st.write("")
 st.markdown("---")
 
-# --- Optional AI Analyst Chat Section ---
+# --- AI Analyst Section ---
 _render_ai_analyst_chat_section()
 
 st.write("")
