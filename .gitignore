@@ -1,4 +1,6 @@
 .venv/
+.env
+.streamlit/secrets.toml
 __pycache__/
 *.py[cod]
 
@@ -24,3 +26,4 @@ htmlcov/
 test_reports/
 
 debug_*
+artifacts/button_audit/

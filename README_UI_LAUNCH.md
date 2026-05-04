@@ -36,6 +36,18 @@ python -m pip install -r requirements_testing.txt
 python run_tests.py smoke
 ```
 
+## Enable Live AI Responses Locally
+
+Live AI mode is optional. To enable live responses for local review, set `OPENAI_API_KEY` in your shell before launching the app:
+
+```bash
+source .venv/bin/activate
+export OPENAI_API_KEY="your_key_here"
+python run_ui.py
+```
+
+As a local alternative, you can place the key in `.streamlit/secrets.toml`. Never commit `.env` or `.streamlit/secrets.toml`. Without a key, the app still runs in demo analyst fallback mode.
+
 ## Troubleshooting
 
 ### UI.py not found
