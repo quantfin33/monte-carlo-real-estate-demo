@@ -112,7 +112,7 @@ monte-carlo-demo-package/
 - Dynamic parameter controls with validation messaging
 - Cached simulation results for local review performance
 - Interactive distribution, sensitivity, covenant, trace, and export surfaces
-- Guarded display behavior where some advanced metrics remain under verification
+- Guarded display behavior where parked advanced metrics stay clearly outside the current contract
 
 ### `rmc_model.py` - Simulation Engine
 

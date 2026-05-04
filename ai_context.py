@@ -12,7 +12,7 @@ NON_CLAIMS = [
     "not investment advice",
     "not production-ready",
     "not a fully validated financial product",
-    "no live ERP/Odoo/MCP integration",
+    "no live ERP/Odoo/MCP/SAP integration",
 ]
 
 
@@ -143,40 +143,58 @@ def _trace_context(trace_payload: Any) -> dict[str, Any]:
 
 
 def _sensitivity_context(payload: Any, *, label: str) -> dict[str, Any]:
+    no_generated_context = (
+        f"{label} tool is available for directional review, but no generated chart context is currently included."
+    )
     if payload is None:
         return {
             "available": False,
+            "tool_available": True,
+            "built_in_current_session": False,
             "label": label,
-            "summary": f"{label} is not available in current context.",
+            "summary": no_generated_context,
         }
 
     if isinstance(payload, dict):
-        available = bool(payload.get("available", payload))
+        built = bool(payload.get("built_in_current_session", payload.get("available", bool(payload))))
+        available = bool(payload.get("available", built))
         summary = payload.get("summary") if isinstance(payload.get("summary"), str) else None
         return {
             "available": available,
+            "tool_available": bool(payload.get("tool_available", True)),
+            "built_in_current_session": built and available,
             "label": payload.get("label", label),
-            "summary": summary or f"{label} metadata is available in current context.",
+            "summary": summary or (
+                f"{label} metadata is available as a directional sensitivity surface."
+                if available
+                else no_generated_context
+            ),
         }
 
     if not hasattr(payload, "columns"):
         return {
             "available": False,
+            "tool_available": True,
+            "built_in_current_session": False,
             "label": label,
-            "summary": f"{label} is not available in current context.",
+            "summary": no_generated_context,
         }
 
     df = payload
     if df.empty:
         return {
             "available": False,
+            "tool_available": True,
+            "built_in_current_session": False,
             "label": label,
             "row_count": 0,
-            "summary": f"{label} is empty in current context.",
+            "summary": no_generated_context,
         }
 
     context: dict[str, Any] = {
         "available": True,
+        "tool_available": True,
+        "built_in_current_session": True,
         "label": label,
         "row_count": int(len(df)),
         "columns": [str(column) for column in df.columns],

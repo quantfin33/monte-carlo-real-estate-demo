@@ -60,14 +60,14 @@ Do not infer that omitted full-workspace scripts or browser artifacts are includ
 - The quick sanity artifact shows monotonic P5/P50/P95 ordering for `IRR`, `NPV`, `CoC`, and `EquityMultiple`.
 - The quick sanity artifact shows an exact `0.0` basis-point difference between engine IRR and recomputed trace IRR for the tested trace case.
 - The quick sanity artifact did not show extreme outlier behavior such as `IRR > 100%`, `CoC > 1000%`, or runs with negative NOI in the sampled check.
-- The UI now keeps advanced sections visible while using guarded placeholders and validation-state messaging instead of deleting them.
+- The UI keeps advanced workflow sections visible while parking unsupported metrics and clearly labeling future-validation controls.
 
 ## Claims That Must Stay Qualified
 
 - Tornado is now model-derived for the bounded low/high shock set, but it should not be described as a full institutional sensitivity suite.
 - Heatmap sections are appropriate to present as directional analytics surfaces, but they should not be described as fully revalidated from end to end unless a dedicated contract pass is completed.
-- Additional KPI surfaces may still rely on guarded placeholders or partial runtime coverage and should be described as preserved workflow surfaces, not as a guarantee that every historical metric contract is fully restored.
-- The Trace / Explain section is now preserved and visible, but its broader export/bundle flow should still be described as under verification.
+- Additional KPI surfaces should be described as current-contract metrics plus parked future placeholders, not as a guarantee that every historical metric contract is fully restored.
+- The Trace / Explain section can show compact selected-run status when available, but its broader export/bundle flow should still be described as under verification.
 - Sale-month-dependent behavior should not be presented as fully validated timing logic.
 - Wiring-report output shows that some UI parameters still do not map cleanly to engine consumers, so the repo should not yet be described as contract-complete.
 

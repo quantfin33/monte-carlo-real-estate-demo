@@ -48,6 +48,8 @@ def test_fallback_answer_works_without_openai_key(monkeypatch):
     assert "Key numbers" in answer
     assert "IRR" in answer
     assert "not investment advice" in answer.lower()
+    assert "Not production-ready" in answer
+    assert "No live ERP/Odoo/MCP/SAP integration" in answer
 
 
 def test_no_openai_import_is_attempted_without_key(monkeypatch):
@@ -148,6 +150,34 @@ def test_trace_present_can_be_mentioned(monkeypatch):
     assert "IRR recompute passed: True" in answer
 
 
+def test_unbuilt_sensitivity_tools_are_described_honestly(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+    answer = ai_analyst.answer_question("What does the heatmap show?", _context_with_missing_trace())
+
+    assert "Sensitivity tools are available for directional review" in answer
+    assert "no generated chart context is currently included" in answer
+    assert "are available as directional scenario surfaces" not in answer
+
+
+def test_built_sensitivity_context_is_directional_only(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    heatmap_1 = pd.DataFrame(
+        {
+            "ExitCap": [0.075, 0.080],
+            "RentGrowth": [0.02, 0.03],
+            "IRR_pct": [16.5, 17.2],
+        }
+    )
+    context = build_ai_context(_strong_context_dataframe(), heatmap_1=heatmap_1)
+
+    answer = ai_analyst.answer_question("What does the heatmap show?", context)
+
+    assert "Heatmap 1" in answer
+    assert "directional scenario surfaces" in answer
+    assert "proof of full model correctness" in answer
+
+
 def test_investment_advice_phrase_is_refused(monkeypatch):
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
@@ -174,3 +204,14 @@ def test_fallback_answer_avoids_forbidden_positive_claims(monkeypatch):
     ]
     for phrase in forbidden_positive_claims:
         assert phrase not in answer
+
+
+def _strong_context_dataframe() -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "IRR": [0.15, 0.16, 0.1732, 0.19, 0.21],
+            "NPV": [20_000_000, 30_000_000, 35_460_000, 40_000_000, 50_000_000],
+            "CoC": [0.12, 0.14, 0.1599, 0.18, 0.20],
+            "EquityMultiple": [2.0, 2.2, 2.31, 2.4, 2.6],
+        }
+    )

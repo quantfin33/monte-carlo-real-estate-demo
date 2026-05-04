@@ -79,6 +79,17 @@ def test_ai_context_missing_metrics_warn_without_crashing():
         context["trace"]["summary"]
         == "Trace engine support exists, but this chat context does not currently include the selected-run trace bundle."
     )
+    assert context["sensitivity"]["heatmap_1"]["tool_available"] is True
+    assert context["sensitivity"]["heatmap_1"]["built_in_current_session"] is False
+    assert context["sensitivity"]["heatmap_1"]["available"] is False
+    assert (
+        "tool is available for directional review"
+        in context["sensitivity"]["heatmap_1"]["summary"]
+    )
+    assert (
+        "no generated chart context is currently included"
+        in context["sensitivity"]["heatmap_1"]["summary"]
+    )
 
 
 def test_ai_context_includes_non_claims():
@@ -88,7 +99,7 @@ def test_ai_context_includes_non_claims():
     assert "not investment advice" in non_claims
     assert "not production-ready" in non_claims
     assert "not a fully validated financial product" in non_claims
-    assert "no live ERP/Odoo/MCP integration" in non_claims
+    assert "no live ERP/Odoo/MCP/SAP integration" in non_claims
 
 
 def test_ai_context_summarizes_optional_trace_payload():
@@ -168,8 +179,11 @@ def test_ai_context_summarizes_optional_sensitivity_payloads():
     )
 
     assert context["sensitivity"]["heatmap_1"]["available"] is True
+    assert context["sensitivity"]["heatmap_1"]["tool_available"] is True
+    assert context["sensitivity"]["heatmap_1"]["built_in_current_session"] is True
     assert context["sensitivity"]["heatmap_1"]["row_count"] == 2
     assert context["sensitivity"]["tornado"]["available"] is True
+    assert context["sensitivity"]["tornado"]["built_in_current_session"] is True
     assert context["sensitivity"]["tornado"]["max_abs_delta"] == 0.03
     assert any(
         "directional scenario surfaces" in caveat

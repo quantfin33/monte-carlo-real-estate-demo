@@ -184,7 +184,7 @@ def _fallback_answer(question: str, context: dict[str, Any], answer_style: str =
     sections.append(
         "Boundary: this answer is grounded in the current dashboard context. "
         "It is not investment advice, not production-ready, not a fully validated financial product, "
-        "and it does not claim live ERP/Odoo/MCP integration."
+        "and it does not claim live ERP/Odoo/MCP/SAP integration."
     )
 
     return "\n\n".join(sections)
@@ -245,6 +245,10 @@ def _short_fallback_answer(question: str, context: dict[str, Any]) -> str:
     if trace_note:
         sections.append("Trace/Explain:\n- " + trace_note)
 
+    sensitivity_note = _sensitivity_summary(question, context)
+    if sensitivity_note:
+        sections.append("Sensitivity:\n- " + sensitivity_note)
+
     missing_notes = _requested_missing_notes(question, context)
     if missing_notes:
         sections.append("Missing data:\n" + "\n".join(f"- {note}" for note in missing_notes))
@@ -252,8 +256,9 @@ def _short_fallback_answer(question: str, context: dict[str, Any]) -> str:
     sections.append(
         "Boundary:\n"
         "- Not investment advice\n"
+        "- Not production-ready\n"
         "- Demo/local review only\n"
-        "- No live ERP/Odoo/MCP integration claim"
+        "- No live ERP/Odoo/MCP/SAP integration"
     )
     return "\n\n".join(sections)
 
@@ -264,7 +269,7 @@ def _client_summary_fallback_answer(question: str, context: dict[str, Any]) -> s
             "Client summary:\n"
             "I can’t provide investment advice or a transaction recommendation. "
             "The current output can be discussed as a scenario-analysis result with review caveats.\n\n"
-            "Boundary:\n- Not investment advice\n- Demo/local review only"
+            "Boundary:\n- Not investment advice\n- Not production-ready\n- Demo/local review only\n- No live ERP/Odoo/MCP/SAP integration"
         )
 
     flags = _business_review_flags(context)
@@ -272,7 +277,7 @@ def _client_summary_fallback_answer(question: str, context: dict[str, Any]) -> s
     return (
         "Client summary:\n"
         f"{_short_answer_text(context)} {flag_text}\n\n"
-        "Boundary:\n- Not investment advice\n- Demo/local review only"
+        "Boundary:\n- Not investment advice\n- Not production-ready\n- Demo/local review only\n- No live ERP/Odoo/MCP/SAP integration"
     )
 
 
@@ -431,15 +436,17 @@ def _sensitivity_summary(question: str, context: dict[str, Any]) -> str:
 
     sensitivity = context.get("sensitivity", {})
     if not isinstance(sensitivity, dict):
-        return "Sensitivity views are not available in current context."
+        return "Sensitivity tools are available for directional review, but no generated chart context is currently included."
 
     available = [
         str(item.get("label", name))
         for name, item in sensitivity.items()
-        if isinstance(item, dict) and item.get("available")
+        if isinstance(item, dict) and item.get("available") and item.get("built_in_current_session", True)
     ]
     if not available:
-        return "Sensitivity views are not available in current context."
+        if any(isinstance(item, dict) and item.get("tool_available") for item in sensitivity.values()):
+            return "Sensitivity tools are available for directional review, but no generated chart context is currently included."
+        return "Sensitivity tools are not available in current context."
 
     return (
         "Sensitivity note: "
@@ -475,11 +482,6 @@ def _requested_missing_notes(question: str, context: dict[str, Any]) -> list[str
                     )
                 )
             )
-
-    if any(alias in lower for alias in REQUESTED_METRICS["sensitivity"]):
-        sensitivity = context.get("sensitivity", {})
-        if not any(isinstance(item, dict) and item.get("available") for item in sensitivity.values()):
-            notes.append("sensitivity views are not available in current context.")
 
     return notes
 

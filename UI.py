@@ -821,8 +821,8 @@ LIMITED_DEMO_VIEW = False
 PRESERVE_ALL_SURFACES = True
 
 VALIDATION_COPY = {
-    "global": "Preserved demo view: major sections stay visible; some outputs are directional, under verification, or unavailable in the current contract.",
-    "additional_kpis": "Additional KPI surfaces remain visible for workflow completeness. Missing values render as placeholders instead of being removed.",
+    "global": "Demo status: validated annual-model core with guarded advanced workflow surfaces.",
+    "additional_kpis": "Additional KPI surfaces show currently supported contract metrics. Parked metrics are kept out of the main visible grid.",
     "covenants": "Covenant and coverage panels prefer hold-period minima when available; otherwise they stay visible with clearly labeled proxy values.",
     "trace": "Trace / Explain P50 IRR remains visible as a preserved surface. Explainability artifacts are shown only when the current runtime contract supports them.",
     "exports": "Metrics summary exports include supported fields only. Unsupported metrics stay outside the bundle until verified.",
@@ -1011,7 +1011,9 @@ for k, v in {
     st.session_state.setdefault(k, v)
 
 BUILD = "preserved-surfaces-v1"
-st.caption(f"BUILD: {BUILD} — Preserved advanced layout with guarded validation states")
+with st.expander("Developer status", expanded=False):
+    st.caption(f"Build label: {BUILD}")
+    st.caption("Advanced surfaces use guarded validation-state messaging.")
 
 # Add some spacing
 st.write("")
@@ -1659,51 +1661,53 @@ with st.form("controls"):
 
     # Vacancy lease-up controls
     if not LIMITED_DEMO_VIEW:
-        col_vacant_rent, col_absorb, col_stabilize, col_free = st.columns([1,1,1,1])
-        with col_vacant_rent:
-            st.session_state.vacant_rent_psf = st.number_input(
-                "Vacant Rent ($/SF) (display only)",
-                min_value=0.0, max_value=100.0, value=float(st.session_state.vacant_rent_psf), step=1.0, format="%.1f",
-                help="Display-only: engine ignores this for revenue; vacancy uses market rent unless a vacancy target is set."
-            )
-        with col_absorb:
-            st.session_state.vacancy_absorption_pct_annual = _pct_input(
-                "Absorption (%/yr)",
-                min_value=0.0, max_value=1.0, value=float(st.session_state.vacancy_absorption_pct_annual), step=0.05, format="%.0f",
-                help="Percent of remaining vacant RSF leased per year (ignored if Months to Stabilize > 0)."
-            )
-        with col_stabilize:
-            st.session_state.vacancy_months_to_stabilize = st.number_input(
-                "Months to Stabilize",
-                min_value=0, max_value=120, value=int(st.session_state.vacancy_months_to_stabilize), step=6,
-                help="If > 0, evenly lease initial vacancy over this many months."
-            )
-        with col_free:
-            st.session_state.vacant_free_months_new = st.number_input(
-                "Vacant Free Months",
-                min_value=0, max_value=24, value=int(st.session_state.vacant_free_months_new), step=1,
-                help="Free months for new vacancy leases."
-            )
+        with st.expander("Advanced lease-up controls — parked / future validation", expanded=False):
+            st.caption("Retained for future validation; do not present these controls as fully validated demo drivers.")
+            col_vacant_rent, col_absorb, col_stabilize, col_free = st.columns([1,1,1,1])
+            with col_vacant_rent:
+                st.session_state.vacant_rent_psf = st.number_input(
+                    "Vacant Rent ($/SF) (display only)",
+                    min_value=0.0, max_value=100.0, value=float(st.session_state.vacant_rent_psf), step=1.0, format="%.1f",
+                    help="Display-only: engine ignores this for revenue; vacancy uses market rent unless a vacancy target is set."
+                )
+            with col_absorb:
+                st.session_state.vacancy_absorption_pct_annual = _pct_input(
+                    "Absorption (%/yr)",
+                    min_value=0.0, max_value=1.0, value=float(st.session_state.vacancy_absorption_pct_annual), step=0.05, format="%.0f",
+                    help="Percent of remaining vacant RSF leased per year (ignored if Months to Stabilize > 0)."
+                )
+            with col_stabilize:
+                st.session_state.vacancy_months_to_stabilize = st.number_input(
+                    "Months to Stabilize",
+                    min_value=0, max_value=120, value=int(st.session_state.vacancy_months_to_stabilize), step=6,
+                    help="If > 0, evenly lease initial vacancy over this many months."
+                )
+            with col_free:
+                st.session_state.vacant_free_months_new = st.number_input(
+                    "Vacant Free Months",
+                    min_value=0, max_value=24, value=int(st.session_state.vacant_free_months_new), step=1,
+                    help="Free months for new vacancy leases."
+                )
 
-        col_term, col_target_rent, col_recov_free, col_spacer = st.columns([1,1,1,1])
-        with col_term:
-            st.session_state.vacant_new_lease_term_years = st.number_input(
-                "Vacant New Term (yrs)",
-                min_value=0.0, max_value=30.0, value=float(st.session_state.vacant_new_lease_term_years), step=0.5, format="%.1f",
-                help="New lease term for vacancy leases. 0 = use WALT."
-            )
-        with col_target_rent:
-            st.session_state.vacancy_target_rent_psf = st.number_input(
-                "Vacancy Target Rent ($/SF)",
-                min_value=0.0, max_value=200.0, value=float(st.session_state.vacancy_target_rent_psf), step=1.0, format="%.1f",
-                help="If > 0, use this rent for new vacancy leases instead of market rent."
-            )
-        with col_recov_free:
-            st.session_state.recoveries_during_free_months = st.checkbox(
-                "Count Recoveries During Free Months",
-                value=bool(st.session_state.recoveries_during_free_months),
-                help="If checked, free months count toward recoveries (typical in NNN)."
-            )
+            col_term, col_target_rent, col_recov_free, col_spacer = st.columns([1,1,1,1])
+            with col_term:
+                st.session_state.vacant_new_lease_term_years = st.number_input(
+                    "Vacant New Term (yrs)",
+                    min_value=0.0, max_value=30.0, value=float(st.session_state.vacant_new_lease_term_years), step=0.5, format="%.1f",
+                    help="New lease term for vacancy leases. 0 = use WALT."
+                )
+            with col_target_rent:
+                st.session_state.vacancy_target_rent_psf = st.number_input(
+                    "Vacancy Target Rent ($/SF)",
+                    min_value=0.0, max_value=200.0, value=float(st.session_state.vacancy_target_rent_psf), step=1.0, format="%.1f",
+                    help="If > 0, use this rent for new vacancy leases instead of market rent."
+                )
+            with col_recov_free:
+                st.session_state.recoveries_during_free_months = st.checkbox(
+                    "Count Recoveries During Free Months",
+                    value=bool(st.session_state.recoveries_during_free_months),
+                    help="If checked, free months count toward recoveries (typical in NNN)."
+                )
     # Backfill probability
     st.session_state.backfill_prob = st.slider(
         "Backfill Probability (per-month)",
@@ -3321,27 +3325,33 @@ else:
         roi_p5, roi_p50, roi_p95 = _pctls(roi_s)
         capx_p5, capx_p50, capx_p95 = _pctls(capx_s)
 
-        kcol1, kcol2, kcol3 = st.columns(3)
-        with kcol1:
-            st.metric("GRM (P50)", _value_or_placeholder(grm_p50, lambda x: f"{x:.2f}"))
-            st.caption(_range_caption(grm_p5, grm_p95, lambda x: f"{x:.2f}"))
-        with kcol2:
-            st.metric("OER (P50)", _value_or_placeholder(oer_p50, lambda x: f"{x:.2%}"))
-            st.caption(_range_caption(oer_p5, oer_p95, lambda x: f"{x:.2%}"))
-        with kcol3:
-            st.metric("Equity/Value (P50)", _value_or_placeholder(e2v_p50, lambda x: f"{x:.2%}"))
-            st.caption(_range_caption(e2v_p5, e2v_p95, lambda x: f"{x:.2%}"))
+        visible_kpis = [
+            ("GRM (P50)", grm_p50, grm_p5, grm_p95, lambda x: f"{x:.2f}"),
+            ("OER (P50)", oer_p50, oer_p5, oer_p95, lambda x: f"{x:.2%}"),
+            ("Equity/Value (P50)", e2v_p50, e2v_p5, e2v_p95, lambda x: f"{x:.2%}"),
+            ("CapEx Total (P50)", capx_p50, capx_p5, capx_p95, _fmt_money),
+        ]
+        visible_kpis = [item for item in visible_kpis if _is_finite_number(item[1])]
+        if visible_kpis:
+            kpi_cols = st.columns(len(visible_kpis))
+            for col, (label, p50_value, p5_value, p95_value, formatter) in zip(kpi_cols, visible_kpis):
+                with col:
+                    st.metric(label, formatter(p50_value))
+                    st.caption(_range_caption(p5_value, p95_value, formatter))
+        else:
+            st.info("No additional KPI contract metrics are available in the current run.")
 
-        k2col1, k2col2, k2col3 = st.columns(3)
-        with k2col1:
-            st.metric("Interest Coverage (P50)", _value_or_placeholder(icr_p50, lambda x: f"{x:.2f}×"))
-            st.caption(_range_caption(icr_p5, icr_p95, lambda x: f"{x:.2f}×"))
-        with k2col2:
-            st.metric("ROI Total (P50)", _value_or_placeholder(roi_p50, lambda x: f"{x:.2%}"))
-            st.caption(_range_caption(roi_p5, roi_p95, lambda x: f"{x:.2%}"))
-        with k2col3:
-            st.metric("CapEx Total (P50)", _value_or_placeholder(capx_p50, _fmt_money))
-            st.caption(_range_caption(capx_p5, capx_p95, _fmt_money))
+        parked_kpis = [
+            ("Interest Coverage (P50)", icr_p50, icr_p5, icr_p95, lambda x: f"{x:.2f}×"),
+            ("ROI Total (P50)", roi_p50, roi_p5, roi_p95, lambda x: f"{x:.2%}"),
+        ]
+        with st.expander("Parked metrics not included in current contract", expanded=False):
+            st.caption("These cards are retained as future placeholders only; no values are fabricated.")
+            parked_cols = st.columns(2)
+            for col, (label, p50_value, p5_value, p95_value, formatter) in zip(parked_cols, parked_kpis):
+                with col:
+                    st.metric(label, _value_or_placeholder(p50_value, formatter))
+                    st.caption(_range_caption(p5_value, p95_value, formatter))
 
         # Min DSCR & Min DY percentiles expander
         with st.expander("Risk & Covenants — Detailed Percentiles"):
@@ -3867,7 +3877,7 @@ else:
         )
     else:
         kpi_cards.append(
-            ("Economic Occupancy (Avg)", "—", "Economic occupancy remains visible but is still under verification in the current evidence set.")
+            ("Economic Occupancy (Avg)", "—", "Economic occupancy remains visible only when supported by the current runtime contract.")
         )
 
     cols = st.columns(len(kpi_cards))
@@ -4266,22 +4276,35 @@ st.markdown("---")
 st.header("Trace / Explain P50 IRR")
 _render_validation_note("info", VALIDATION_COPY["trace"])
 trace_df = st.session_state.get("df")
+trace_payload = st.session_state.get("trace_payload")
+compact_trace_available = isinstance(trace_payload, dict) and bool(trace_payload.get("available"))
+if compact_trace_available:
+    explain_payload_status = "Selected-run summary available"
+    explain_payload_caption = "Engine trace available; full bundle/export flow remains under verification."
+elif trace_tools is not None and trace_df is not None and not trace_df.empty:
+    explain_payload_status = "Engine trace available"
+    explain_payload_caption = "Selected-run trace summary is not currently included in this run."
+else:
+    explain_payload_status = "Not available"
+    explain_payload_caption = "Run the simulation first to enable selected-run trace context."
 trace_col1, trace_col2, trace_col3 = st.columns(3)
 with trace_col1:
     st.metric("Trace Helper", "Ready" if trace_tools is not None else "Unavailable")
 with trace_col2:
     st.metric("Current Run", "Loaded" if trace_df is not None and not trace_df.empty else "Not run")
 with trace_col3:
-    st.metric("Explain Payload", "Under verification")
+    st.metric("Explain Payload", explain_payload_status)
+    st.caption(explain_payload_caption)
 
 if trace_df is None or trace_df.empty:
     st.info("Run the simulation first to enable the preserved Trace / Explain surface.")
 else:
-    st.caption("This preserved section keeps explainability visible while the end-to-end bundle flow is being verified. Current runtime targets: `equity_cf`, `_ScheduleData`, and `_TerminalData`.")
+    st.caption("Current runtime targets: `equity_cf`, `_ScheduleData`, and `_TerminalData`. Full bundle/export flow remains under verification.")
     with st.expander("Trace surface status", expanded=False):
         st.markdown("""
         - Selected-run replay is supported by `trace_tools.py`.
-        - The UI keeps this surface visible even when full trace bundle export is still under verification.
+        - The UI shows compact selected-run status when trace context is available.
+        - Full trace bundle export remains under verification.
         - Explainability claims should be limited to runtime signals currently present in the engine contract.
         """)
 
