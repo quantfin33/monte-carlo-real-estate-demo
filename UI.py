@@ -61,6 +61,16 @@ def _app_log(msg: str):
 def _render_ai_analyst_chat_section() -> None:
     st.header("AI Analyst")
     st.caption("Ask the dashboard to explain the latest simulation results, risks, sensitivity views, and trace outputs.")
+    answer_style_options = ["Short", "Detailed", "Client summary"]
+    current_answer_style = st.session_state.get("ai_answer_style", "Short")
+    if current_answer_style not in answer_style_options:
+        current_answer_style = "Short"
+    answer_style = st.selectbox(
+        "Answer style",
+        answer_style_options,
+        index=answer_style_options.index(current_answer_style),
+        key="ai_answer_style",
+    )
 
     analyst_df = st.session_state.get("df")
     if analyst_df is None or analyst_df.empty:
@@ -92,6 +102,8 @@ def _render_ai_analyst_chat_section() -> None:
         "row_count": context.get("simulation", {}).get("row_count"),
         "irr_p50": context.get("core_metrics", {}).get("irr", {}).get("p50"),
         "npv_p50": context.get("core_metrics", {}).get("npv", {}).get("p50"),
+        "answer_style": answer_style,
+        "trace_available": context.get("trace", {}).get("available"),
     }
     context_fingerprint = json.dumps(fingerprint_payload, sort_keys=True, default=str)
     if st.session_state.get("ai_context_fingerprint") != context_fingerprint:
@@ -127,7 +139,7 @@ def _render_ai_analyst_chat_section() -> None:
     with st.chat_message("user"):
         st.markdown(question)
 
-    answer = ai_analyst.answer_question(question, context)
+    answer = ai_analyst.answer_question(question, context, answer_style=answer_style)
     st.session_state["ai_chat_messages"].append({"role": "assistant", "content": answer})
     with st.chat_message("assistant"):
         st.markdown(answer)
@@ -455,6 +467,66 @@ def _run_sim_cached(n: int, seed: int, params: dict, parallel: bool = True) -> p
     if not isinstance(df, pd.DataFrame):
         df = pd.DataFrame(df)
     return df
+
+
+def _selected_run_row_for_trace(df: pd.DataFrame, run_idx: int) -> pd.Series:
+    if "_RunIndex" in df.columns:
+        run_idx_series = pd.to_numeric(df["_RunIndex"], errors="coerce")
+        matches = df.loc[run_idx_series == int(run_idx)]
+        if not matches.empty:
+            return matches.iloc[0]
+    return df.iloc[int(run_idx)]
+
+
+def _compact_trace_payload_for_ai(df: pd.DataFrame, params: dict, seed: int) -> dict:
+    unavailable = {
+        "available": False,
+        "summary": "Trace engine support exists, but this chat context does not currently include the selected-run trace bundle.",
+    }
+    if trace_tools is None:
+        return unavailable
+    if df is None or df.empty:
+        return unavailable
+
+    try:
+        run_idx, _median_irr = trace_tools.find_median_run(df)
+        selected = _selected_run_row_for_trace(df, int(run_idx))
+        expected_irr = float(selected["IRR"])
+        bundle = trace_tools.run_trace_simulation(
+            params=params,
+            base_seed=int(seed),
+            run_idx=int(run_idx),
+            mode="p50_trace",
+            expected_irr=expected_irr,
+        )
+        if not isinstance(bundle, dict) or "error" in bundle:
+            _app_log(f"ai_trace:unavailable {bundle.get('error') if isinstance(bundle, dict) else 'invalid bundle'}")
+            return unavailable
+
+        trace_cashflows = bundle.get("trace_cashflows") or {}
+        trace_summary = bundle.get("trace_summary") or {}
+        consistency = trace_cashflows.get("consistency_check") or {}
+        if trace_summary.get("replay_matches_selected") is False:
+            _app_log("ai_trace:replay mismatch")
+            return unavailable
+
+        cash_flow_series = trace_cashflows.get("cash_flow_series") or []
+        return {
+            "available": True,
+            "summary": "Trace/Explain context is available for the selected run; cash-flow count and IRR recompute status are included.",
+            "mode": trace_summary.get("mode"),
+            "run_index": trace_summary.get("run_index"),
+            "cash_flow_count": trace_summary.get("cash_flow_count") or len(cash_flow_series),
+            "engine_irr": trace_cashflows.get("engine_irr") or trace_summary.get("irr"),
+            "computed_irr": trace_cashflows.get("computed_irr"),
+            "consistency_passed": consistency.get("passed"),
+            "replay_matches_selected": trace_summary.get("replay_matches_selected"),
+        }
+    except Exception as exc:
+        _app_log(f"ai_trace:error {exc}")
+        return unavailable
+
+
 def _run_many(n: int, seed: int, use_stage2: bool, scenario: str | None = None) -> pd.DataFrame:
     params = copy.deepcopy(rmc_model.default_params())
 
@@ -599,7 +671,9 @@ def _run_many(n: int, seed: int, use_stage2: bool, scenario: str | None = None) 
     if hasattr(rmc_model, "run_simulation"):
         # Streamlit browser runs are kept single-process to avoid multiprocessing pipe
         # failures in long-lived demo servers while preserving the same engine inputs.
-        return _run_sim_cached(n=int(n), seed=int(seed), params=params, parallel=False)
+        result_df = _run_sim_cached(n=int(n), seed=int(seed), params=params, parallel=False)
+        st.session_state.trace_payload = _compact_trace_payload_for_ai(result_df, params, int(seed))
+        return result_df
 
     # Fallback loop
     irrs = []
@@ -766,6 +840,8 @@ for k, v in {
     "hm2_df": None,    # heatmap 2 results
     "ai_chat_messages": [],
     "ai_context_fingerprint": None,
+    "ai_answer_style": "Short",
+    "trace_payload": None,
     "hm_sims": 400,    # sims per cell
     "exit_caps": ["7.5%", "8.0%", "8.5%", "9.0%", "9.5%"],
     "rent_growths": ["1.0%", "2.0%", "3.0%", "4.0%", "5.0%"],
@@ -2247,6 +2323,7 @@ with st.form("controls"):
             _app_log(f"blocked run: sims={sims} seed={seed}")
         else:
             _app_log(f"run_many:start sims={sims} seed={seed} scen={scenario_input}")
+            st.session_state.trace_payload = None
             with st.spinner("Running Monte Carlo…"):
                 try:
                     result_df = _run_many(sims, seed, bool(st.session_state.stage2), scenario=scenario_input)
@@ -2260,6 +2337,7 @@ with st.form("controls"):
                     _app_log(f"run_many:done rows={len(result_df) if result_df is not None else 0}")
                     st.success(f"✅ Simulation complete! Generated {len(result_df):,} results.")
                 except Exception as e:
+                    st.session_state.trace_payload = None
                     _app_log(f"run_many:error {e}")
                     st.error(f"Run failed: {e}")
 

@@ -105,7 +105,23 @@ def _trace_context(trace_payload: Any) -> dict[str, Any]:
     if not isinstance(trace_payload, dict):
         return {
             "available": False,
-            "summary": "Trace payload is not available in current context.",
+            "summary": "Trace engine support exists, but this chat context does not currently include the selected-run trace bundle.",
+        }
+
+    if "available" in trace_payload and "trace_summary" not in trace_payload:
+        return {
+            "available": bool(trace_payload.get("available")),
+            "summary": trace_payload.get(
+                "summary",
+                "Trace engine support exists, but this chat context does not currently include the selected-run trace bundle.",
+            ),
+            "mode": trace_payload.get("mode"),
+            "run_index": trace_payload.get("run_index"),
+            "cash_flow_count": trace_payload.get("cash_flow_count"),
+            "engine_irr": _round_or_none(trace_payload.get("engine_irr")),
+            "computed_irr": _round_or_none(trace_payload.get("computed_irr")),
+            "consistency_passed": trace_payload.get("consistency_passed"),
+            "replay_matches_selected": trace_payload.get("replay_matches_selected"),
         }
 
     trace_cashflows = trace_payload.get("trace_cashflows") or {}
@@ -122,6 +138,7 @@ def _trace_context(trace_payload: Any) -> dict[str, Any]:
         "computed_irr": _round_or_none(trace_cashflows.get("computed_irr")),
         "consistency_passed": consistency.get("passed"),
         "replay_matches_selected": trace_summary.get("replay_matches_selected"),
+        "summary": "Trace/Explain context is available for the selected run; cash-flow count and IRR recompute status are included.",
     }
 
 

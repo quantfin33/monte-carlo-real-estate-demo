@@ -44,9 +44,10 @@ def test_fallback_answer_works_without_openai_key(monkeypatch):
 
     answer = ai_analyst.answer_question("Explain the headline metrics.", _context_with_missing_trace())
 
-    assert "What the model shows" in answer
+    assert "Short answer" in answer
+    assert "Key numbers" in answer
     assert "IRR" in answer
-    assert "not investment advice" in answer
+    assert "not investment advice" in answer.lower()
 
 
 def test_no_openai_import_is_attempted_without_key(monkeypatch):
@@ -72,7 +73,7 @@ def test_investment_advice_request_is_refused(monkeypatch):
 
     assert "can’t provide investment advice" in answer
     assert "transaction recommendation" in answer
-    assert "Risk readout" in answer
+    assert "Boundary" in answer
 
 
 def test_missing_requested_metric_is_called_out(monkeypatch):
@@ -80,8 +81,9 @@ def test_missing_requested_metric_is_called_out(monkeypatch):
 
     answer = ai_analyst.answer_question("What is the DSCR and trace cash flow?", _context_with_missing_trace())
 
-    assert "dscr is not available in current context" in answer.lower()
-    assert "trace detail is not available in current context" in answer.lower()
+    assert "DSCR is not available in current context" in answer
+    assert "Trace engine support exists" in answer
+    assert "does not currently include the selected-run trace bundle" in answer
 
 
 def test_missing_requested_supporting_metric_is_called_out(monkeypatch):
@@ -89,19 +91,70 @@ def test_missing_requested_supporting_metric_is_called_out(monkeypatch):
 
     answer = ai_analyst.answer_question("What is the physical occupancy?", _context_with_missing_trace())
 
-    assert "physical_occupancy is not available in current context" in answer.lower()
+    assert "Hold-average occupancy is not available in current context" in answer
 
 
 def test_fallback_includes_sanity_review_caveats(monkeypatch):
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-    answer = ai_analyst.answer_question("Why are the returns strong?", _strong_context()).lower()
+    answer = ai_analyst.answer_question("Why are the returns strong?", _strong_context())
+    answer_lower = answer.lower()
 
-    assert "number sanity readout" in answer
-    assert "p50 irr is above 15%" in answer
-    assert "what to review" in answer
-    assert "lease-up" in answer
-    assert "defeasance" in answer
+    assert "Review flags" in answer
+    assert "High returns need assumptions review" in answer
+    assert "$35.5M" in answer
+    assert "17.32%" in answer
+    assert "29.66%" in answer
+    assert "prepay/defeasance" in answer_lower
+    assert "hold-average occupancy" in answer
+    assert "initial_occupancy" not in answer
+    assert "prepay_cost_total" not in answer
+    assert "DebtYield" not in answer
+
+
+def test_short_fallback_formats_values_for_presentation(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+    answer = ai_analyst.answer_question("Explain these results.", _strong_context())
+
+    assert "- IRR P50: 17.32%" in answer
+    assert "- NPV P50: $35.5M" in answer
+    assert "- Cash-on-Cash P50: 15.99%" in answer
+    assert "- Equity Multiple P50: 2.31x" in answer
+    assert "- DSCR: 4.39x" in answer
+    assert "- Debt Yield: 29.66%" in answer
+
+
+def test_trace_present_can_be_mentioned(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    trace_payload = {
+        "available": True,
+        "summary": "Trace/Explain context is available for the selected run; cash-flow count and IRR recompute status are included.",
+        "mode": "p50_trace",
+        "run_index": 12,
+        "cash_flow_count": 6,
+        "engine_irr": 0.1732,
+        "computed_irr": 0.1732,
+        "consistency_passed": True,
+        "replay_matches_selected": True,
+    }
+    df = pd.DataFrame({"IRR": [0.16, 0.1732, 0.19], "NPV": [30_000_000, 35_460_000, 40_000_000]})
+    context = build_ai_context(df, trace_payload=trace_payload)
+
+    answer = ai_analyst.answer_question("Explain the trace cash flow.", context)
+
+    assert "Trace/Explain context is available for the selected run" in answer
+    assert "cash-flow count: 6" in answer
+    assert "IRR recompute passed: True" in answer
+
+
+def test_investment_advice_phrase_is_refused(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+    answer = ai_analyst.answer_question("Can I use this as investment advice?", _strong_context())
+
+    assert "can’t provide investment advice" in answer
+    assert "transaction recommendation" in answer
 
 
 def test_fallback_answer_avoids_forbidden_positive_claims(monkeypatch):

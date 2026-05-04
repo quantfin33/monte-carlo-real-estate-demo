@@ -74,6 +74,11 @@ def test_ai_context_missing_metrics_warn_without_crashing():
     assert any("dscr is not available in current context" in warning for warning in context["warnings"])
     assert "number_sanity_report" in context
     assert "core.npv" in context["number_sanity_report"]["unavailable_or_placeholder_metrics"]
+    assert context["trace"]["available"] is False
+    assert (
+        context["trace"]["summary"]
+        == "Trace engine support exists, but this chat context does not currently include the selected-run trace bundle."
+    )
 
 
 def test_ai_context_includes_non_claims():
@@ -109,6 +114,31 @@ def test_ai_context_summarizes_optional_trace_payload():
     assert context["trace"]["cash_flow_count"] == 6
     assert context["trace"]["engine_irr"] == 0.12
     assert context["trace"]["computed_irr"] == 0.12
+    assert context["trace"]["consistency_passed"] is True
+    assert "Trace/Explain context is available" in context["trace"]["summary"]
+
+
+def test_ai_context_accepts_compact_trace_payload():
+    trace_payload = {
+        "available": True,
+        "summary": "Trace/Explain context is available for the selected run; cash-flow count and IRR recompute status are included.",
+        "mode": "p50_trace",
+        "run_index": 7,
+        "cash_flow_count": 6,
+        "engine_irr": 0.143,
+        "computed_irr": 0.1430001,
+        "consistency_passed": True,
+        "replay_matches_selected": True,
+    }
+
+    context = build_ai_context(_sample_results(), trace_payload=trace_payload)
+
+    assert context["trace"]["available"] is True
+    assert context["trace"]["mode"] == "p50_trace"
+    assert context["trace"]["run_index"] == 7
+    assert context["trace"]["cash_flow_count"] == 6
+    assert context["trace"]["engine_irr"] == 0.143
+    assert context["trace"]["computed_irr"] == 0.143
     assert context["trace"]["consistency_passed"] is True
 
 
