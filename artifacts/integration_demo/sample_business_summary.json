@@ -24,10 +24,10 @@
       "p50": 0.5019729233986565
     },
     "npv": {
-      "p50": 2863451.003142059
+      "p50": -4614530.063836254
     }
   },
-  "generated_at": "2026-05-05T20:25:41Z",
+  "generated_at": "2026-05-05T23:09:17Z",
   "intended_future_targets": [
     "reporting",
     "API wrapper",

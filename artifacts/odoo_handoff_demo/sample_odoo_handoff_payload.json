@@ -33,9 +33,9 @@
       "docs/SAFE_CLAIMS.md",
       "docs/AI_ERP_EXTENSION_ROADMAP.md"
     ],
-    "generated_at": "2026-05-05T20:25:42Z",
+    "generated_at": "2026-05-05T23:09:20Z",
     "no_external_calls": true,
-    "source_business_summary_generated_at": "2026-05-05T20:25:42Z",
+    "source_business_summary_generated_at": "2026-05-05T23:09:20Z",
     "validation_boundary": {
       "annual_model_core_validated": true,
       "hosted_release": false,
@@ -84,7 +84,7 @@
     "No production workflow automation is implemented.",
     "No investment advice is included."
   ],
-  "generated_at": "2026-05-05T20:25:42Z",
+  "generated_at": "2026-05-05T23:09:20Z",
   "metrics_summary": {
     "cash_on_cash": {
       "available": true,
@@ -133,19 +133,19 @@
     "npv": {
       "available": true,
       "label": "NPV",
-      "p50": 2863451.003142059,
+      "p50": -4614530.063836254,
       "unit": "dollars"
     }
   },
   "package_metadata": {
     "artifact_type": "local Odoo/ERP handoff payload demo",
-    "generated_at": "2026-05-05T20:25:42Z",
+    "generated_at": "2026-05-05T23:09:20Z",
     "local_demo_only": true,
     "name": "monte-carlo-real-estate-demo",
     "network_calls_made": false,
     "schema_version": "odoo_handoff_demo.v1",
     "source_app": "Streamlit Monte Carlo real-estate analytics dashboard",
-    "source_commit": "a89aa82"
+    "source_commit": "fd121fb"
   },
   "proposed_business_actions": [
     {
