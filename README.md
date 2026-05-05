@@ -14,6 +14,25 @@ For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_
 | Broader validation | Incomplete across every advanced workflow surface |
 | Integrations | Future direction only; no shipped business-system integration is claimed |
 
+## Download / Clone The Project
+
+Clone with Git:
+
+```bash
+git clone https://github.com/quantfin33/monte-carlo-real-estate-demo.git
+cd monte-carlo-real-estate-demo
+```
+
+Or download a ZIP from GitHub:
+
+1. Open the repository link.
+2. Click the green `Code` button.
+3. Click `Download ZIP`.
+4. Unzip the folder.
+5. Open Terminal inside the unzipped project folder.
+
+Then follow the [local launch guide](README_UI_LAUNCH.md) or use the Quick Start commands below.
+
 ## Screenshots
 
 ![Dashboard home before loading results](screenshots/keeways-review-home.png)
@@ -27,6 +46,26 @@ For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_
 The project is strongest as a business analytics dashboard rather than a finance spreadsheet. It gives a reviewer a working example of how client-facing software can turn assumptions into scenario outputs, risk views, sensitivity visuals, and exportable reporting.
 
 For a custom-software or digital-transformation team, the useful signal is the workflow: collect inputs, run a model, display decision metrics, preserve validation notes, and provide a path toward repeatable reporting or later business-system integration.
+
+## What This Demo Shows
+
+- Python/Streamlit dashboard development
+- Monte Carlo scenario modeling
+- Tested annual-model core
+- Deterministic exports
+- Trace/explain surfaces
+- Audit evidence
+- Smart Scenario Generator
+- AI Analyst fallback/live explanation layer
+- QA/testing discipline
+
+## What This Demo Does Not Claim
+
+- Not production financial software
+- Not investment advice
+- Not a fully validated institutional underwriting engine
+- Not live ERP/Odoo/MCP/SAP integration
+- Not hosted enterprise deployment
 
 ## Business Workflow Fit
 
@@ -73,11 +112,17 @@ When Streamlit starts, open the local URL printed in the terminal.
 
 The package includes test and audit material so technical reviewers can inspect more than screenshots:
 
+- Fresh-clone/startup verification has passed for the current GitHub package.
 - `python run_tests.py smoke` for a quick model smoke path
 - `tests/test_core_model.py` for core model behavior checks
 - `tests/test_engine_output_contract.py` for engine output contract coverage
 - `tests/audit/test_trace_payload_contract.py` and `tests/audit/test_explain_p50.py` for trace/explain behavior
 - `tests/test_ai_context.py`, `tests/test_ai_analyst.py`, and `tests/test_number_sanity.py` for the AI Analyst explanation boundary
+- `tests/test_button_audit.py`, `tests/test_tornado_sensitivity.py`, and `tests/test_number_audit.py` for helper/audit behavior
+- 50 deterministic scenario checks were run during final readiness review
+- `tests/ui/test_streamlit_apptest_controls.py` for Streamlit UI AppTest coverage
+- `scripts/ui_control_audit.py` inventoried 151 Streamlit controls before the Smart Scenario Generator merge
+- `tests/test_scenario_randomizer.py` for Smart Scenario Generator invariants
 - `artifacts/logic_report.json` with `all_pass: true` for the included sanity artifact
 - `artifacts/wiring_report.json` for UI-to-engine wiring visibility
 - [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md) for the current claim boundary
@@ -169,6 +214,10 @@ python -m pytest tests/test_metrics_full.py -q -o addopts=''
 ## Review Access Note
 
 This repository is intended to start private. If it is shared privately, reviewers need GitHub collaborator access before they can open the link. If it is made public later, verify that this README and the screenshots render correctly before sending it.
+
+## Reviewer / Sharing Note
+
+This repo is intended as a private portfolio demo. Invite only trusted reviewers if it remains private. Non-technical reviewers can start with the screenshots, this README, [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md), and the [launch guide](README_UI_LAUNCH.md).
 
 ## Future Workflow Direction
 

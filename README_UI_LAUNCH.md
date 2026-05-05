@@ -1,5 +1,22 @@
 # RMC Monte Carlo UI Launch Guide
 
+## Download / Clone The Project
+
+Clone with Git:
+
+```bash
+git clone https://github.com/quantfin33/monte-carlo-real-estate-demo.git
+cd monte-carlo-real-estate-demo
+```
+
+Or download a ZIP from GitHub:
+
+1. Open the repository link.
+2. Click the green `Code` button.
+3. Click `Download ZIP`.
+4. Unzip the folder.
+5. Open Terminal inside the unzipped project folder.
+
 ## Quick Start
 
 Use the verified local environment and the canonical launcher:
