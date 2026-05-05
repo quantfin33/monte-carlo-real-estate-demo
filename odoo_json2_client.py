@@ -164,6 +164,16 @@ class OdooJson2Client:
         ensure_write_allowed(self.config, target_metadata)
         return self.call(model, "create", params={"vals_list": [dict(values)]})
 
+    def unlink(
+        self,
+        model: str,
+        record_ids: Sequence[int],
+        *,
+        target_metadata: Mapping[str, Any] | None,
+    ) -> OdooJson2Response:
+        ensure_write_allowed(self.config, target_metadata)
+        return self.call(model, "unlink", ids=list(record_ids))
+
     def _headers(self, *, redacted: bool) -> dict[str, str]:
         api_key = self.config.api_key or ""
         auth_secret = redact_secret(api_key) if redacted else api_key
