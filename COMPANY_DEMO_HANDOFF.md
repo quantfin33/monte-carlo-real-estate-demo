@@ -13,6 +13,8 @@ The current audited claim boundary is:
 
 The package includes a local integration-ready export payload as a future handoff pattern, but no live business-system or agent integration is claimed.
 
+The current export payload is the bridge point for future Odoo/ERP workflow integration, but no live integration is implemented.
+
 The package also includes an AI Analyst layer for explaining current simulation outputs and surfacing number-sanity caveats, while keeping integrations and investment advice outside the claim boundary.
 
 ## What Is Verified Now
