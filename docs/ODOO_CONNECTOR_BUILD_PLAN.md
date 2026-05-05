@@ -6,14 +6,22 @@ Date: 2026-05-05
 
 This plan describes how to move from the current local Odoo/ERP handoff demo toward a sandbox-only connector without weakening the current safety boundary.
 
-Current default path remains local and dry-run only. These flags must remain false unless a future connector stage explicitly changes them under test:
+Current default handoff path remains local and dry-run only. In the local
+handoff payload and dry-run mapper, these flags must remain false:
 
 - `network_calls_made`
 - `live_integration`
 - `connector_implemented`
 - `external_api_used`
 
-No live Odoo/ERP integration is implemented in the current repo.
+A gated Odoo JSON-2 connector layer now exists for dry-run previews and future
+sandbox probing. It is disabled by default. No live Odoo/ERP call has been
+executed or validated yet, and production-ready Odoo integration is not complete.
+
+## Sandbox Validation Blocker
+
+Sandbox validation is blocked until a sandbox Odoo URL, database, API key,
+target model, permissions, and cleanup plan are provided.
 
 ## Architecture Principles
 
@@ -44,7 +52,7 @@ No connector code, dependencies, network calls, or credentials.
 
 Goal: define connector contracts without live network behavior.
 
-Potential files:
+Implemented files:
 
 - `odoo_connector_contract.py`
 - `odoo_config.py`
@@ -57,7 +65,7 @@ Behavior:
 - define live-write guard semantics
 - define redaction behavior
 - define request-shape objects for future JSON-2 calls
-- no `requests`, sockets, XML-RPC, JSON-RPC, or JSON-2 client code yet
+- no `requests`, sockets, XML-RPC, JSON-RPC, or default live execution
 
 Acceptance:
 
@@ -69,7 +77,7 @@ Acceptance:
 
 Goal: connect to a sandbox Odoo instance for read-only discovery.
 
-Potential files:
+Implemented scaffold files:
 
 - `odoo_json2_client.py`
 - `odoo_model_discovery.py`
@@ -85,6 +93,7 @@ Behavior:
 - support timeouts
 - call only read-only endpoints/methods
 - inspect `/doc`, model metadata, or `fields_get` where available
+- skip live integration tests by default when sandbox env vars are absent
 
 Acceptance:
 
@@ -145,19 +154,22 @@ Required before production:
 - secret rotation process
 - explicit user-facing claim update after evidence exists
 
-## Proposed Future Module Layout
+## Module Layout
 
-Do not add these until their phase is approved:
+Implemented gated connector files:
 
 - `odoo_config.py`: strict config parsing, sandbox guard, secret redaction.
-- `odoo_connector_contract.py`: connector interface and write guard.
+- `odoo_connector_contract.py`: connector request contracts and write guard.
 - `odoo_json2_client.py`: JSON-2 client with timeout and request/response handling.
 - `odoo_model_discovery.py`: `/doc`, `fields_get`, `ir.model`, and `ir.model.fields` discovery helpers.
-- `scripts/odoo_sandbox_probe.py`: read-only sandbox probe.
+- `scripts/odoo_sandbox_probe.py`: dry-run preview and explicitly gated sandbox probe.
 - `tests/test_odoo_config.py`
 - `tests/test_odoo_connector_contract.py`
 - `tests/test_odoo_json2_client.py`
+- `tests/test_odoo_model_discovery.py`
 - `tests/integration/test_odoo_sandbox_json2.py`
+
+Future files should not be added until their phase is approved.
 
 ## Environment Variables For Future Live Stages
 
@@ -239,4 +251,5 @@ Do not build legacy XML-RPC or JSON-RPC unless a confirmed older target Odoo ver
 
 Do not build an internal Odoo module unless the product direction changes to an Odoo-native app.
 
-Next safe code step, when approved, is Phase 1 only: connector contracts and config guards without network calls.
+Next safe validation step is a read-only sandbox probe after a sandbox Odoo URL,
+database, API key, target model, permissions, and cleanup plan are provided.

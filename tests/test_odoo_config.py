@@ -29,6 +29,17 @@ def test_missing_env_blocks_live_mode():
         OdooConnectorConfig.from_mapping({"ODOO_LIVE_ENABLED": "true"})
 
 
+def test_sandbox_confirmation_is_required_for_live_mode():
+    with pytest.raises(OdooConfigError, match="ODOO_SANDBOX_CONFIRMATION"):
+        OdooConnectorConfig.from_mapping(
+            {
+                "ODOO_LIVE_ENABLED": "true",
+                "ODOO_BASE_URL": "https://sandbox.example.test",
+                "ODOO_API_KEY": "test_secret_123456",
+            }
+        )
+
+
 def test_live_writes_require_live_mode():
     with pytest.raises(OdooSafetyError, match="requires ODOO_LIVE_ENABLED"):
         OdooConnectorConfig.from_mapping({"ODOO_ENABLE_LIVE_WRITES": "true"})
@@ -48,6 +59,30 @@ def test_invalid_sandbox_confirmation_aborts_live_mode():
                 "ODOO_BASE_URL": "https://company.example.test",
                 "ODOO_API_KEY": "test_secret_123456",
                 "ODOO_SANDBOX_CONFIRMATION": "real environment",
+            }
+        )
+
+
+def test_unsafe_url_scheme_aborts_live_mode():
+    with pytest.raises(OdooSafetyError, match="must use https"):
+        OdooConnectorConfig.from_mapping(
+            {
+                "ODOO_LIVE_ENABLED": "true",
+                "ODOO_BASE_URL": "http://sandbox.example.test",
+                "ODOO_API_KEY": "test_secret_123456",
+                "ODOO_SANDBOX_CONFIRMATION": "sandbox",
+            }
+        )
+
+
+def test_url_credentials_abort_live_mode():
+    with pytest.raises(OdooSafetyError, match="must not include credentials"):
+        OdooConnectorConfig.from_mapping(
+            {
+                "ODOO_LIVE_ENABLED": "true",
+                "ODOO_BASE_URL": "https://user:secret@sandbox.example.test",
+                "ODOO_API_KEY": "test_secret_123456",
+                "ODOO_SANDBOX_CONFIRMATION": "sandbox",
             }
         )
 

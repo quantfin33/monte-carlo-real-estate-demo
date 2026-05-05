@@ -1,6 +1,9 @@
 import io
 import json
+import subprocess
+import sys
 import urllib.error
+from pathlib import Path
 
 import pytest
 
@@ -132,3 +135,20 @@ def test_http_errors_redact_api_key():
     message = str(exc_info.value)
     assert "****3456" in message
     assert "test_secret" not in message
+
+
+def test_sandbox_probe_dry_run_prints_offline_flags():
+    repo_root = Path(__file__).resolve().parents[1]
+    result = subprocess.run(
+        [sys.executable, "scripts/odoo_sandbox_probe.py", "--dry-run"],
+        cwd=repo_root,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    payload = json.loads(result.stdout)
+    assert payload["network_calls_made"] is False
+    assert payload["live_integration"] is False
+    assert payload["external_api_used"] is False
+    assert payload["headers"]["Authorization"] == "bearer ****"

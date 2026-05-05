@@ -6,7 +6,7 @@ Date: 2026-05-05
 
 The repository currently has a local Odoo/ERP handoff demo, not a live Odoo integration.
 
-Implemented today:
+Implemented in the local handoff path:
 
 - `odoo_handoff_payload.py` reshapes the local business-summary export into an Odoo/ERP-style handoff payload.
 - `odoo_handoff_mapper.py` converts that payload into dry-run `would_*` action objects.
@@ -16,19 +16,30 @@ Implemented today:
   - `connector_implemented`
   - `external_api_used`
 
-Not implemented today:
+A gated Odoo JSON-2 connector layer also exists for dry-run request previews and
+future sandbox probing. It is disabled by default and is not imported by the
+Streamlit app or the local handoff mapper.
+
+Not implemented or not validated today:
 
 - Odoo SDK dependency
 - `requests` client
-- sockets or client networking
-- XML-RPC, JSON-RPC, or JSON-2 client code
-- credential loading
-- environment-variable auth
+- XML-RPC or JSON-RPC client code
+- default connector execution
+- default credential loading
 - live record creation
 - attachment upload
 - ERP, CRM, SAP, MCP, or hosted API sync
+- successful live sandbox probe
 
-Current safe claim: no live Odoo/ERP integration was implemented.
+Current safe claim: a gated Odoo JSON-2 connector layer exists for dry-run
+previews and future sandbox probing. It is disabled by default. No live
+Odoo/ERP call has been executed or validated yet.
+
+## Sandbox Validation Blocker
+
+Sandbox validation is blocked until a sandbox Odoo URL, database, API key,
+target model, permissions, and cleanup plan are provided.
 
 ## Official Odoo API Direction
 

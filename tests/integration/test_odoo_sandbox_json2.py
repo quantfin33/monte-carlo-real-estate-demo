@@ -20,6 +20,7 @@ def _sandbox_env_ready() -> bool:
             "ODOO_DATABASE",
             "ODOO_API_KEY",
             "ODOO_SANDBOX_CONFIRMATION",
+            "ODOO_TARGET_MODEL",
         )
     )
 
@@ -32,7 +33,7 @@ def test_odoo_sandbox_read_only_fields_get_probe():
     config = OdooConnectorConfig.from_env()
     config.require_database()
     client = OdooJson2Client(config)
-    request = build_fields_get_request(os.environ.get("ODOO_TARGET_MODEL", "project.task"))
+    request = build_fields_get_request(os.environ["ODOO_TARGET_MODEL"])
 
     response = client.call(
         request.model,
@@ -43,6 +44,9 @@ def test_odoo_sandbox_read_only_fields_get_probe():
     )
 
     assert response.ok is True
+    assert isinstance(response.result, dict)
+    assert response.result
+    assert all(isinstance(metadata, dict) for metadata in response.result.values())
 
 
 @pytest.mark.skipif(
