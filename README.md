@@ -12,7 +12,44 @@ For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_
 | Model core | Validated annual-model core with current test evidence |
 | Deployment | Local/demo review only; no hosted release is claimed |
 | Broader validation | Incomplete across every advanced workflow surface |
-| Integrations | Future direction only; no shipped business-system integration is claimed |
+| Integrations | Sandbox-validated gated Odoo connector; disabled by default; no production ERP/Odoo sync is claimed |
+
+## Visual Evidence
+
+This repo includes screenshots captured from the running Streamlit dashboard. They show the working surfaces a reviewer is most likely to inspect: KPI outputs, sensitivity views, the Smart Scenario Generator, and the AI Analyst fallback explanation layer.
+
+### KPI / IRR Results
+
+![IRR and KPI results](screenshots/portfolio_irr_kpi_results.png)
+
+### Heatmap Sensitivity
+
+![Heatmap sensitivity view](screenshots/portfolio_heatmap_sensitivity.png)
+
+### Tornado Sensitivity
+
+![Tornado sensitivity table](screenshots/portfolio_tornado_sensitivity.png)
+
+### Smart Scenario Generator
+
+![Smart Scenario Generator](screenshots/portfolio_smart_scenario_generator.png)
+
+### AI Analyst Explanation Layer
+
+![AI Analyst chat](screenshots/portfolio_ai_analyst_chat.png)
+
+## Tested Evidence
+
+Latest local verification covers the core demo paths without claiming production readiness:
+
+- Smoke test: passed
+- Odoo local/unit suite: passed
+- Scenario generator tests: passed
+- AI Analyst boundary tests: passed
+- Tornado sensitivity tests: passed
+- UI/control evidence: screenshots captured from the running Streamlit app
+
+See [docs/SCREENSHOT_EVIDENCE.md](docs/SCREENSHOT_EVIDENCE.md) for the screenshot capture notes.
 
 ## Download / Clone The Project
 
@@ -32,14 +69,6 @@ Or download a ZIP from GitHub:
 5. Open Terminal inside the unzipped project folder.
 
 Then follow the [local launch guide](README_UI_LAUNCH.md) or use the Quick Start commands below.
-
-## Screenshots
-
-![Dashboard home before loading results](screenshots/keeways-review-home.png)
-
-![Dashboard home after loading results](screenshots/keeways-review-home-after-load.png)
-
-![Dashboard after running a simulation](screenshots/keeways-review-after-run.png)
 
 ## Why This Matters
 
@@ -64,7 +93,7 @@ For a custom-software or digital-transformation team, the useful signal is the w
 - Not production financial software
 - Not investment advice
 - Not a fully validated institutional underwriting engine
-- Not live ERP/Odoo/MCP/SAP integration
+- Not production ERP/Odoo/MCP/SAP integration
 - Not hosted enterprise deployment
 
 ## Business Workflow Fit
@@ -79,7 +108,7 @@ For a custom-software or digital-transformation team, the useful signal is the w
 
 The package includes a local deterministic business-summary export artifact at `artifacts/integration_demo/sample_business_summary.json`. It demonstrates how the current dashboard could later feed reporting, API wrapper, AI/MCP tool, or ERP/Odoo handoff workflows through a structured payload.
 
-This is not a live integration layer: the package does not include Odoo, MCP, ERP, CRM, SAP, OpenAI, or hosted API connectivity. See [docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md](docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md) for the bounded roadmap and validation gates.
+The repo now includes a gated Odoo JSON-2 connector layer that has been sandbox-validated for controlled test workflows and is disabled by default. This is not production ERP/Odoo sync, not hosted workflow automation, and not an MCP/SAP integration. See [docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md](docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md) for the bounded roadmap and validation gates.
 
 ## AI Analyst
 
