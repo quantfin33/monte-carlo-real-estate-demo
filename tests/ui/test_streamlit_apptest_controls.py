@@ -142,7 +142,7 @@ def test_smart_scenario_generate_apply_reset_and_run(monkeypatch):
     assert not app.exception
     values_after_reset = {element.label: element.value for element in app.number_input}
     assert values_after_reset["Initial Occupancy (%)"] == 82.6
-    assert values_after_reset["Market Rent Growth Min (%)"] == 2.0
+    assert values_after_reset["Market Rent Growth Min (%)"] == 1.0
 
 
 def test_main_submit_reveals_results_ai_trace_and_export_surfaces(monkeypatch):

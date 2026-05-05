@@ -1,4 +1,4 @@
-# Monte Carlo Monte Carlo UI Launch Guide
+# Monte Carlo UI Launch Guide
 
 ## Download / Clone The Project
 
@@ -52,6 +52,8 @@ source .venv/bin/activate
 python -m pip install -r requirements_testing.txt
 python run_tests.py smoke
 ```
+
+Broader test and audit runs may require the additional test dependencies in `requirements_testing.txt`.
 
 ## Enable Live AI Responses Locally
 
