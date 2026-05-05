@@ -21,6 +21,7 @@ if str(THIS_DIR) not in sys.path:
 
 try:
     import rmc_model
+    import scenario_randomizer
     import ui_metrics  # Pure metric calculation functions
     from button_audit import (
         record_button_run,
@@ -31,7 +32,7 @@ try:
     from tornado_sensitivity import build_tornado_sensitivity_data
 except Exception as e:
     st.title("RMC Model (Minimal)")
-    st.error(f"Couldn't import rmc_model.py, ui_metrics.py, or audit helpers from: {THIS_DIR}\n\n{e}")
+    st.error(f"Couldn't import rmc_model.py, scenario_randomizer.py, ui_metrics.py, or audit helpers from: {THIS_DIR}\n\n{e}")
     st.stop()
 
 try:
@@ -143,6 +144,111 @@ def _render_ai_analyst_chat_section() -> None:
     st.session_state["ai_chat_messages"].append({"role": "assistant", "content": answer})
     with st.chat_message("assistant"):
         st.markdown(answer)
+
+
+def _clear_smart_scenario_result_state() -> None:
+    for key in ("df", "df_hm", "hm2_df", "tornado_df", "trace_payload"):
+        st.session_state[key] = None
+    st.session_state["ai_chat_messages"] = []
+    st.session_state["ai_context_fingerprint"] = None
+
+
+def _render_smart_scenario_generator() -> None:
+    st.markdown("### Smart Scenario Generator")
+    st.caption(
+        "Generate a coherent demo/testing assumption set, review what changed, "
+        "then manually run the simulation."
+    )
+
+    profile_col, seed_col = st.columns([2, 1])
+    with profile_col:
+        current_profile = st.session_state.get("smart_scenario_profile", "Base Variation")
+        if current_profile not in scenario_randomizer.SCENARIO_PROFILES:
+            st.session_state.smart_scenario_profile = "Base Variation"
+        profile = st.selectbox(
+            "Scenario profile",
+            scenario_randomizer.SCENARIO_PROFILES,
+            key="smart_scenario_profile",
+        )
+    with seed_col:
+        generator_seed = st.number_input(
+            "Generator seed",
+            min_value=0,
+            max_value=999_999_999,
+            step=1,
+            key="smart_scenario_seed",
+        )
+
+    action_col1, action_col2, action_col3 = st.columns([1, 1, 1])
+    with action_col1:
+        if st.button("Generate Plausible Scenario", type="primary"):
+            try:
+                current_inputs = scenario_randomizer.extract_current_inputs(st.session_state)
+                st.session_state.smart_scenario_pending = scenario_randomizer.generate_scenario(
+                    profile=profile,
+                    seed=int(generator_seed),
+                    current_inputs=current_inputs,
+                )
+                st.session_state.smart_scenario_error = None
+            except Exception as exc:
+                st.session_state.smart_scenario_pending = None
+                st.session_state.smart_scenario_error = str(exc)
+
+    pending_scenario = st.session_state.get("smart_scenario_pending")
+    with action_col2:
+        if st.button("Apply Generated Scenario", disabled=not bool(pending_scenario)):
+            if not pending_scenario:
+                st.session_state.smart_scenario_error = "Generate a scenario before applying."
+            else:
+                values = dict(pending_scenario.get("values", {}))
+                errors = scenario_randomizer.validate_generated_scenario(values)
+                if errors:
+                    st.session_state.smart_scenario_error = "; ".join(errors)
+                else:
+                    for key, value in values.items():
+                        st.session_state[key] = value
+                    st.session_state.smart_scenario_last_applied = pending_scenario
+                    st.session_state.smart_scenario_pending = None
+                    st.session_state.smart_scenario_error = None
+                    _clear_smart_scenario_result_state()
+                    st.rerun()
+
+    with action_col3:
+        if st.button("Reset to Base Inputs"):
+            for key, value in scenario_randomizer.base_reset_inputs().items():
+                st.session_state[key] = value
+            st.session_state.smart_scenario_pending = None
+            st.session_state.smart_scenario_last_applied = None
+            st.session_state.smart_scenario_error = None
+            _clear_smart_scenario_result_state()
+            st.rerun()
+
+    if st.session_state.get("smart_scenario_error"):
+        st.error(f"Smart scenario could not be generated or applied: {st.session_state.smart_scenario_error}")
+
+    pending_scenario = st.session_state.get("smart_scenario_pending")
+    if pending_scenario:
+        resolved_profile = pending_scenario.get("resolved_profile", pending_scenario.get("profile"))
+        st.success(
+            f"Pending smart scenario ready: {pending_scenario.get('profile')} "
+            f"(seed {pending_scenario.get('seed')}, coherent profile {resolved_profile})."
+        )
+        changes = pending_scenario.get("changes", [])
+        if changes:
+            preview_df = pd.DataFrame(changes)[
+                ["field", "old_value", "new_value", "direction", "reason"]
+            ]
+            st.dataframe(preview_df, hide_index=True, use_container_width=True)
+        else:
+            st.info("Generated scenario matches the current visible inputs.")
+        st.caption(pending_scenario.get("caveat", scenario_randomizer.CAVEAT))
+
+    if st.session_state.get("smart_scenario_last_applied"):
+        applied = st.session_state.smart_scenario_last_applied
+        st.caption(
+            f"Last applied smart scenario: {applied.get('profile')} "
+            f"with seed {applied.get('seed')}. Click Run Monte Carlo Simulation when ready."
+        )
 
 
 # derive defaults from the engine, with safe fallbacks
@@ -841,6 +947,11 @@ for k, v in {
     "ai_chat_messages": [],
     "ai_context_fingerprint": None,
     "ai_answer_style": "Short",
+    "smart_scenario_profile": "Base Variation",
+    "smart_scenario_seed": 2026,
+    "smart_scenario_pending": None,
+    "smart_scenario_last_applied": None,
+    "smart_scenario_error": None,
     "trace_payload": None,
     "hm_sims": 400,    # sims per cell
     "exit_caps": ["7.5%", "8.0%", "8.5%", "9.0%", "9.5%"],
@@ -931,6 +1042,9 @@ for k, v in {
     "market_rent_growth_max": 0.04,  # annual market rent growth upper bound (shuffles each year)
     "rent_spread_std": 0.05,         # random spread applied to mark-to-market on new deals
     "renewal_spread_std": 0.01,      # random spread applied on renewals vs market
+    "exit_cap_left": 0.075,
+    "exit_cap_mode": 0.085,
+    "exit_cap_right": 0.090,
 
     # Lease roll configuration (tenant lease structure)
     "walt_years": 7.0,               # Weighted Average Lease Term in YEARS
@@ -1022,6 +1136,8 @@ st.write("")
 # --- Controls Form ---
 st.header("Simulation Controls")
 st.markdown("Configure your Monte Carlo simulation parameters below:")
+_render_smart_scenario_generator()
+st.markdown("---")
 
 with st.form("controls"):
     # Simulation Settings Section

@@ -7,6 +7,7 @@ import pandas as pd
 from streamlit.testing.v1 import AppTest
 
 import ai_analyst
+import scenario_randomizer
 from ai_context import build_ai_context
 
 
@@ -82,6 +83,12 @@ def test_initial_render_exposes_reviewer_visible_controls(monkeypatch):
     expanders = _labels(app.expander)
     headers = _values(app.header)
 
+    assert "Scenario profile" in selectboxes
+    assert "Generator seed" in number_inputs
+    assert "Generate Plausible Scenario" in buttons
+    assert "Apply Generated Scenario" in buttons
+    assert "Reset to Base Inputs" in buttons
+
     for label in [
         "Simulations",
         "Seed",
@@ -106,6 +113,36 @@ def test_initial_render_exposes_reviewer_visible_controls(monkeypatch):
     assert "Simulation Controls" in headers
     assert "AI Analyst" in headers
     assert "Trace / Explain P50 IRR" in headers
+
+
+def test_smart_scenario_generate_apply_reset_and_run(monkeypatch):
+    app = _run_initial_app(monkeypatch)
+
+    _element_by_label(app.selectbox, "Scenario profile").set_value("Downside")
+    _element_by_label(app.number_input, "Generator seed").set_value(42)
+    _element_by_label(app.button, "Generate Plausible Scenario").click().run(timeout=60)
+    assert not app.exception
+
+    visible_text = _all_visible_text(app)
+    assert "Pending smart scenario ready" in visible_text
+    assert scenario_randomizer.CAVEAT in visible_text
+    assert "Simulation Results" not in _values(app.header)
+    assert len(app.dataframe) >= 1
+
+    _element_by_label(app.button, "Apply Generated Scenario").click().run(timeout=60)
+    assert not app.exception
+    values_after_apply = {element.label: element.value for element in app.number_input}
+    assert values_after_apply["Initial Occupancy (%)"] <= 83.0
+    assert values_after_apply["Market Rent Growth Max (%)"] <= 2.0
+
+    _submit_low_workload_base_run(app)
+    assert "Simulation Results" in _values(app.header)
+
+    _element_by_label(app.button, "Reset to Base Inputs").click().run(timeout=60)
+    assert not app.exception
+    values_after_reset = {element.label: element.value for element in app.number_input}
+    assert values_after_reset["Initial Occupancy (%)"] == 82.6
+    assert values_after_reset["Market Rent Growth Min (%)"] == 2.0
 
 
 def test_main_submit_reveals_results_ai_trace_and_export_surfaces(monkeypatch):
