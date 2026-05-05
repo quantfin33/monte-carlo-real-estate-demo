@@ -11,9 +11,9 @@ The current audited claim boundary is:
 - intended for demo and local review, not for hosted release use
 - broader end-to-end product validation remains incomplete
 
-The package includes a local integration-ready export payload as a future handoff pattern, but no live business-system or agent integration is claimed.
+The package includes a local integration-ready export payload as a future handoff pattern. It also includes a gated Odoo JSON-2 sandbox connector path that is disabled by default and not part of the normal Streamlit app path.
 
-The current export payload is the bridge point for future Odoo/ERP workflow integration, but no live integration is implemented.
+Sandbox Odoo validation completed for read-only model discovery, sandbox-marked CRM lead create/verify/cleanup, sandbox project task create/verify/cleanup, sandbox attachment upload/verify/cleanup, and sandbox internal note posting. No production Odoo/ERP call was executed, and production-ready Odoo integration remains incomplete.
 
 The package also includes an AI Analyst layer for explaining current simulation outputs and surfacing number-sanity caveats, while keeping integrations and investment advice outside the claim boundary.
 

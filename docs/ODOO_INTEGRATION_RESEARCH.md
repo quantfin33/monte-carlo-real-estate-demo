@@ -17,29 +17,39 @@ Implemented in the local handoff path:
   - `external_api_used`
 
 A gated Odoo JSON-2 connector layer also exists for dry-run request previews and
-future sandbox probing. It is disabled by default and is not imported by the
+sandbox-only probing. It is disabled by default and is not imported by the
 Streamlit app or the local handoff mapper.
 
-Not implemented or not validated today:
+Not implemented or not production-validated today:
 
 - Odoo SDK dependency
 - `requests` client
 - XML-RPC or JSON-RPC client code
 - default connector execution
 - default credential loading
-- live record creation
-- attachment upload
+- production record creation
+- production attachment upload
 - ERP, CRM, SAP, MCP, or hosted API sync
-- successful live sandbox probe
+- production deployment
 
 Current safe claim: a gated Odoo JSON-2 connector layer exists for dry-run
-previews and future sandbox probing. It is disabled by default. No live
-Odoo/ERP call has been executed or validated yet.
+previews and sandbox-only probing. It is disabled by default. Sandbox Odoo
+validation completed against a trial sandbox, but production-ready Odoo
+integration is still not complete.
 
-## Sandbox Validation Blocker
+## Sandbox Validation Status
 
-Sandbox validation is blocked until a sandbox Odoo URL, database, API key,
-target model, permissions, and cleanup plan are provided.
+Sandbox Odoo validation completed against a trial sandbox. The gated JSON-2
+connector successfully performed read-only model discovery, sandbox CRM lead
+create/verify/cleanup, sandbox project task create/verify/cleanup, sandbox
+attachment upload/verify/cleanup, and sandbox internal note posting. No
+production Odoo/ERP call was executed.
+
+The validation run kept the API key redacted, used only sandbox-marked test
+records, and cleaned up the CRM lead, project task, attachment, and internal
+note created during validation. Production-ready integration remains incomplete
+pending hardening, idempotency, audit logging, permission review, secret
+rotation, retry policy, cleanup playbooks, and a deployment checklist.
 
 ## Official Odoo API Direction
 
