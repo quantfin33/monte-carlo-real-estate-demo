@@ -4,13 +4,13 @@ import numpy as np
 import pandas as pd
 
 import engine_output_contract as contract
-import rmc_model
+import monte_carlo_model
 
 
 def _run_df(params: dict | None = None, *, n: int = 120, seed: int = 42) -> pd.DataFrame:
-    base = rmc_model.default_params()
+    base = monte_carlo_model.default_params()
     merged = {**base, **(params or {})}
-    return rmc_model.run_simulation(n=n, seed=seed, params=merged, parallel=True)
+    return monte_carlo_model.run_simulation(n=n, seed=seed, params=merged, parallel=True)
 
 
 def _finite_series(df: pd.DataFrame, name: str) -> pd.Series:

@@ -1,10 +1,10 @@
-# Keeways Demo Script
+# Demo Script
 
 Date: 2026-05-03
 
 ## Goal
 
-Deliver a concise Keeways walkthrough that shows the product as a serious analytics dashboard with preserved advanced surfaces and disciplined claim boundaries.
+Deliver a concise portfolio walkthrough that shows the product as a serious analytics dashboard with preserved advanced surfaces and disciplined claim boundaries.
 
 ## Launch Path
 
@@ -75,7 +75,7 @@ End with the preserved Trace / Explain section and the exports area:
 - workflow completeness
 - CSV / JSON / ZIP export path
 
-Use this to position the project as something Keeways could later evolve into a broader reporting or business-workflow product.
+Use this to position the project as something a future team could later evolve into a broader reporting or business-workflow product.
 
 ## Verbal Guardrails
 

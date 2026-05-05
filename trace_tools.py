@@ -9,7 +9,7 @@ import json
 import pandas as pd
 import numpy as np
 from typing import Dict, Any, Tuple, Optional
-import rmc_model
+import monte_carlo_model
 
 
 def calculate_irr_from_cashflows(cash_flows: list[float]) -> float:
@@ -262,7 +262,7 @@ def export_trace_bundle_to_files(trace_bundle: Dict[str, Any], output_dir: str =
 
 
 def _derive_seed_for_run(base_seed: Optional[int], run_idx: int) -> Optional[int]:
-    """Replicate rmc_model.run_simulation seeding: base + i*10007 + 7919."""
+    """Replicate monte_carlo_model.run_simulation seeding: base + i*10007 + 7919."""
     try:
         base = 0 if base_seed is None else int(base_seed)
         i = int(run_idx)
@@ -280,7 +280,7 @@ def run_trace_simulation(
 ) -> Dict[str, Any]:
     """Run a trace simulation with explain_mode enabled.
 
-    Uses the same per-run seed derivation as rmc_model.run_simulation so the traced
+    Uses the same per-run seed derivation as monte_carlo_model.run_simulation so the traced
     run matches the selected run index deterministically.
     """
     
@@ -295,7 +295,7 @@ def run_trace_simulation(
     
     # Run the model
     try:
-        result = rmc_model.run_model(trace_params)
+        result = monte_carlo_model.run_model(trace_params)
         
         # Extract run identity
         run_identity = {

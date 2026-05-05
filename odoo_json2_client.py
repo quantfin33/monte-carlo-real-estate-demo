@@ -21,7 +21,7 @@ from odoo_connector_contract import (
 )
 
 
-USER_AGENT = "keeways-rmc-demo-odoo-connector"
+USER_AGENT = "portfolio-review-demo-odoo-connector"
 
 
 class OdooJson2Error(RuntimeError):

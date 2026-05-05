@@ -450,9 +450,9 @@ def default_params():
 
     # NOTE: GLOBAL_RECOVERY_TYPE can force all tenants to use the same recovery type for testing or scenario analysis.
     return dict(
-        purchase_price=108_000_000,  # initial purchase price
-        operating_expenses_start=2_500_000,  # initial annual operating expenses
-        opex_growth_rate=0.03,          # Annual % increase for OPERATING EXPENSES after Year 1. 0.03 = 3%. Typical range 2–4%. Drives opex growth each year.
+        purchase_price=130_000_000,  # initial purchase price
+        operating_expenses_start=3_200_000,  # initial annual operating expenses
+        opex_growth_rate=0.035,         # Annual % increase for OPERATING EXPENSES after Year 1. 0.035 = 3.5%. Typical range 2–4%. Drives opex growth each year.
         property_tax_rate=0.015,         # The percentage of a property's value that must be paid each year as tax 
         tax_mode='independent',        # How assessed value grows: 'rent_indexed' = follows market_rent/value_index; 'independent' = grows at tax_growth_rate regardless of rents.
         tax_growth_rate=0.025,          # Used ONLY when tax_mode='independent'. Annual % growth of assessed value; 0.025 = 2.5%. If you mistakenly enter 2.5, the model auto-interprets as 2.5%.
@@ -475,8 +475,8 @@ def default_params():
         default_controllable_cap_pct=0.05,  # Lower = more tenant‑friendly; higher = more landlord‑friendly.
 
         # leverage
-        debt_ratio=0.45,          # % of total_cost financed by debt (Loan‑to‑Value). 0.30 = 30% LTV. Drives loan_amount, interest cost, DSCR/LTV metrics.
-        interest_rate=0.0675,     # Annual note rate on the debt. 0.0675 = 6.75% (simple annual). Applied to current principal balance each year.
+        debt_ratio=0.50,          # % of total_cost financed by debt (Loan‑to‑Value). 0.30 = 30% LTV. Drives loan_amount, interest cost, DSCR/LTV metrics.
+        interest_rate=0.0725,     # Annual note rate on the debt. 0.0725 = 7.25% (simple annual). Applied to current principal balance each year.
 
         # refinance (0 disables)
         refi_year=5,              # Attempt a refinance in model Year N (Year 1 = first modeled year). Set to 0 to fully disable refi logic.
@@ -488,7 +488,7 @@ def default_params():
         post_refi_io_years=1,     # Interest‑only period AFTER a successful refi (years). 0 = none. Only takes effect if the refi actually happens.
 
         # valuation / NPV
-        discount_rate=0.10,       # interest rate you use to convert future cash flows into today's value. more=worth less today; less=worth more today. 
+        discount_rate=0.105,      # interest rate you use to convert future cash flows into today's value. more=worth less today; less=worth more today.
 
         # acquisition/financing/reserves/capex/exit costs
         acq_cost_rate=0.015,#Extra transaction costs when buying the property (legal fees, due diligence, closing costs).
@@ -515,9 +515,9 @@ def default_params():
         sale_month=None,
         
         # --- Exit Cap Rate Sampling Parameters ---
-        exit_cap_left=0.075,      # Left bound of triangular distribution for random sampling
-        exit_cap_mode=0.085,      # Mode (peak) of triangular distribution for random sampling  
-        exit_cap_right=0.090,     # Right bound of triangular distribution for random sampling
+        exit_cap_left=0.085,      # Left bound of triangular distribution for random sampling
+        exit_cap_mode=0.090,      # Mode (peak) of triangular distribution for random sampling
+        exit_cap_right=0.0975,    # Right bound of triangular distribution for random sampling
 
         # --- Debt / covenant / refi controls (all default OFF; no economics change unless toggled) ---
         amortization_granularity='monthly',   # 'annual' (default, current behavior) or 'monthly' (record-only; totals unchanged)
@@ -550,8 +550,8 @@ def default_params():
         total_rsf=total_rsf,           # building size (RSF) – single source of truth
         market_rent_psf=market_rent_psf_var,  # $/RSF/yr NNN (from memo; will grow)
         # lease_roll will be dynamically constructed by _reconstruct_lease_roll()
-        market_rent_growth_min=0.02,  # annual market rent growth lower bound (shuffles each year)
-        market_rent_growth_max=0.04,  # annual market rent growth upper bound (shuffles each year)
+        market_rent_growth_min=0.01,   # annual market rent growth lower bound (shuffles each year)
+        market_rent_growth_max=0.025,  # annual market rent growth upper bound (shuffles each year)
         rent_spread_std=0.05,        # random spread applied to mark-to-market on new deals
         renewal_spread_std=0.01,     # random spread applied on renewals vs market
 

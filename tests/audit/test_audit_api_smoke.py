@@ -15,14 +15,14 @@ import warnings
 
 import numpy as np
 
-import rmc_model
+import monte_carlo_model
 import ui_metrics
 
 
 class TestAuditSmokeRun:
     def test_model_smoke_base(self):
         """Run model once with default params; primary outputs finite."""
-        res = rmc_model.run_model(rmc_model.default_params())
+        res = monte_carlo_model.run_model(monte_carlo_model.default_params())
 
         for key in ["IRR", "NPV", "CoC", "EquityMultiple"]:
             assert key in res, f"Missing primary metric: {key}"
@@ -32,7 +32,7 @@ class TestAuditSmokeRun:
 class TestAuditApiContract:
     def test_nested_schema_and_alias_warnings(self):
         """Validate nested schema presence and alias deprecation warnings."""
-        df = rmc_model.run_simulation(n=200, seed=42, params=rmc_model.default_params(), parallel=True)
+        df = monte_carlo_model.run_simulation(n=200, seed=42, params=monte_carlo_model.default_params(), parallel=True)
 
         # Return/value metrics should be nested with coc/npv/equity_multiple/profitability_index
         rv = ui_metrics.return_value_metrics(df)

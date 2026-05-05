@@ -16,7 +16,7 @@ import numpy as np
 # Add parent directory for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import rmc_model
+import monte_carlo_model
 
 
 class TestDebtYieldSensitivity:
@@ -25,7 +25,7 @@ class TestDebtYieldSensitivity:
     @pytest.fixture
     def base_params(self):
         """Base parameters for Debt Yield testing."""
-        params = rmc_model.default_params()
+        params = monte_carlo_model.default_params()
         # Use GROSS lease to test OpEx sensitivity without recovery offset
         params['GLOBAL_RECOVERY_TYPE'] = 'GROSS'
         return params
@@ -35,7 +35,7 @@ class TestDebtYieldSensitivity:
         print("\n🧪 TESTING: Debt Yield vs OpEx +20%")
         
         # Base case
-        base_df = rmc_model.run_simulation(n=800, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=800, seed=42, params=base_params, parallel=True)
         base_dy_y1 = pd.to_numeric(base_df['DebtYield_Y1'], errors='coerce').dropna()
         base_min_dy = pd.to_numeric(base_df['MinDebtYield'], errors='coerce').dropna()
         base_noi = pd.to_numeric(base_df['NOI_Y1'], errors='coerce').dropna().mean()
@@ -52,7 +52,7 @@ class TestDebtYieldSensitivity:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['operating_expenses_start'] = base_params['operating_expenses_start'] * 1.20
         
-        shocked_df = rmc_model.run_simulation(n=800, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=800, seed=42, params=shocked_params, parallel=True)
         shocked_dy_y1 = pd.to_numeric(shocked_df['DebtYield_Y1'], errors='coerce').dropna()
         shocked_min_dy = pd.to_numeric(shocked_df['MinDebtYield'], errors='coerce').dropna()
         shocked_noi = pd.to_numeric(shocked_df['NOI_Y1'], errors='coerce').dropna().mean()
@@ -113,7 +113,7 @@ class TestDebtYieldSensitivity:
         print("\n🧪 TESTING: Debt Yield vs OpEx -20%")
         
         # Base case
-        base_df = rmc_model.run_simulation(n=800, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=800, seed=42, params=base_params, parallel=True)
         base_dy_y1 = pd.to_numeric(base_df['DebtYield_Y1'], errors='coerce').dropna()
         base_min_dy = pd.to_numeric(base_df['MinDebtYield'], errors='coerce').dropna()
         
@@ -126,7 +126,7 @@ class TestDebtYieldSensitivity:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['operating_expenses_start'] = base_params['operating_expenses_start'] * 0.80
         
-        shocked_df = rmc_model.run_simulation(n=800, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=800, seed=42, params=shocked_params, parallel=True)
         shocked_dy_y1 = pd.to_numeric(shocked_df['DebtYield_Y1'], errors='coerce').dropna()
         shocked_min_dy = pd.to_numeric(shocked_df['MinDebtYield'], errors='coerce').dropna()
         
@@ -170,7 +170,7 @@ class TestDebtYieldSensitivity:
         """Test that both DY metrics show variance across Monte Carlo scenarios."""
         print("\n🧪 TESTING: Debt Yield Variance Across Scenarios")
         
-        df = rmc_model.run_simulation(n=1000, seed=42, params=base_params, parallel=True)
+        df = monte_carlo_model.run_simulation(n=1000, seed=42, params=base_params, parallel=True)
         
         dy_y1_series = pd.to_numeric(df['DebtYield_Y1'], errors='coerce').dropna()
         min_dy_series = pd.to_numeric(df['MinDebtYield'], errors='coerce').dropna()
@@ -207,7 +207,7 @@ class TestDebtYieldSensitivity:
         print("\n🧪 TESTING: Debt Yield vs Tax Rate +50bps")
         
         # Base case
-        base_df = rmc_model.run_simulation(n=800, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=800, seed=42, params=base_params, parallel=True)
         base_dy_y1 = pd.to_numeric(base_df['DebtYield_Y1'], errors='coerce').dropna().mean()
         
         print(f"📊 BASE CASE:")
@@ -218,7 +218,7 @@ class TestDebtYieldSensitivity:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['property_tax_rate'] = base_params['property_tax_rate'] + 0.005
         
-        shocked_df = rmc_model.run_simulation(n=800, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=800, seed=42, params=shocked_params, parallel=True)
         shocked_dy_y1 = pd.to_numeric(shocked_df['DebtYield_Y1'], errors='coerce').dropna().mean()
         
         print(f"📊 TAX +50BPS CASE:")

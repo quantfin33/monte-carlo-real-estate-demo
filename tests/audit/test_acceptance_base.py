@@ -21,7 +21,7 @@ import math
 
 import numpy as np
 
-import rmc_model
+import monte_carlo_model
 
 
 SEED = 12345
@@ -68,9 +68,9 @@ def _recompute_equity(res: dict, params: dict) -> float:
 
 
 def test_acceptance_base_numbers():
-    params = rmc_model.default_params()
+    params = monte_carlo_model.default_params()
     # Enable explain_mode to expose _CashFlowSeries for exact IRR/NPV recompute
-    res = rmc_model.run_model({**params, "_seed": SEED, "explain_mode": True})
+    res = monte_carlo_model.run_model({**params, "_seed": SEED, "explain_mode": True})
 
     # 1) Equity @ t0
     equity_model = float(res["Equity"])
@@ -99,8 +99,8 @@ def test_acceptance_base_numbers():
     cfe = sched.get("cash_flows")
     assert isinstance(cfe, list) and len(cfe) >= 1, "_ScheduleData.cash_flows not available"
     cf_series = [-equity_model] + [float(x) for x in cfe]
-    irr_approx = rmc_model.calculate_irr(cf_series)
-    npv_approx = rmc_model.calculate_npv(float(params["discount_rate"]), cf_series)
+    irr_approx = monte_carlo_model.calculate_irr(cf_series)
+    npv_approx = monte_carlo_model.calculate_npv(float(params["discount_rate"]), cf_series)
 
     irr_model = float(res["IRR"]) if res.get("IRR") is not None else float("nan")
     npv_model = float(res["NPV"]) if res.get("NPV") is not None else float("nan")

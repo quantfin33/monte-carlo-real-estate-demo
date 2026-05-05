@@ -14,7 +14,7 @@ DEFAULT_OUTPUT_PATH = ROOT / "artifacts" / "integration_demo" / "sample_business
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-import rmc_model  # noqa: E402
+import monte_carlo_model  # noqa: E402
 
 
 def _utc_timestamp() -> str:
@@ -110,8 +110,8 @@ def build_business_summary_payload(
     seed: int = 12345,
     generated_at: str | None = None,
 ) -> dict[str, Any]:
-    params = rmc_model.default_params()
-    df = rmc_model.run_simulation(n=simulation_count, seed=seed, params=params, parallel=False)
+    params = monte_carlo_model.default_params()
+    df = monte_carlo_model.run_simulation(n=simulation_count, seed=seed, params=params, parallel=False)
 
     core_metrics = {
         "irr": _metric_percentiles(df, ("IRR",), (5, 50, 95)),
@@ -129,7 +129,7 @@ def build_business_summary_payload(
         "package_metadata": {
             "name": "monte-carlo-real-estate-demo",
             "artifact_type": "local deterministic business-summary export",
-            "source": "rmc_model.run_simulation",
+            "source": "monte_carlo_model.run_simulation",
             "simulation_count": int(simulation_count),
             "seed": int(seed),
         },

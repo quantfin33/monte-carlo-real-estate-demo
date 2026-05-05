@@ -15,7 +15,7 @@ import math
 import numpy as np
 import pandas as pd
 
-import rmc_model
+import monte_carlo_model
 
 
 SEED = 42
@@ -38,14 +38,14 @@ def _assert_direction_and_delta(new: float, base: float, direction: str, min_del
 
 class TestDirectionalSensitivities:
     def test_rent_plus_10pct(self):
-        params = rmc_model.default_params()
-        base = rmc_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
+        params = monte_carlo_model.default_params()
+        base = monte_carlo_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
 
         # Shock: +10% rents (both in-place and market)
         rent_params = dict(params)
         rent_params['market_rent_psf'] = params['market_rent_psf'] * 1.10
         rent_params['in_place_rent_psf'] = params['in_place_rent_psf'] * 1.10
-        shocked = rmc_model.run_simulation(n=N, seed=SEED, params=rent_params, parallel=True)
+        shocked = monte_carlo_model.run_simulation(n=N, seed=SEED, params=rent_params, parallel=True)
 
         irr_mean_b, irr_med_b = _mean_median(base['IRR'])
         irr_mean_s, irr_med_s = _mean_median(shocked['IRR'])
@@ -59,15 +59,15 @@ class TestDirectionalSensitivities:
         _assert_direction_and_delta(coc_med_s, coc_med_b, 'up', 0.0015, 'CoC median')
 
     def test_opex_plus_20pct(self):
-        params = rmc_model.default_params()
+        params = monte_carlo_model.default_params()
         # Use GROSS to ensure OpEx moves are not offset by recoveries
         params['GLOBAL_RECOVERY_TYPE'] = 'GROSS'
-        base = rmc_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
+        base = monte_carlo_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
 
         # Shock: +20% OpEx
         opex_params = dict(params)
         opex_params['operating_expenses_start'] = params['operating_expenses_start'] * 1.20
-        shocked = rmc_model.run_simulation(n=N, seed=SEED, params=opex_params, parallel=True)
+        shocked = monte_carlo_model.run_simulation(n=N, seed=SEED, params=opex_params, parallel=True)
 
         irr_mean_b, irr_med_b = _mean_median(base['IRR'])
         irr_mean_s, irr_med_s = _mean_median(shocked['IRR'])
@@ -80,13 +80,13 @@ class TestDirectionalSensitivities:
         _assert_direction_and_delta(dscr_med_s, dscr_med_b, 'down', 0.02, 'DSCR median')
 
     def test_tax_plus_50bps(self):
-        params = rmc_model.default_params()
-        base = rmc_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
+        params = monte_carlo_model.default_params()
+        base = monte_carlo_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
 
         # Shock: +50 bps property tax rate
         tax_params = dict(params)
         tax_params['property_tax_rate'] = float(params.get('property_tax_rate', 0.0)) + 0.005
-        shocked = rmc_model.run_simulation(n=N, seed=SEED, params=tax_params, parallel=True)
+        shocked = monte_carlo_model.run_simulation(n=N, seed=SEED, params=tax_params, parallel=True)
 
         # NPV (mean) and CoC (median) should decline; non-trivial deltas
         npv_mean_b, npv_med_b = _mean_median(base['NPV'])

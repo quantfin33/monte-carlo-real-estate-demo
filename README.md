@@ -108,7 +108,7 @@ For a custom-software or digital-transformation team, the useful signal is the w
 
 The package includes a local deterministic business-summary export artifact at `artifacts/integration_demo/sample_business_summary.json`. It demonstrates how the current dashboard could later feed reporting, API wrapper, AI/MCP tool, or ERP/Odoo handoff workflows through a structured payload.
 
-The repo now includes a gated Odoo JSON-2 connector layer that has been sandbox-validated for controlled test workflows and is disabled by default. This is not production ERP/Odoo sync, not hosted workflow automation, and not an MCP/SAP integration. See [docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md](docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md) for the bounded roadmap and validation gates.
+The repo now includes a gated Odoo JSON-2 connector layer that has been sandbox-validated for controlled test workflows and is disabled by default. This is not production ERP/Odoo sync, not hosted workflow automation, and not an MCP/SAP integration. See [docs/AI_ERP_EXTENSION_ROADMAP.md](docs/AI_ERP_EXTENSION_ROADMAP.md) for the bounded roadmap and validation gates.
 
 ## AI Analyst
 
@@ -154,7 +154,7 @@ The package includes test and audit material so technical reviewers can inspect 
 - `tests/test_scenario_randomizer.py` for Smart Scenario Generator invariants
 - `artifacts/logic_report.json` with `all_pass: true` for the included sanity artifact
 - `artifacts/wiring_report.json` for UI-to-engine wiring visibility
-- [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md) for the current claim boundary
+- [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md) for the current claim boundary
 
 The validation evidence supports the current demo and annual-model core. It does not prove that every visible control, advanced KPI, or preserved workflow surface has complete downstream model coverage.
 
@@ -166,7 +166,7 @@ monte-carlo-demo-package/
 ├── COMPANY_DEMO_HANDOFF.md     # Company-facing handoff notes
 ├── README_UI_LAUNCH.md         # Local launch guide
 ├── UI.py                       # Streamlit dashboard
-├── rmc_model.py                # Monte Carlo model core
+├── monte_carlo_model.py        # Monte Carlo model core
 ├── engine_output_contract.py   # Output contract helpers
 ├── trace_tools.py              # Trace / Explain support
 ├── ui_metrics.py               # UI-facing metrics helpers
@@ -188,7 +188,7 @@ monte-carlo-demo-package/
 - Interactive distribution, sensitivity, covenant, trace, and export surfaces
 - Guarded display behavior where parked advanced metrics stay clearly outside the current contract
 
-### `rmc_model.py` - Simulation Engine
+### `monte_carlo_model.py` - Simulation Engine
 
 - Monte Carlo simulation with configurable assumptions
 - Annual-model core used by the dashboard
@@ -232,10 +232,11 @@ python -m pytest tests/test_metrics_full.py -q -o addopts=''
 
 - [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md)
 - [README_UI_LAUNCH.md](README_UI_LAUNCH.md)
-- [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md)
-- [docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md](docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md)
-- [docs/KEEWAYS_DEMO_SCRIPT.md](docs/KEEWAYS_DEMO_SCRIPT.md)
-- [docs/KEEWAYS_POSITIONING_MEMO.md](docs/KEEWAYS_POSITIONING_MEMO.md)
+- [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md)
+- [docs/DEMO_ASSUMPTION_BOUNDARY.md](docs/DEMO_ASSUMPTION_BOUNDARY.md)
+- [docs/AI_ERP_EXTENSION_ROADMAP.md](docs/AI_ERP_EXTENSION_ROADMAP.md)
+- [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md)
+- [docs/POSITIONING_MEMO.md](docs/POSITIONING_MEMO.md)
 - [docs/metrics_contract.md](docs/metrics_contract.md)
 - [docs/metric_inputs_map.md](docs/metric_inputs_map.md)
 - [docs/adr/0001_domain_invariants.md](docs/adr/0001_domain_invariants.md)
@@ -252,4 +253,4 @@ This repo is intended as a private portfolio demo. Invite only trusted reviewers
 
 This dashboard is a candidate for a later workflow layer around simulation runs, metric retrieval, risk summaries, trace/explain output, and report generation. That direction fits a broader business-dashboard or digital-transformation story, but it remains future work in this package.
 
-Keep external wording aligned with [docs/KEEWAYS_SAFE_CLAIMS.md](docs/KEEWAYS_SAFE_CLAIMS.md): describe this as a demo-ready analytics dashboard with a validated annual-model core and preserved advanced workflow surfaces, not as a finished platform.
+Keep external wording aligned with [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md): describe this as a demo-ready analytics dashboard with a validated annual-model core and preserved advanced workflow surfaces, not as a finished platform.

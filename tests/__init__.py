@@ -1,5 +1,5 @@
 """
-Test suite for RMC Monte Carlo Simulation Model.
+Test suite for Monte Carlo Simulation Model.
 
 This package contains comprehensive tests for:
 - Financial calculations and metrics

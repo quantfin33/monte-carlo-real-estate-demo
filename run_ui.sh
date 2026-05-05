@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# RMC Model UI Launcher Script
+# Monte Carlo Model UI Launcher Script
 # This script launches the Streamlit UI from any directory
 
 # Get the directory where this script is located
@@ -11,7 +11,7 @@ if [ ! -x "$PYTHON_BIN" ]; then
   PYTHON_BIN="${PYTHON:-python3}"
 fi
 
-echo "🚀 Launching RMC Monte Carlo Simulation Model..."
+echo "🚀 Launching Monte Carlo Monte Carlo Simulation Model..."
 echo "📁 Directory: $SCRIPT_DIR"
 echo "🌐 Starting Streamlit server..."
 

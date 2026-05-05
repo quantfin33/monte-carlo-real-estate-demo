@@ -30,12 +30,12 @@
     "evidence_references": [
       "tests/test_integration_payload_contract.py",
       "tests/test_odoo_handoff_payload.py",
-      "docs/KEEWAYS_SAFE_CLAIMS.md",
-      "docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md"
+      "docs/SAFE_CLAIMS.md",
+      "docs/AI_ERP_EXTENSION_ROADMAP.md"
     ],
-    "generated_at": "2026-05-05T16:19:26Z",
+    "generated_at": "2026-05-05T20:25:42Z",
     "no_external_calls": true,
-    "source_business_summary_generated_at": "2026-05-05T16:19:26Z",
+    "source_business_summary_generated_at": "2026-05-05T20:25:42Z",
     "validation_boundary": {
       "annual_model_core_validated": true,
       "hosted_release": false,
@@ -84,68 +84,68 @@
     "No production workflow automation is implemented.",
     "No investment advice is included."
   ],
-  "generated_at": "2026-05-05T16:19:26Z",
+  "generated_at": "2026-05-05T20:25:42Z",
   "metrics_summary": {
     "cash_on_cash": {
       "available": true,
       "label": "Cash-on-Cash",
-      "p50": 0.1592668855511168,
+      "p50": 0.12517175828014757,
       "unit": "decimal_rate"
     },
     "debt_yield": {
       "available": true,
       "label": "Debt Yield",
-      "p50": 0.2955399421573205,
+      "p50": 0.22097294136685813,
       "unit": "decimal_rate"
     },
     "dscr": {
       "available": true,
       "label": "DSCR",
-      "p50": 4.378369513441784,
+      "p50": 3.0479026395428708,
       "unit": "ratio"
     },
     "equity_multiple": {
       "available": true,
       "label": "Equity Multiple",
-      "p50": 2.2843129148832992,
+      "p50": 1.5274247023249758,
       "unit": "multiple"
     },
     "exit_cap": {
       "available": true,
       "label": "Exit Cap",
-      "p50": 0.08372425888815707,
+      "p50": 0.09070444514034479,
       "unit": "decimal_rate"
     },
     "irr": {
       "available": true,
       "label": "IRR",
-      "p5": 0.16286741182538714,
-      "p50": 0.19047672751436995,
-      "p95": 0.21884535355570484,
+      "p5": 0.06392466774064212,
+      "p50": 0.0901522567500781,
+      "p95": 0.12873050998054408,
       "unit": "decimal_rate"
     },
     "ltv": {
       "available": true,
       "label": "LTV",
-      "p50": 0.4624545493358454,
+      "p50": 0.5019729233986565,
       "unit": "decimal_rate"
     },
     "npv": {
       "available": true,
       "label": "NPV",
-      "p50": 39917674.15426601,
+      "p50": 2863451.003142059,
       "unit": "dollars"
     }
   },
   "package_metadata": {
     "artifact_type": "local Odoo/ERP handoff payload demo",
-    "generated_at": "2026-05-05T16:19:26Z",
+    "generated_at": "2026-05-05T20:25:42Z",
     "local_demo_only": true,
     "name": "monte-carlo-real-estate-demo",
     "network_calls_made": false,
     "schema_version": "odoo_handoff_demo.v1",
     "source_app": "Streamlit Monte Carlo real-estate analytics dashboard",
-    "source_commit": "5a20fb3"
+    "source_commit": "a89aa82"
   },
   "proposed_business_actions": [
     {
@@ -222,7 +222,7 @@
       "Future workflow records should route the analysis for human review rather than automated approval."
     ],
     "risk_flags": [
-      "Median IRR is above the 15% dashboard reference threshold.",
+      "Median IRR is below the 15% dashboard reference threshold.",
       "Median DSCR is above the 1.25x lender-style reference threshold.",
       "Median debt yield is above the 8% lender-style reference threshold.",
       "Median LTV is within the 65% reference threshold."
@@ -230,7 +230,7 @@
   },
   "source_simulation": {
     "generated_from": "scripts.export_demo_business_summary.build_business_summary_payload",
-    "model_source": "rmc_model.run_simulation",
+    "model_source": "monte_carlo_model.run_simulation",
     "scenario_description": "Default annual-model assumptions exported for local portfolio review.",
     "scenario_name": "Base demo scenario",
     "seed": 12345,

@@ -21,7 +21,7 @@ import math
 
 import numpy as np
 
-import rmc_model
+import monte_carlo_model
 
 
 SEED = 12345
@@ -43,9 +43,9 @@ EXPECTED = {
 
 
 def test_mini_acceptance_base_pack():
-    params = rmc_model.default_params()
+    params = monte_carlo_model.default_params()
     # Explain mode enables schedule exposure for recompute/validation
-    res = rmc_model.run_model({**params, "_seed": SEED, "explain_mode": True})
+    res = monte_carlo_model.run_model({**params, "_seed": SEED, "explain_mode": True})
 
     # 1) Equity need at t0
     equity = float(res["Equity"])  # from engine
@@ -66,8 +66,8 @@ def test_mini_acceptance_base_pack():
     cfe = res.get("_ScheduleData", {}).get("cash_flows")
     assert isinstance(cfe, list) and cfe, "Missing schedule cash flows"
     cf_series = [-equity] + [float(x) for x in cfe]
-    irr = rmc_model.calculate_irr(cf_series)
-    npv = rmc_model.calculate_npv(float(params["discount_rate"]), cf_series)
+    irr = monte_carlo_model.calculate_irr(cf_series)
+    npv = monte_carlo_model.calculate_npv(float(params["discount_rate"]), cf_series)
     assert np.isfinite(irr) and abs(irr - EXPECTED["irr"]) <= 0.005, (
         f"IRR outside ±50 bps: got={irr:.6f}, exp={EXPECTED['irr']:.6f}"
     )

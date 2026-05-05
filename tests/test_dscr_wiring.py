@@ -16,7 +16,7 @@ import numpy as np
 # Add parent directory for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import rmc_model
+import monte_carlo_model
 
 
 class TestDSCRWiring:
@@ -25,7 +25,7 @@ class TestDSCRWiring:
     @pytest.fixture
     def base_params(self):
         """Base parameters for DSCR testing."""
-        params = rmc_model.default_params()
+        params = monte_carlo_model.default_params()
         # PRIORITY-1 FIX: Use GROSS lease to test OpEx sensitivity 
         params['GLOBAL_RECOVERY_TYPE'] = 'GROSS'
         return params
@@ -35,7 +35,7 @@ class TestDSCRWiring:
         print("\n🧪 TESTING: DSCR vs OpEx +20%")
         
         # Base case
-        base_df = rmc_model.run_simulation(n=100, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=100, seed=42, params=base_params, parallel=True)
         base_dscr = pd.to_numeric(base_df['DSCR'], errors='coerce').dropna()
         base_dscr_mean = float(base_dscr.mean())
         base_dscr_p50 = float(base_dscr.median())
@@ -51,7 +51,7 @@ class TestDSCRWiring:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['operating_expenses_start'] = base_params['operating_expenses_start'] * 1.20
         
-        shocked_df = rmc_model.run_simulation(n=100, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=100, seed=42, params=shocked_params, parallel=True)
         shocked_dscr = pd.to_numeric(shocked_df['DSCR'], errors='coerce').dropna()
         shocked_dscr_mean = float(shocked_dscr.mean())
         shocked_dscr_p50 = float(shocked_dscr.median())
@@ -90,7 +90,7 @@ class TestDSCRWiring:
         print("\n🧪 TESTING: DSCR vs Tax Rate +50bps")
         
         # Base case
-        base_df = rmc_model.run_simulation(n=100, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=100, seed=42, params=base_params, parallel=True)
         base_dscr = pd.to_numeric(base_df['DSCR'], errors='coerce').dropna()
         base_dscr_mean = float(base_dscr.mean())
         
@@ -102,7 +102,7 @@ class TestDSCRWiring:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['property_tax_rate'] = base_params['property_tax_rate'] + 0.005
         
-        shocked_df = rmc_model.run_simulation(n=100, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=100, seed=42, params=shocked_params, parallel=True)
         shocked_dscr = pd.to_numeric(shocked_df['DSCR'], errors='coerce').dropna()
         shocked_dscr_mean = float(shocked_dscr.mean())
         
@@ -127,7 +127,7 @@ class TestDSCRWiring:
         """Test that DSCR shows variance across Monte Carlo scenarios."""
         print("\n🧪 TESTING: DSCR Variance Across Scenarios")
         
-        df = rmc_model.run_simulation(n=200, seed=42, params=base_params, parallel=True)
+        df = monte_carlo_model.run_simulation(n=200, seed=42, params=base_params, parallel=True)
         dscr_series = pd.to_numeric(df['DSCR'], errors='coerce').dropna()
         
         dscr_mean = dscr_series.mean()

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import streamlit as st
-st.set_page_config(page_title="RMC Model — Enhanced", layout="wide")
+st.set_page_config(page_title="Monte Carlo Model — Enhanced", layout="wide")
 
 import copy
 import io
@@ -20,7 +20,7 @@ if str(THIS_DIR) not in sys.path:
     sys.path.insert(0, str(THIS_DIR))
 
 try:
-    import rmc_model
+    import monte_carlo_model
     import scenario_randomizer
     import ui_metrics  # Pure metric calculation functions
     from button_audit import (
@@ -31,8 +31,8 @@ try:
     )
     from tornado_sensitivity import build_tornado_sensitivity_data
 except Exception as e:
-    st.title("RMC Model (Minimal)")
-    st.error(f"Couldn't import rmc_model.py, scenario_randomizer.py, ui_metrics.py, or audit helpers from: {THIS_DIR}\n\n{e}")
+    st.title("Monte Carlo Model (Minimal)")
+    st.error(f"Couldn't import monte_carlo_model.py, scenario_randomizer.py, ui_metrics.py, or audit helpers from: {THIS_DIR}\n\n{e}")
     st.stop()
 
 try:
@@ -253,7 +253,7 @@ def _render_smart_scenario_generator() -> None:
 
 # derive defaults from the engine, with safe fallbacks
 try:
-    params = rmc_model.default_params()
+    params = monte_carlo_model.default_params()
     _DEFAULT_RENT_PSF = float(params.get("in_place_rent_psf", 23.64))
     _DEFAULT_TOTAL_RSF = float(params.get("total_rsf", 630594))
     _DEFAULT_INITIAL_OCC = float(params.get("initial_occupancy", 0.826))
@@ -569,7 +569,7 @@ def _demo_heatmap2_grids() -> tuple[list[float], list[float]]:
 @st.cache_data(ttl=600, show_spinner=False)
 def _run_sim_cached(n: int, seed: int, params: dict, parallel: bool = True) -> pd.DataFrame:
     _app_log(f"_run_sim_cached: start n={n} seed={seed}")
-    df = rmc_model.run_simulation(n=int(n), seed=int(seed), params=params, parallel=parallel)
+    df = monte_carlo_model.run_simulation(n=int(n), seed=int(seed), params=params, parallel=parallel)
     if not isinstance(df, pd.DataFrame):
         df = pd.DataFrame(df)
     return df
@@ -634,16 +634,16 @@ def _compact_trace_payload_for_ai(df: pd.DataFrame, params: dict, seed: int) -> 
 
 
 def _run_many(n: int, seed: int, use_stage2: bool, scenario: str | None = None) -> pd.DataFrame:
-    params = copy.deepcopy(rmc_model.default_params())
+    params = copy.deepcopy(monte_carlo_model.default_params())
 
     # Apply scenario overrides if available
-    if scenario and hasattr(rmc_model, "apply_scenario_overrides"):
+    if scenario and hasattr(monte_carlo_model, "apply_scenario_overrides"):
         try:
-            params = rmc_model.apply_scenario_overrides(params, scenario)
+            params = monte_carlo_model.apply_scenario_overrides(params, scenario)
         except Exception:
             pass
 
-    # UI-only overrides (do not edit rmc_model.py)
+    # UI-only overrides (do not edit monte_carlo_model.py)
     params["in_place_rent_psf"] = float(st.session_state.in_place_rent_psf)
     params["total_rsf"] = float(st.session_state.total_rsf)
     params["initial_occupancy"] = float(st.session_state.initial_occupancy)
@@ -738,7 +738,7 @@ def _run_many(n: int, seed: int, use_stage2: bool, scenario: str | None = None) 
     params["exit_cap_mode"] = float(st.session_state.exit_cap_mode)
     params["exit_cap_right"] = float(st.session_state.exit_cap_right)
 
-            # Stage 2 correlations disabled in UI - functionality available through rmc_model.py
+            # Stage 2 correlations disabled in UI - functionality available through monte_carlo_model.py
 
     # Set exit cap rate override
     if st.session_state.exit_cap_override is not None:
@@ -774,7 +774,7 @@ def _run_many(n: int, seed: int, use_stage2: bool, scenario: str | None = None) 
         params['correlations'] = st.session_state.correlations.copy()
     # (fallback loop handles correlations per-run below)
 
-    if hasattr(rmc_model, "run_simulation"):
+    if hasattr(monte_carlo_model, "run_simulation"):
         # Streamlit browser runs are kept single-process to avoid multiprocessing pipe
         # failures in long-lived demo servers while preserving the same engine inputs.
         result_df = _run_sim_cached(n=int(n), seed=int(seed), params=params, parallel=False)
@@ -784,14 +784,14 @@ def _run_many(n: int, seed: int, use_stage2: bool, scenario: str | None = None) 
     # Fallback loop
     irrs = []
     for i in range(int(n)):
-        p = copy.deepcopy(rmc_model.default_params())
-        if scenario and hasattr(rmc_model, "apply_scenario_overrides"):
+        p = copy.deepcopy(monte_carlo_model.default_params())
+        if scenario and hasattr(monte_carlo_model, "apply_scenario_overrides"):
             try:
-                p = rmc_model.apply_scenario_overrides(p, scenario)
+                p = monte_carlo_model.apply_scenario_overrides(p, scenario)
             except Exception:
                 pass
         p["_seed"] = int(seed) + i
-        # UI-only overrides (do not edit rmc_model.py)
+        # UI-only overrides (do not edit monte_carlo_model.py)
         p["in_place_rent_psf"] = float(st.session_state.in_place_rent_psf)
         p["total_rsf"] = float(st.session_state.total_rsf)
         p["initial_occupancy"] = float(st.session_state.initial_occupancy)
@@ -914,7 +914,7 @@ def _run_many(n: int, seed: int, use_stage2: bool, scenario: str | None = None) 
         if st.session_state.exit_cap_override is not None:
             p["exit_cap_override"] = float(st.session_state.exit_cap_override)
 
-        r = rmc_model.run_model(p)
+        r = monte_carlo_model.run_model(p)
         irrs.append(float(r.get("IRR", float("nan"))))
     return pd.DataFrame({"IRR": irrs})
 
@@ -954,7 +954,7 @@ for k, v in {
     "smart_scenario_error": None,
     "trace_payload": None,
     "hm_sims": 400,    # sims per cell
-    "exit_caps": ["7.5%", "8.0%", "8.5%", "9.0%", "9.5%"],
+    "exit_caps": ["8.5%", "8.8%", "9.0%", "9.3%", "9.8%"],
     "rent_growths": ["1.0%", "2.0%", "3.0%", "4.0%", "5.0%"],
     "scenario": "Base",
     "in_place_rent_psf": _DEFAULT_RENT_PSF,
@@ -976,8 +976,8 @@ for k, v in {
     "vacancy_auto_lease": True,
     "controllable_opex_pct": 0.70,
     "default_controllable_cap_pct": 0.05,
-    "debt_ratio": 0.45,
-    "interest_rate": 0.0675,
+    "debt_ratio": 0.50,
+    "interest_rate": 0.0725,
     "refi_year": 5,
     "refi_cost_rate": 0.025,
     "interest_only_years": 2,
@@ -985,7 +985,7 @@ for k, v in {
     "recovery_type": "NNN",
     # Additional new parameters
     "post_refi_io_years": 1,
-    "discount_rate": 0.10,
+    "discount_rate": 0.105,
     "acq_cost_rate": 0.015,
     "financing_fee_rate": 0.01,
     "rate_cap_cost": 0.015,
@@ -1038,13 +1038,13 @@ for k, v in {
     "reserve_policy": 'offset_building', # 'accrue_only' or 'offset_building' (use reserves to fund building capex)
 
     # Market rent growth and spread parameters
-    "market_rent_growth_min": 0.02,  # annual market rent growth lower bound (shuffles each year)
-    "market_rent_growth_max": 0.04,  # annual market rent growth upper bound (shuffles each year)
+    "market_rent_growth_min": 0.01,   # annual market rent growth lower bound (shuffles each year)
+    "market_rent_growth_max": 0.025,  # annual market rent growth upper bound (shuffles each year)
     "rent_spread_std": 0.05,         # random spread applied to mark-to-market on new deals
     "renewal_spread_std": 0.01,      # random spread applied on renewals vs market
-    "exit_cap_left": 0.075,
-    "exit_cap_mode": 0.085,
-    "exit_cap_right": 0.090,
+    "exit_cap_left": 0.085,
+    "exit_cap_mode": 0.090,
+    "exit_cap_right": 0.0975,
 
     # Lease roll configuration (tenant lease structure)
     "walt_years": 7.0,               # Weighted Average Lease Term in YEARS
@@ -1150,12 +1150,12 @@ with st.form("controls"):
     with col_b:
         seed_input = st.number_input(
             "Seed", min_value=0, value=st.session_state.seed, step=1, key="seed_input")
-    # Stage-2 Correlations checkbox removed - functionality available through rmc_model.py
+    # Stage-2 Correlations checkbox removed - functionality available through monte_carlo_model.py
 
-    # Scenario selector (keys of rmc_model.SCENARIOS, default "Base")
+    # Scenario selector (keys of monte_carlo_model.SCENARIOS, default "Base")
     scen_keys = ["Base"]
     try:
-        more = [k for k in getattr(rmc_model, "SCENARIOS", {}).keys() if k != "Base"]
+        more = [k for k in getattr(monte_carlo_model, "SCENARIOS", {}).keys() if k != "Base"]
         scen_keys = ["Base"] + sorted(set(more))
     except Exception:
         pass
@@ -1175,7 +1175,7 @@ with st.form("controls"):
             value=float(st.session_state.in_place_rent_psf),
             step=0.25,
             format="%.2f",
-            help="UI-only override for in-place rent; does not change rmc_model.py defaults."
+            help="UI-only override for in-place rent; does not change monte_carlo_model.py defaults."
         )
     with col_rsf:
         st.session_state.total_rsf = st.number_input(
@@ -1259,7 +1259,7 @@ with st.form("controls"):
     st.subheader("Exit Cap Rate Override")
     st.markdown("""
     **Exit Cap Rate Override** allows you to set a fixed exit cap rate instead of random sampling.
-    Default: Random sampling from 7.5% to 9.0% (mode 8.5%). Override for sensitivity analysis.
+    Default: Random sampling from 8.5% to 9.75% (mode 9.0%). Override for sensitivity analysis.
     """)
 
     # Toggle button for enabling/disabling the override
@@ -1302,11 +1302,11 @@ with st.form("controls"):
 
     # Initialize session state for sampling parameters if not exists
     if 'exit_cap_left' not in st.session_state:
-        st.session_state.exit_cap_left = 0.075
+        st.session_state.exit_cap_left = 0.085
     if 'exit_cap_mode' not in st.session_state:
-        st.session_state.exit_cap_mode = 0.085
+        st.session_state.exit_cap_mode = 0.090
     if 'exit_cap_right' not in st.session_state:
-        st.session_state.exit_cap_right = 0.090
+        st.session_state.exit_cap_right = 0.0975
 
     col_left, col_mode, col_right = st.columns(3)
 
@@ -1509,7 +1509,7 @@ with st.form("controls"):
         # Validate matrix
         valid_msg = ""
         try:
-            ok, msg = rmc_model.validate_correlation_matrix(new_mat, vars_sel)
+            ok, msg = monte_carlo_model.validate_correlation_matrix(new_mat, vars_sel)
             if ok:
                 st.success("Correlation matrix: Valid")
             else:
@@ -2551,7 +2551,7 @@ with st.form("controls"):
             vars_sel = list(st.session_state.correlations.get('variables', []))
             mat = st.session_state.correlations.get('matrix', [])
             try:
-                ok, msg = rmc_model.validate_correlation_matrix(mat, vars_sel)
+                ok, msg = monte_carlo_model.validate_correlation_matrix(mat, vars_sel)
                 corr_sum = f"Corr vars={vars_sel} · {('Valid' if ok else 'Invalid')}"
             except Exception:
                 corr_sum = f"Corr vars={vars_sel}"
@@ -2625,7 +2625,7 @@ def _build_heatmap(sims_per_cell: int, seed: int, use_stage2: bool,
         for rg in rent_growths_float:
             cell_count += 1
             try:
-                params = copy.deepcopy(rmc_model.default_params())
+                params = copy.deepcopy(monte_carlo_model.default_params())
                 params["_seed"] = int(seed) + cell_count  # Unique seed per cell
                 params["market_rent_growth_min"] = rg
                 params["market_rent_growth_max"] = rg
@@ -2693,7 +2693,7 @@ def _build_heatmap(sims_per_cell: int, seed: int, use_stage2: bool,
                     params["correlations"] = c
 
                 # Run simulation with timeout protection
-                df = rmc_model.run_simulation(n=sims_per_cell, seed=params["_seed"], params=params, parallel=False)
+                df = monte_carlo_model.run_simulation(n=sims_per_cell, seed=params["_seed"], params=params, parallel=False)
 
                 # Validate results
                 if df.empty or 'IRR' not in df.columns:
@@ -2801,12 +2801,12 @@ def _build_heatmap_cached(
 
 # Helper: gather current UI params into engine params dict (subset covering tornado keys and dependencies)
 def _current_params_for_engine(seed: int | None = None) -> dict:
-    p = copy.deepcopy(rmc_model.default_params())
+    p = copy.deepcopy(monte_carlo_model.default_params())
 
     # Apply scenario overrides if available
     try:
         scen = st.session_state.get('scenario', 'Base')
-        p = rmc_model.apply_scenario_overrides(p, scen)
+        p = monte_carlo_model.apply_scenario_overrides(p, scen)
     except Exception:
         pass
 
@@ -2947,7 +2947,7 @@ def _build_heatmap2(
     idx = 0
     for ltv in ltv_grid:
         for r in rate_grid:
-            p = copy.deepcopy(rmc_model.default_params())
+            p = copy.deepcopy(monte_carlo_model.default_params())
             p["_seed"] = int(seed) + idx
             idx += 1
             p["interest_rate"] = float(r)
@@ -3049,7 +3049,7 @@ def _build_heatmap2(
                 c.update({"enabled": True, "variables": ["occ0", "rg_bias"], "matrix": [[1, 0.6], [0.6, 1.0]]})
                 p["correlations"] = c
 
-            df_cell = rmc_model.run_simulation(n=int(sims_per_cell), seed=int(p["_seed"]), params=p, parallel=False)
+            df_cell = monte_carlo_model.run_simulation(n=int(sims_per_cell), seed=int(p["_seed"]), params=p, parallel=False)
             irr_mean = float(df_cell["IRR"].astype(float).mean()) * 100.0
 
             rows.append({
@@ -3715,7 +3715,7 @@ else:
             - No covenant violations occurred in any simulation runs
             - The covenant tracking columns have different names than expected
             
-            **Recommended**: Check that your `rmc_model.py` includes covenant tracking logic.
+            **Recommended**: Check that your `monte_carlo_model.py` includes covenant tracking logic.
             """)
 
     st.markdown("---")
@@ -4445,7 +4445,7 @@ else:
         st.download_button(
             "Download results (CSV)",
             data=df.to_csv(index=False),
-            file_name="rmc_simulation_results.csv",
+            file_name="monte_carlo_simulation_results.csv",
             mime="text/csv",
             help="Complete simulation results with all scenarios and metrics"
         )
@@ -4459,7 +4459,7 @@ else:
         st.download_button(
             "Download inputs / overrides (JSON)",
             data=json.dumps(ss_export, indent=2, default=_json_default),
-            file_name="rmc_inputs_overrides.json",
+            file_name="monte_carlo_inputs_overrides.json",
             mime="application/json",
             help="All input parameters and overrides used in this simulation"
         )
@@ -4550,7 +4550,7 @@ else:
         st.download_button(
             "Download metrics (JSON)",
             data=json.dumps(metrics, indent=2, default=_json_default),
-            file_name="rmc_metrics_summary.json",
+            file_name="monte_carlo_metrics_summary.json",
             mime="application/json",
             help="Key performance metrics and statistics from the simulation"
         )
@@ -4560,14 +4560,14 @@ else:
             # Create ZIP file in memory
             buf = io.BytesIO()
             with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
-                zf.writestr("rmc_simulation_results.csv", df.to_csv(index=False))
-                zf.writestr("rmc_metrics_summary.json", json.dumps(metrics, indent=2, default=_json_default))
-                zf.writestr("rmc_inputs_overrides.json", json.dumps(ss_export, indent=2, default=_json_default))
+                zf.writestr("monte_carlo_simulation_results.csv", df.to_csv(index=False))
+                zf.writestr("monte_carlo_metrics_summary.json", json.dumps(metrics, indent=2, default=_json_default))
+                zf.writestr("monte_carlo_inputs_overrides.json", json.dumps(ss_export, indent=2, default=_json_default))
 
             st.download_button(
                 "Download all (ZIP)",
                 data=buf.getvalue(),
-                file_name="rmc_complete_export.zip",
+                file_name="monte_carlo_complete_export.zip",
                 mime="application/zip",
                 help="Complete export bundle with results, metrics, and inputs"
             )
@@ -4620,4 +4620,4 @@ for idx, (label, path, file_name) in enumerate(audit_downloads):
         else:
             st.caption(f"{file_name} not created yet.")
 
-st.caption("RMC Monte Carlo Simulation Model — Professional real estate investment analysis with advanced correlation modeling")
+st.caption("Monte Carlo Simulation Model — Professional real estate investment analysis with advanced correlation modeling")

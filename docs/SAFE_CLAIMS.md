@@ -1,24 +1,24 @@
-# Keeways Safe Claims
+# Safe Claims
 
 Date: 2026-05-04
 
 ## Purpose
 
-This note defines what can be stated safely to Keeways based on the clean GitHub package, included artifacts, and prior verification evidence.
+This note defines what can be stated safely to portfolio reviewers based on the clean GitHub package, included artifacts, and prior verification evidence.
 
 ## Evidence Baseline
 
 Package-included evidence:
 
 - `UI.py`
-- `rmc_model.py`
+- `monte_carlo_model.py`
 - `README.md`
 - `COMPANY_DEMO_HANDOFF.md`
 - `README_UI_LAUNCH.md`
-- `docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md`
-- `docs/KEEWAYS_DEMO_SCRIPT.md`
-- `docs/KEEWAYS_POSITIONING_MEMO.md`
-- `docs/KEEWAYS_SAFE_CLAIMS.md`
+- `docs/AI_ERP_EXTENSION_ROADMAP.md`
+- `docs/DEMO_SCRIPT.md`
+- `docs/POSITIONING_MEMO.md`
+- `docs/SAFE_CLAIMS.md`
 - `artifacts/logic_report.json`
 - `artifacts/wiring_report.json`
 - `artifacts/integration_demo/sample_business_summary.json`
@@ -36,11 +36,11 @@ Prior full-workspace verification evidence, referenced as historical support and
 - `python run_tests.py smoke`: pass
 - `python -m pytest tests/test_ui_session_defaults.py tests/test_ui_integration.py -q -o addopts=''`: 9 passed
 - `python -m pytest tests/test_core_model.py tests/audit/test_explain_p50.py tests/audit/test_stochastic_stats_corr.py -q -o addopts=''`: 24 passed
-- `python -m pytest tests/test_tornado_sensitivity.py tests/test_keeways_docs_truth.py tests/test_streamlit_apptest.py -q -o addopts=''`: 4 passed
+- `python -m pytest tests/test_tornado_sensitivity.py tests/test_docs_truth.py tests/test_streamlit_apptest.py -q -o addopts=''`: 4 passed
 - `python scripts/quick_sanity.py`: completed, generated `artifacts/logic_report.json`, and reports `all_pass: true`
 - `python scripts/build_wiring_report.py`: completed and generated `artifacts/wiring_report.json`
 - `python scripts/stress_matrix.py --out artifacts/stress_matrix --bounded`: completed with `all_pass: true`
-- `python scripts/keeways_verify.py`: completed with `overall_pass: true`
+- `python scripts/verify_portfolio.py`: completed with `overall_pass: true`
 - Browser gate in the verified local environment: completed with a visible 5,000-result run, model-derived Tornado chart, Heatmap 1 chart, Trace / Explain surface, and exports
 
 Do not infer that omitted full-workspace scripts or browser artifacts are included in the clean GitHub package.

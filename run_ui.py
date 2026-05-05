@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-RMC Model UI Launcher Script
+Monte Carlo Model UI Launcher Script
 This script launches the Streamlit UI from any directory
 """
 
@@ -13,7 +13,7 @@ def main():
     # Get the directory where this script is located
     script_dir = Path(__file__).resolve().parent
     
-    print("🚀 Launching RMC Monte Carlo Simulation Model...")
+    print("🚀 Launching Monte Carlo Simulation Model...")
     print(f"📁 Directory: {script_dir}")
     print("🌐 Starting Streamlit server...")
     

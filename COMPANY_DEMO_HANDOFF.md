@@ -64,7 +64,7 @@ The clean handoff package should center on:
 - `README_UI_LAUNCH.md`
 - `COMPANY_DEMO_HANDOFF.md`
 - `UI.py`
-- `rmc_model.py`
+- `monte_carlo_model.py`
 - `engine_output_contract.py`
 - `trace_tools.py`
 - `ui_metrics.py`
@@ -91,9 +91,11 @@ The clean handoff package should center on:
 
 The curated `screenshots/` folder should contain:
 
-- `keeways-review-home.png`
-- `keeways-review-home-after-load.png`
-- `keeways-review-after-run.png`
+- `portfolio_irr_kpi_results.png`
+- `portfolio_heatmap_sensitivity.png`
+- `portfolio_tornado_sensitivity.png`
+- `portfolio_smart_scenario_generator.png`
+- `portfolio_ai_analyst_chat.png`
 
 ## Private GitHub Review Note
 

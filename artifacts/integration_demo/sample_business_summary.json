@@ -1,33 +1,33 @@
 {
   "core_metrics": {
     "cash_on_cash": {
-      "p50": 0.1592668855511168
+      "p50": 0.12517175828014757
     },
     "debt_yield": {
-      "p50": 0.2955399421573205
+      "p50": 0.22097294136685813
     },
     "dscr": {
-      "p50": 4.378369513441784
+      "p50": 3.0479026395428708
     },
     "equity_multiple": {
-      "p50": 2.2843129148832992
+      "p50": 1.5274247023249758
     },
     "exit_cap": {
-      "p50": 0.08372425888815707
+      "p50": 0.09070444514034479
     },
     "irr": {
-      "p5": 0.1470732044892252,
-      "p50": 0.17105184155969655,
-      "p95": 0.19626434597187917
+      "p5": 0.06392466774064212,
+      "p50": 0.0901522567500781,
+      "p95": 0.12873050998054408
     },
     "ltv": {
-      "p50": 0.4624545493358454
+      "p50": 0.5019729233986565
     },
     "npv": {
-      "p50": 34639581.49848502
+      "p50": 2863451.003142059
     }
   },
-  "generated_at": "2026-05-03T21:32:22Z",
+  "generated_at": "2026-05-05T20:25:41Z",
   "intended_future_targets": [
     "reporting",
     "API wrapper",
@@ -46,10 +46,10 @@
     "name": "monte-carlo-real-estate-demo",
     "seed": 12345,
     "simulation_count": 500,
-    "source": "rmc_model.run_simulation"
+    "source": "monte_carlo_model.run_simulation"
   },
   "risk_flags": [
-    "Median IRR is above the 15% dashboard reference threshold.",
+    "Median IRR is below the 15% dashboard reference threshold.",
     "Median DSCR is above the 1.25x lender-style reference threshold.",
     "Median debt yield is above the 8% lender-style reference threshold.",
     "Median LTV is within the 65% reference threshold."

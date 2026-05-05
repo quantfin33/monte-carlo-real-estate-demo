@@ -1,4 +1,4 @@
-# Keeways Positioning Memo
+# Portfolio Review Positioning Memo
 
 Date: 2026-05-03
 
@@ -6,7 +6,7 @@ Date: 2026-05-03
 
 This project is a Streamlit-based Monte Carlo real-estate analytics dashboard for underwriting-style scenario analysis. It is strongest today as a decision-support and reporting surface: users can configure property, leasing, debt, tax, reserve, and risk assumptions, run simulations, inspect IRR and value distributions, review covenant and sensitivity views, and export working outputs.
 
-The current Keeways packaging pass intentionally preserves the richer UI instead of collapsing the product into a minimal demo. Tornado, both heatmap surfaces, exports, and a visible Trace / Explain section remain in the product, with guarded placeholders and validation-state messaging where the current runtime contract is still narrower than historical artifacts.
+The current packaging pass intentionally preserves the richer UI instead of collapsing the product into a minimal demo. Tornado, both heatmap surfaces, exports, and a visible Trace / Explain section remain in the product, with guarded placeholders and validation-state messaging where the current runtime contract is still narrower than historical artifacts.
 
 ## What Is Validated Now
 
@@ -23,7 +23,7 @@ That is enough to position the project as a serious demo-ready analytics dashboa
 
 ## What Remains Preserved But Qualified
 
-Some advanced surfaces remain visible because they are important to the product story and to Keeways’ likely delivery lens. Those surfaces should be presented as preserved workflow completeness, not as blanket proof that every historical metric path has been fully revalidated.
+Some advanced surfaces remain visible because they are important to the product story and to a portfolio reviewer’s likely delivery lens. Those surfaces should be presented as preserved workflow completeness, not as blanket proof that every historical metric path has been fully revalidated.
 
 In practice that means:
 
@@ -33,23 +33,16 @@ In practice that means:
 - Trace / Explain is visible and improving, but broader explain/export flows remain under verification
 - sale-month-dependent behavior should not be sold as fully validated timing-aware analytics
 
-## Why This Fits Keeways
+## Why This Fits A Portfolio Review
 
-Keeways’ current public positioning emphasizes custom software, digital transformation, enterprise systems, API/integration work, AI/tech, and ERP-oriented delivery. As of 2026-05-03, that positioning is visible on:
-
-- [Keeways LinkedIn](https://lb.linkedin.com/company/keeways)
-- [Keeways About Us](https://keeways.com/about-us/)
-- [Keeways Development](https://keeways.com/development/)
-- [Keeways SAP Solutions](https://keeways.com/sap-solutions/)
-
-This project fits that profile best when framed as:
+This project fits a software, analytics, or business-workflow review best when framed as:
 
 - a domain-specific analytics product
 - a candidate pre-sales or client-solution accelerant
 - a dashboard that can later plug into broader business workflows
 - a credible base for later AI/MCP and ERP handoff work without pretending that those integrations already exist
 
-## Recommended Keeways Narrative
+## Recommended Portfolio Narrative
 
 Present the app as a polished analytics workbench that demonstrates:
 
@@ -58,4 +51,4 @@ Present the app as a polished analytics workbench that demonstrates:
 - current evidence-backed core behavior
 - a realistic path toward assistant-driven reporting and business-system integration later
 
-That is a better Keeways story than overselling the repo as a finished enterprise platform today.
+That is a better portfolio story than overselling the repo as a finished enterprise platform today.

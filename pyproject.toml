@@ -59,7 +59,7 @@ ignore = [
 "scripts/*" = ["T201"]  # Allow print statements in scripts
 
 [tool.ruff.lint.isort]
-known-first-party = ["ui_metrics", "rmc_model", "metrics_registry", "seed_registry"]
+known-first-party = ["ui_metrics", "monte_carlo_model", "metrics_registry", "seed_registry"]
 
 [tool.mypy]
 python_version = "3.11"

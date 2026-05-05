@@ -11,7 +11,7 @@ import json
 import numpy as np
 import pandas as pd
 
-import rmc_model
+import monte_carlo_model
 import ui_metrics
 from safe_json import SafeJSONEncoder, dumps as json_dumps
 
@@ -42,16 +42,16 @@ def test_metrics_handle_empty_and_missing():
 
 
 def test_safe_json_encoder_serializes_engine_and_metrics():
-    params = rmc_model.default_params()
+    params = monte_carlo_model.default_params()
     # Engine result with explain payload
-    res = rmc_model.run_model({**params, '_seed': 123, 'explain_mode': True})
+    res = monte_carlo_model.run_model({**params, '_seed': 123, 'explain_mode': True})
 
     # Should serialize using safe encoder
     s1 = json.dumps(res, cls=SafeJSONEncoder)
     assert isinstance(s1, str) and len(s1) > 0
 
     # Simulation DF to JSON-esque dict
-    df = rmc_model.run_simulation(n=100, seed=77, params=params, parallel=True)
+    df = monte_carlo_model.run_simulation(n=100, seed=77, params=params, parallel=True)
     df_dict = df.to_dict(orient='list')
     s2 = json_dumps(df_dict)
     assert isinstance(s2, str) and len(s2) > 0

@@ -145,7 +145,7 @@ In UI exports (metrics_summary.json), these appear as nested stats:
 import ui_metrics
 
 # Run simulation (returns DataFrame)
-df = rmc_model.run_simulation(n=1000, seed=42, params=params)
+df = monte_carlo_model.run_simulation(n=1000, seed=42, params=params)
 
 # Get metrics using canonical API
 return_metrics = ui_metrics.return_value_metrics(df)

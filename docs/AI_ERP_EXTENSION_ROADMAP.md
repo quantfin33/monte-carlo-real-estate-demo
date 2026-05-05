@@ -1,4 +1,4 @@
-# Keeways AI / ERP Extension Roadmap
+# AI / ERP Extension Roadmap
 
 Date: 2026-05-04
 
@@ -13,7 +13,7 @@ The current package includes a local deterministic business-summary JSON export 
 The repository currently provides:
 
 - a Streamlit dashboard for local scenario review
-- the `rmc_model.py` Monte Carlo engine
+- the `monte_carlo_model.py` Monte Carlo engine
 - core return and risk metrics such as IRR, NPV, cash-on-cash, equity multiple, DSCR, debt yield, LTV, and exit cap
 - Trace / Explain support and export surfaces
 - tests and audit artifacts for bounded validation evidence

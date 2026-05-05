@@ -132,7 +132,7 @@ def build_odoo_handoff_payload(
             "source_artifact": SOURCE_BUSINESS_SUMMARY_ARTIFACT,
             "source_export_type": metadata.get("artifact_type", "local deterministic business-summary export"),
             "generated_from": "scripts.export_demo_business_summary.build_business_summary_payload",
-            "model_source": metadata.get("source", "rmc_model.run_simulation"),
+            "model_source": metadata.get("source", "monte_carlo_model.run_simulation"),
         },
         "proposed_odoo_target": {
             "target_system": "odoo_future",
@@ -246,8 +246,8 @@ def build_odoo_handoff_payload(
             "evidence_references": [
                 "tests/test_integration_payload_contract.py",
                 "tests/test_odoo_handoff_payload.py",
-                "docs/KEEWAYS_SAFE_CLAIMS.md",
-                "docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md",
+                "docs/SAFE_CLAIMS.md",
+                "docs/AI_ERP_EXTENSION_ROADMAP.md",
             ],
             "source_business_summary_generated_at": business_summary.get("generated_at"),
             "no_external_calls": True,

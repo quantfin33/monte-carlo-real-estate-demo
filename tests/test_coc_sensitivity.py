@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-import rmc_model
+import monte_carlo_model
 import pandas as pd
 import numpy as np
 import pytest
@@ -19,14 +19,14 @@ import pytest
 
 def run_df(n=800, seed=123, overrides: dict | None = None) -> pd.DataFrame:
     """Run the model deterministically with optional parameter overrides."""
-    params = rmc_model.default_params().copy()
+    params = monte_carlo_model.default_params().copy()
     # Ensure we use GROSS lease for OpEx sensitivity
     params['GLOBAL_RECOVERY_TYPE'] = 'GROSS'
     if overrides:
         for k, v in overrides.items():
             params[k] = v
     params["_seed"] = int(seed)
-    df = rmc_model.run_simulation(n=int(n), seed=int(seed), params=params, parallel=False)
+    df = monte_carlo_model.run_simulation(n=int(n), seed=int(seed), params=params, parallel=False)
     return df if isinstance(df, pd.DataFrame) else pd.DataFrame(df)
 
 
@@ -54,7 +54,7 @@ def get_dscr_series(df: pd.DataFrame) -> pd.Series:
 def test_coc_decreases_when_opex_increases():
     """Test that CoC decreases when OpEx increases by 30%."""
     base_df = run_df(seed=42)
-    base_params = rmc_model.default_params()
+    base_params = monte_carlo_model.default_params()
     opex0 = float(base_params.get("operating_expenses_start", 0))
     shocked_df = run_df(seed=43, overrides={"operating_expenses_start": opex0 * 1.30})
 
@@ -76,7 +76,7 @@ def test_coc_decreases_when_opex_increases():
 def test_dscr_drops_with_opex(bump):
     """Test that DSCR decreases when OpEx increases by 25% or 40%."""
     base_df = run_df(seed=44)
-    base_params = rmc_model.default_params()
+    base_params = monte_carlo_model.default_params()
     opex0 = float(base_params.get("operating_expenses_start", 0))
     shocked_df = run_df(seed=45 + int(bump * 100), overrides={"operating_expenses_start": opex0 * (1 + bump)})
 
@@ -97,7 +97,7 @@ def test_dscr_drops_with_opex(bump):
 def test_coc_decreases_when_tax_rate_rises_100bps():
     """Test that CoC decreases when property tax rate increases by 100 basis points."""
     base_df = run_df(seed=46)
-    base_params = rmc_model.default_params()
+    base_params = monte_carlo_model.default_params()
     tr = float(base_params.get("property_tax_rate", 0.0))
     shocked_df = run_df(seed=47, overrides={"property_tax_rate": tr + 0.010})
 

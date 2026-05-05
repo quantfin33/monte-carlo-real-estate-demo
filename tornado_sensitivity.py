@@ -6,14 +6,14 @@ from typing import Callable
 import numpy as np
 import pandas as pd
 
-import rmc_model
+import monte_carlo_model
 
 
 Runner = Callable[[dict, int, int], pd.DataFrame]
 
 
 def _default_runner(params: dict, n: int, seed: int) -> pd.DataFrame:
-    return rmc_model.run_simulation(n=n, seed=seed, params=params, parallel=False)
+    return monte_carlo_model.run_simulation(n=n, seed=seed, params=params, parallel=False)
 
 
 def _metric_value(df: pd.DataFrame, metric: str, stat: str) -> float:

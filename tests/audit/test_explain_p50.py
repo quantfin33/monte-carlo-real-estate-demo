@@ -11,7 +11,7 @@ import math
 import numpy as np
 import pandas as pd
 
-import rmc_model
+import monte_carlo_model
 
 
 SEED = 77
@@ -24,9 +24,9 @@ def _run_index_for_seed(base_seed: int, i: int) -> int:
 
 
 def test_explain_p50_trace_and_irr_recompute():
-    params = rmc_model.default_params()
+    params = monte_carlo_model.default_params()
     # Get a batch of runs to locate an approximate median IRR run index
-    df = rmc_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
+    df = monte_carlo_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
     irr = pd.to_numeric(df['IRR'], errors='coerce')
     median_val = float(np.nanmedian(irr))
     # Pick the run with IRR closest to median
@@ -34,7 +34,7 @@ def test_explain_p50_trace_and_irr_recompute():
 
     # Derive that run's seed and re-run with explain_mode for full payload
     this_seed = _run_index_for_seed(SEED, idx)
-    res = rmc_model.run_model({**params, '_seed': this_seed, 'explain_mode': True})
+    res = monte_carlo_model.run_model({**params, '_seed': this_seed, 'explain_mode': True})
 
     # 9) Trace payload completeness
     assert isinstance(res.get('equity_cf'), list) and len(res['equity_cf']) >= 2, 'equity_cf missing'
@@ -45,7 +45,7 @@ def test_explain_p50_trace_and_irr_recompute():
 
     # 10) IRR recompute ≈ model IRR
     cf = [float(x) for x in res['equity_cf']]
-    irr_re = rmc_model.calculate_irr(cf)
+    irr_re = monte_carlo_model.calculate_irr(cf)
     irr_model = float(res['IRR'])
     diff = abs(irr_re - irr_model)
     assert np.isfinite(irr_re), 'Recomputed IRR is NaN/Inf'

@@ -100,7 +100,7 @@ def risk_ops_metrics(df: pd.DataFrame) -> Dict[str, Any]
 def covenant_minima(df: pd.DataFrame) -> Dict[str, Any]
 # ... (all other public functions)
 
-# rmc_model.py - Core functions are stable
+# monte_carlo_model.py - Core functions are stable
 def run_simulation(n: int = 1000, seed: int = None, params: dict = None, parallel: bool = False) -> pd.DataFrame
 def default_params() -> dict
 ```
@@ -162,7 +162,7 @@ def default_params() -> dict
 
 ### Manual Reviews
 - All changes to ui_metrics.py require code review
-- Changes to rmc_model.py business logic require domain expert review
+- Changes to monte_carlo_model.py business logic require domain expert review
 - ADR required for any changes to core invariants
 
 ## Related Documents

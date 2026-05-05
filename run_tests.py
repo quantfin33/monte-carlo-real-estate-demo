@@ -117,7 +117,7 @@ def run_comprehensive_tests():
             "pytest",
             "tests/",
             "-v",
-            "--cov=rmc_model",
+            "--cov=monte_carlo_model",
             f"--cov-report=html:test_reports/coverage_{timestamp}",
             "--cov-report=term-missing",
             f"--html=test_reports/report_{timestamp}.html",
@@ -157,9 +157,9 @@ def run_smoke_tests():
     
     # Quick basic functionality test
     smoke_code = (
-        "import rmc_model; "
-        "print('✅ rmc_model imports successfully'); "
-        "result = rmc_model.run_model(rmc_model.default_params()); "
+        "import monte_carlo_model; "
+        "print('✅ monte_carlo_model imports successfully'); "
+        "result = monte_carlo_model.run_model(monte_carlo_model.default_params()); "
         "print(f\"✅ Basic model run: IRR={result.get('IRR', 0):.4f}\")"
     )
     success, stdout, stderr, duration = run_command(

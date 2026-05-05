@@ -16,9 +16,9 @@ project_dir = Path(__file__).parent
 sys.path.insert(0, str(project_dir))
 
 try:
-    import rmc_model as m
+    import monte_carlo_model as m
 except ImportError:
-    pytest.skip("rmc_model not available", allow_module_level=True)
+    pytest.skip("monte_carlo_model not available", allow_module_level=True)
 
 @pytest.fixture(scope="session")
 def base_params():

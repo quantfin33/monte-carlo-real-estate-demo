@@ -12,7 +12,7 @@ import warnings
 import numpy as np
 import pandas as pd
 
-import rmc_model
+import monte_carlo_model
 
 
 SEED = 44
@@ -27,7 +27,7 @@ def _pctiles(series: pd.Series):
 
 
 def test_stochastic_stats_and_exitcap_corr():
-    df = rmc_model.run_simulation(n=N, seed=SEED, params=rmc_model.default_params(), parallel=True)
+    df = monte_carlo_model.run_simulation(n=N, seed=SEED, params=monte_carlo_model.default_params(), parallel=True)
 
     # 7) Distributions report
     metrics = {

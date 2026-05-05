@@ -9,7 +9,7 @@ import pandas as pd
 from unittest.mock import patch, MagicMock
 
 # Import the model
-import rmc_model as m
+import monte_carlo_model as m
 
 class TestUIParameterFlow:
     """Test that UI parameters correctly flow to the model"""

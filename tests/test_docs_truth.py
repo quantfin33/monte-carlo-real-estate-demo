@@ -9,8 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_dossier_blocks_stale_repo_truth_claims() -> None:
     text = (ROOT / "MONTE_CARLO_PROJECT_DOSSIER.md").read_text(encoding="utf-8")
     forbidden = [
-        "root `rmc_model.py` file is missing",
-        "current root snapshot is missing `rmc_model.py`",
+        "root `monte_carlo_model.py` file is missing",
+        "current root snapshot is missing `monte_carlo_model.py`",
         "does not currently have `streamlit`, `altair`, or `pytest`",
         "Fresh local execution could not be confirmed",
         "**Recommendation: Not ready",
@@ -22,13 +22,13 @@ def test_dossier_blocks_stale_repo_truth_claims() -> None:
         assert phrase not in text
 
 
-def test_keeways_docs_keep_claims_bounded() -> None:
+def test_docs_keep_claims_bounded() -> None:
     combined = "\n".join(
         path.read_text(encoding="utf-8")
         for path in [
-            ROOT / "docs" / "KEEWAYS_SAFE_CLAIMS.md",
-            ROOT / "docs" / "KEEWAYS_POSITIONING_MEMO.md",
-            ROOT / "docs" / "KEEWAYS_DEMO_SCRIPT.md",
+            ROOT / "docs" / "SAFE_CLAIMS.md",
+            ROOT / "docs" / "POSITIONING_MEMO.md",
+            ROOT / "docs" / "DEMO_SCRIPT.md",
         ]
     ).lower()
     forbidden_claims = [

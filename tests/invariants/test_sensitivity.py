@@ -18,7 +18,7 @@ import copy
 import math
 from typing import Dict, Any
 
-import rmc_model
+import monte_carlo_model
 import ui_metrics
 import seed_registry
 
@@ -29,7 +29,7 @@ class TestSensitivityInvariants:
     @pytest.fixture
     def base_params(self):
         """Base parameters for sensitivity testing."""
-        params = rmc_model.default_params()
+        params = monte_carlo_model.default_params()
         # Use GROSS lease to ensure OpEx sensitivity
         params['GLOBAL_RECOVERY_TYPE'] = 'GROSS'
         return params
@@ -37,7 +37,7 @@ class TestSensitivityInvariants:
     def test_rent_shock_positive_sensitivity(self, base_params):
         """Test that metrics increase when rent increases."""
         # Arrange
-        base_df = rmc_model.run_simulation(
+        base_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=base_params, 
@@ -48,7 +48,7 @@ class TestSensitivityInvariants:
         rent_shock_params = copy.deepcopy(base_params)
         rent_shock_params['in_place_rent_psf'] *= 1.20
         
-        shock_df = rmc_model.run_simulation(
+        shock_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=rent_shock_params, 
@@ -82,7 +82,7 @@ class TestSensitivityInvariants:
     def test_opex_shock_negative_sensitivity(self, base_params):
         """Test that metrics decrease when OpEx increases."""
         # Arrange
-        base_df = rmc_model.run_simulation(
+        base_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=base_params, 
@@ -93,7 +93,7 @@ class TestSensitivityInvariants:
         opex_shock_params = copy.deepcopy(base_params)
         opex_shock_params['operating_expenses_start'] *= 1.20
         
-        shock_df = rmc_model.run_simulation(
+        shock_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=opex_shock_params, 
@@ -127,7 +127,7 @@ class TestSensitivityInvariants:
     def test_tax_shock_negative_sensitivity(self, base_params):
         """Test that metrics decrease when property tax increases."""
         # Arrange
-        base_df = rmc_model.run_simulation(
+        base_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=base_params, 
@@ -138,7 +138,7 @@ class TestSensitivityInvariants:
         tax_shock_params = copy.deepcopy(base_params)
         tax_shock_params['property_tax_rate'] += 0.005  # +50 basis points
         
-        shock_df = rmc_model.run_simulation(
+        shock_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=tax_shock_params, 
@@ -165,7 +165,7 @@ class TestSensitivityInvariants:
     def test_vacancy_shock_negative_sensitivity(self, base_params):
         """Test that metrics decrease when initial vacancy increases."""
         # Arrange
-        base_df = rmc_model.run_simulation(
+        base_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=base_params, 
@@ -177,7 +177,7 @@ class TestSensitivityInvariants:
         original_occ = vacancy_shock_params.get('initial_occupancy_rate', 0.85)
         vacancy_shock_params['initial_occupancy_rate'] = max(0.0, original_occ - 0.10)
         
-        shock_df = rmc_model.run_simulation(
+        shock_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=vacancy_shock_params, 
@@ -204,7 +204,7 @@ class TestSensitivityInvariants:
     def test_purchase_price_shock_negative_sensitivity(self, base_params):
         """Test that returns decrease when purchase price increases."""
         # Arrange
-        base_df = rmc_model.run_simulation(
+        base_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=base_params, 
@@ -215,7 +215,7 @@ class TestSensitivityInvariants:
         price_shock_params = copy.deepcopy(base_params)
         price_shock_params['purchase_price'] *= 1.10
         
-        shock_df = rmc_model.run_simulation(
+        shock_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=price_shock_params, 
@@ -247,7 +247,7 @@ class TestSensitivityInvariants:
     def test_ltv_shock_leverage_sensitivity(self, base_params):
         """Test that leverage metrics respond to LTV changes."""
         # Arrange
-        base_df = rmc_model.run_simulation(
+        base_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=base_params, 
@@ -259,7 +259,7 @@ class TestSensitivityInvariants:
         original_ltv = ltv_shock_params.get('ltv_ratio', 0.70)
         ltv_shock_params['ltv_ratio'] = min(0.95, original_ltv + 0.05)
         
-        shock_df = rmc_model.run_simulation(
+        shock_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=ltv_shock_params, 
@@ -283,7 +283,7 @@ class TestSensitivityInvariants:
     def test_interest_rate_shock_sensitivity(self, base_params):
         """Test that metrics respond correctly to interest rate changes."""
         # Arrange
-        base_df = rmc_model.run_simulation(
+        base_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=base_params, 
@@ -294,7 +294,7 @@ class TestSensitivityInvariants:
         rate_shock_params = copy.deepcopy(base_params)
         rate_shock_params['interest_rate_start'] += 0.005  # +50 basis points
         
-        shock_df = rmc_model.run_simulation(
+        shock_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=rate_shock_params, 
@@ -325,7 +325,7 @@ class TestSensitivityInvariants:
     def test_multiple_shock_compounding(self, base_params):
         """Test that multiple negative shocks compound correctly."""
         # Arrange
-        base_df = rmc_model.run_simulation(
+        base_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=base_params, 
@@ -338,7 +338,7 @@ class TestSensitivityInvariants:
         multi_shock_params['property_tax_rate'] += 0.003       # +30 bps tax
         multi_shock_params['interest_rate_start'] += 0.003     # +30 bps rate
         
-        shock_df = rmc_model.run_simulation(
+        shock_df = monte_carlo_model.run_simulation(
             n=300, 
             seed=seed_registry.get_test_seed('sensitivity'), 
             params=multi_shock_params, 
@@ -370,7 +370,7 @@ class TestSensitivityInvariants:
     def test_metric_variance_non_zero(self, base_params):
         """Test that metrics show appropriate variance across scenarios."""
         # Arrange
-        df = rmc_model.run_simulation(
+        df = monte_carlo_model.run_simulation(
             n=500, 
             seed=seed_registry.get_test_seed('invariant'), 
             params=base_params, 

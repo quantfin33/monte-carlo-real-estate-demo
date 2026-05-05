@@ -13,7 +13,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-import rmc_model
+import monte_carlo_model
 
 
 SEED = 99
@@ -21,7 +21,7 @@ N = 2000
 
 
 def test_outliers_and_data_health():
-    df = rmc_model.run_simulation(n=N, seed=SEED, params=rmc_model.default_params(), parallel=True)
+    df = monte_carlo_model.run_simulation(n=N, seed=SEED, params=monte_carlo_model.default_params(), parallel=True)
 
     irr = pd.to_numeric(df['IRR'], errors='coerce')
     npv = pd.to_numeric(df['NPV'], errors='coerce')

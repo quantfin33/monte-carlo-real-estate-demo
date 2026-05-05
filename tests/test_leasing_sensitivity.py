@@ -16,7 +16,7 @@ import numpy as np
 # Add parent directory for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import rmc_model
+import monte_carlo_model
 
 
 class TestLeasingSensitivity:
@@ -25,14 +25,14 @@ class TestLeasingSensitivity:
     @pytest.fixture
     def base_params(self):
         """Base parameters for leasing testing."""
-        return rmc_model.default_params()
+        return monte_carlo_model.default_params()
     
     def test_renewal_moves_with_prob(self, base_params):
         """Test that LeaseRenewalRate increases when renew_prob increases by 10pp."""
         print("\n🧪 TESTING: Lease Renewal Rate vs renew_prob +10pp")
         
         # Base case
-        base_df = rmc_model.run_simulation(n=200, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=200, seed=42, params=base_params, parallel=True)
         base_renewal = pd.to_numeric(base_df['LeaseRenewalRate'], errors='coerce').dropna()
         base_turnover = pd.to_numeric(base_df['TenantTurnoverRate'], errors='coerce').dropna()
         
@@ -57,7 +57,7 @@ class TestLeasingSensitivity:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['renew_prob'] = min(0.95, base_params['renew_prob'] + 0.10)
         
-        shocked_df = rmc_model.run_simulation(n=200, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=200, seed=42, params=shocked_params, parallel=True)
         shocked_renewal = pd.to_numeric(shocked_df['LeaseRenewalRate'], errors='coerce').dropna()
         shocked_turnover = pd.to_numeric(shocked_df['TenantTurnoverRate'], errors='coerce').dropna()
         
@@ -126,7 +126,7 @@ class TestLeasingSensitivity:
         """Test that leasing metrics show variance across Monte Carlo scenarios."""
         print("\n🧪 TESTING: Leasing Metrics Variance")
         
-        df = rmc_model.run_simulation(n=200, seed=42, params=base_params, parallel=True)
+        df = monte_carlo_model.run_simulation(n=200, seed=42, params=base_params, parallel=True)
         
         # Check what leasing-related columns exist
         leasing_columns = [col for col in df.columns if any(term in col.lower() for term in 
@@ -175,8 +175,8 @@ class TestLeasingSensitivity:
         print(f"   High renew_prob: {high_params['renew_prob']:.1%}")
         
         # Run smaller simulations for faster testing
-        low_df = rmc_model.run_simulation(n=50, seed=42, params=low_params, parallel=True)
-        high_df = rmc_model.run_simulation(n=50, seed=42, params=high_params, parallel=True)
+        low_df = monte_carlo_model.run_simulation(n=50, seed=42, params=low_params, parallel=True)
+        high_df = monte_carlo_model.run_simulation(n=50, seed=42, params=high_params, parallel=True)
         
         # Check if ANY leasing metrics change between extreme values
         leasing_metrics = ['LeaseRenewalRate', 'TenantTurnoverRate', 'AvgRentPricePSF']

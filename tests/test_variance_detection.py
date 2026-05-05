@@ -15,7 +15,7 @@ import numpy as np
 # Add parent directory for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import rmc_model
+import monte_carlo_model
 import metrics_utils
 
 
@@ -66,10 +66,10 @@ class TestVarianceDetection:
         print("\n🧪 TESTING: Variance Detection on Real Simulation Data")
         
         # Run a small Monte Carlo simulation
-        params = rmc_model.default_params()
+        params = monte_carlo_model.default_params()
         params['GLOBAL_RECOVERY_TYPE'] = 'GROSS'  # Use GROSS to avoid recovery offset
         
-        df = rmc_model.run_simulation(n=800, seed=42, params=params, parallel=True)
+        df = monte_carlo_model.run_simulation(n=800, seed=42, params=params, parallel=True)
         
         # Standard metrics that should be variable
         standard_metrics = [

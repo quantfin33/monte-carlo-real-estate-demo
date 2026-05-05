@@ -2,7 +2,7 @@
 Pytest configuration and fixtures for Monte Carlo real estate model testing.
 
 Provides fixtures for:
-- engine_defaults() → deep copy of rmc_model.default_params()
+- engine_defaults() → deep copy of monte_carlo_model.default_params()
 - df_base() → baseline simulation results DataFrame
 - df_shock_rent_up() → rent increased by +20% scenario
 - df_shock_opex_up() → operating expenses increased by +20% scenario
@@ -25,7 +25,7 @@ from pathlib import Path
 parent_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(parent_dir))
 
-import rmc_model
+import monte_carlo_model
 import seed_registry
 
 
@@ -35,9 +35,9 @@ def engine_defaults():
     Get a deep copy of default engine parameters.
     
     Returns:
-        dict: Deep copy of rmc_model.default_params()
+        dict: Deep copy of monte_carlo_model.default_params()
     """
-    return copy.deepcopy(rmc_model.default_params())
+    return copy.deepcopy(monte_carlo_model.default_params())
 
 
 @pytest.fixture(scope="session")
@@ -51,7 +51,7 @@ def df_base(engine_defaults):
     Returns:
         pd.DataFrame: Baseline simulation results (n=2000, seed=123)
     """
-    return rmc_model.run_simulation(
+    return monte_carlo_model.run_simulation(
         n=2000, 
         seed=123, 
         params=engine_defaults, 
@@ -76,7 +76,7 @@ def df_shock_rent_up(engine_defaults):
     original_rent = params.get('in_place_rent_psf', 30.0)
     params['in_place_rent_psf'] = original_rent * 1.2
     
-    return rmc_model.run_simulation(
+    return monte_carlo_model.run_simulation(
         n=2000, 
         seed=123, 
         params=params, 
@@ -101,7 +101,7 @@ def df_shock_opex_up(engine_defaults):
     original_opex = params.get('operating_expenses_start', 2500000.0)
     params['operating_expenses_start'] = original_opex * 1.2
     
-    return rmc_model.run_simulation(
+    return monte_carlo_model.run_simulation(
         n=2000, 
         seed=123, 
         params=params, 
@@ -120,7 +120,7 @@ def df_small_base(engine_defaults):
     Returns:
         pd.DataFrame: Small baseline simulation results (n=100, seed=42)
     """
-    return rmc_model.run_simulation(
+    return monte_carlo_model.run_simulation(
         n=100, 
         seed=42, 
         params=engine_defaults, 
@@ -145,7 +145,7 @@ def df_small_rent_shock(engine_defaults):
     original_rent = params.get('in_place_rent_psf', 30.0)
     params['in_place_rent_psf'] = original_rent * 1.2
     
-    return rmc_model.run_simulation(
+    return monte_carlo_model.run_simulation(
         n=100, 
         seed=42, 
         params=params, 
@@ -195,7 +195,7 @@ def df_small_opex_shock(engine_defaults):
     original_opex = params.get('operating_expenses_start', 2500000.0)
     params['operating_expenses_start'] = original_opex * 1.2
     
-    return rmc_model.run_simulation(
+    return monte_carlo_model.run_simulation(
         n=100, 
         seed=42, 
         params=params, 

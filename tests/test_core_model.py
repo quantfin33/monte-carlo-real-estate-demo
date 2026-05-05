@@ -2,7 +2,7 @@ import pytest
 import copy
 import numpy as np
 import pandas as pd
-import rmc_model as m
+import monte_carlo_model as m
 
 
 class TestCoreModel:

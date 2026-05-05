@@ -23,7 +23,7 @@ from typing import Dict, Any
 # Add parent directory for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import rmc_model
+import monte_carlo_model
 import ui_metrics
 
 
@@ -33,12 +33,12 @@ class TestMetricsComprehensive:
     @pytest.fixture(scope="class")
     def base_params(self):
         """Base parameters for testing."""
-        return rmc_model.default_params()
+        return monte_carlo_model.default_params()
     
     @pytest.fixture(scope="class")
     def base_simulation(self, base_params):
         """Base simulation results."""
-        return rmc_model.run_simulation(n=100, seed=42, params=base_params, parallel=True)
+        return monte_carlo_model.run_simulation(n=100, seed=42, params=base_params, parallel=True)
     
     @pytest.fixture(scope="class")
     def ui_metrics_results(self, base_simulation):
@@ -97,7 +97,7 @@ class TestMetricsComprehensive:
     def test_metric_sensitivity_rent_increase(self, base_params):
         """Test that metrics respond logically to rent increases."""
         # Base case
-        base_df = rmc_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
         base_irr = pd.to_numeric(base_df['IRR'], errors='coerce').mean()
         base_coc = pd.to_numeric(base_df['CoC'], errors='coerce').mean()
         base_npv = pd.to_numeric(base_df['NPV'], errors='coerce').mean()
@@ -107,7 +107,7 @@ class TestMetricsComprehensive:
         shocked_params['market_rent_psf'] = base_params['market_rent_psf'] * 1.20
         shocked_params['in_place_rent_psf'] = base_params['in_place_rent_psf'] * 1.20
         
-        shocked_df = rmc_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
         shocked_irr = pd.to_numeric(shocked_df['IRR'], errors='coerce').mean()
         shocked_coc = pd.to_numeric(shocked_df['CoC'], errors='coerce').mean()
         shocked_npv = pd.to_numeric(shocked_df['NPV'], errors='coerce').mean()
@@ -120,7 +120,7 @@ class TestMetricsComprehensive:
     def test_metric_sensitivity_opex_increase(self, base_params):
         """Test that metrics respond logically to OpEx increases."""
         # Base case
-        base_df = rmc_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
         base_irr = pd.to_numeric(base_df['IRR'], errors='coerce').mean()
         base_dscr = pd.to_numeric(base_df['DSCR'], errors='coerce').mean()
         
@@ -128,7 +128,7 @@ class TestMetricsComprehensive:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['operating_expenses_start'] = base_params['operating_expenses_start'] * 1.20
         
-        shocked_df = rmc_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
         shocked_irr = pd.to_numeric(shocked_df['IRR'], errors='coerce').mean()
         shocked_dscr = pd.to_numeric(shocked_df['DSCR'], errors='coerce').mean()
         
@@ -140,7 +140,7 @@ class TestMetricsComprehensive:
     def test_metric_sensitivity_leverage_increase(self, base_params):
         """Test that metrics respond logically to leverage increases."""
         # Base case
-        base_df = rmc_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
         base_dscr = pd.to_numeric(base_df['DSCR'], errors='coerce').mean()
         base_ltv = pd.to_numeric(base_df['LTV'], errors='coerce').mean()
         
@@ -148,7 +148,7 @@ class TestMetricsComprehensive:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['debt_ratio'] = min(0.95, base_params['debt_ratio'] + 0.10)
         
-        shocked_df = rmc_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
         shocked_dscr = pd.to_numeric(shocked_df['DSCR'], errors='coerce').mean()
         shocked_ltv = pd.to_numeric(shocked_df['LTV'], errors='coerce').mean()
         
@@ -162,7 +162,7 @@ class TestMetricsComprehensive:
     def test_metric_sensitivity_interest_rate(self, base_params):
         """Test that metrics respond logically to interest rate changes."""
         # Base case
-        base_df = rmc_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
         base_irr = pd.to_numeric(base_df['IRR'], errors='coerce').mean()
         base_coc = pd.to_numeric(base_df['CoC'], errors='coerce').mean()
         base_dscr = pd.to_numeric(base_df['DSCR'], errors='coerce').mean()
@@ -171,7 +171,7 @@ class TestMetricsComprehensive:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['interest_rate'] = base_params['interest_rate'] + 0.01
         
-        shocked_df = rmc_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
         shocked_irr = pd.to_numeric(shocked_df['IRR'], errors='coerce').mean()
         shocked_coc = pd.to_numeric(shocked_df['CoC'], errors='coerce').mean()
         shocked_dscr = pd.to_numeric(shocked_df['DSCR'], errors='coerce').mean()
@@ -186,14 +186,14 @@ class TestMetricsComprehensive:
     def test_occupancy_metrics_sensitivity(self, base_params):
         """Test occupancy-related metrics respond to occupancy changes."""
         # Base case
-        base_df = rmc_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
         base_occ = pd.to_numeric(base_df['OccupancyRate'], errors='coerce').mean()
         
         # Occupancy shock: +5pp initial occupancy
         shocked_params = copy.deepcopy(base_params)
         shocked_params['initial_occupancy'] = min(0.99, base_params['initial_occupancy'] + 0.05)
         
-        shocked_df = rmc_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
         shocked_occ = pd.to_numeric(shocked_df['OccupancyRate'], errors='coerce').mean()
         
         # Higher initial occupancy should lead to higher average occupancy
@@ -203,7 +203,7 @@ class TestMetricsComprehensive:
     def test_leasing_metrics_sensitivity(self, base_params):
         """Test leasing metrics respond to renewal rate changes."""
         # Base case
-        base_df = rmc_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
+        base_df = monte_carlo_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
         base_renewal = pd.to_numeric(base_df['LeaseRenewalRate'], errors='coerce').mean()
         base_turnover = pd.to_numeric(base_df['TenantTurnoverRate'], errors='coerce').mean()
         
@@ -211,7 +211,7 @@ class TestMetricsComprehensive:
         shocked_params = copy.deepcopy(base_params)
         shocked_params['renew_prob'] = min(0.95, base_params['renew_prob'] + 0.15)
         
-        shocked_df = rmc_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
+        shocked_df = monte_carlo_model.run_simulation(n=50, seed=42, params=shocked_params, parallel=True)
         shocked_renewal = pd.to_numeric(shocked_df['LeaseRenewalRate'], errors='coerce').mean()
         shocked_turnover = pd.to_numeric(shocked_df['TenantTurnoverRate'], errors='coerce').mean()
         
@@ -226,7 +226,7 @@ class TestMetricsComprehensive:
     def test_fifty_percent_rule_logic(self, base_params):
         """Test 50% rule calculations are logical."""
         # Run simulation
-        df = rmc_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
+        df = monte_carlo_model.run_simulation(n=50, seed=42, params=base_params, parallel=True)
         
         if 'FiftyPercentRule_Ratio' in df.columns and 'FiftyPercentRule_Pass' in df.columns:
             ratio_series = pd.to_numeric(df['FiftyPercentRule_Ratio'], errors='coerce').dropna()
@@ -243,7 +243,7 @@ class TestMetricsComprehensive:
     
     def test_advanced_metrics_not_constant(self, base_params):
         """Test that advanced metrics vary across scenarios (not hardcoded)."""
-        df = rmc_model.run_simulation(n=100, seed=42, params=base_params, parallel=True)
+        df = monte_carlo_model.run_simulation(n=100, seed=42, params=base_params, parallel=True)
         
         # Test that key metrics show variation across scenarios
         for metric in ['FFO', 'AFFO', 'NAV', 'ReturnOnCost', 'InvestmentRating']:
@@ -287,13 +287,13 @@ class TestMetricsComprehensive:
         """Test that exported JSON values match fresh calculations."""
         try:
             # Load exported JSON
-            json_file = Path(__file__).parent.parent / "Downloads" / "rmc_metrics_summary.json"
+            json_file = Path(__file__).parent.parent / "Downloads" / "monte_carlo_metrics_summary.json"
             if json_file.exists():
                 with open(json_file, 'r') as f:
                     exported_metrics = json.load(f)
                 
                 # Load inputs and run fresh simulation
-                inputs_file = Path(__file__).parent.parent / "Downloads" / "rmc_inputs_overrides.json"
+                inputs_file = Path(__file__).parent.parent / "Downloads" / "monte_carlo_inputs_overrides.json"
                 if inputs_file.exists():
                     # This would require the exact same simulation parameters
                     # For now, just check that the JSON structure is reasonable

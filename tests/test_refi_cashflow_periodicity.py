@@ -4,14 +4,14 @@ import math
 
 import numpy as np
 
-import rmc_model
+import monte_carlo_model
 
 
 SEED = 42
 
 
 def _base_refi_params() -> dict:
-    params = rmc_model.default_params()
+    params = monte_carlo_model.default_params()
     params.update(
         {
             "_seed": SEED,
@@ -39,8 +39,8 @@ def _assert_one_annual_cash_flow_bucket(result: dict) -> None:
     assert result["_CashFlowSeries"] == result["equity_cf"]
     assert result["_ScheduleData"]["cash_flows"] == result["equity_cf"][1:]
 
-    irr_recomputed = rmc_model.calculate_irr(result["equity_cf"])
-    npv_recomputed = rmc_model.calculate_npv(float(_base_refi_params()["discount_rate"]), result["equity_cf"])
+    irr_recomputed = monte_carlo_model.calculate_irr(result["equity_cf"])
+    npv_recomputed = monte_carlo_model.calculate_npv(float(_base_refi_params()["discount_rate"]), result["equity_cf"])
     assert np.isfinite(irr_recomputed)
     assert math.isclose(irr_recomputed, float(result["IRR"]), abs_tol=1e-10)
     assert math.isclose(npv_recomputed, float(result["NPV"]), rel_tol=1e-10, abs_tol=1e-5)
@@ -48,7 +48,7 @@ def _assert_one_annual_cash_flow_bucket(result: dict) -> None:
 
 def test_refi_cash_out_is_combined_with_same_year_annual_cash_flow() -> None:
     refi_params = _base_refi_params()
-    refi_result = rmc_model.run_model(refi_params)
+    refi_result = monte_carlo_model.run_model(refi_params)
 
     assert refi_result["Refi_Executed"] is True
     _assert_one_annual_cash_flow_bucket(refi_result)
@@ -64,7 +64,7 @@ def test_refi_cash_out_is_combined_with_same_year_annual_cash_flow() -> None:
     assert all(value == 0.0 for i, value in enumerate(schedule["refi_cash_out"]) if i != refi_idx)
 
     no_refi_params = {**refi_params, "refi_year": 0}
-    no_refi_result = rmc_model.run_model(no_refi_params)
+    no_refi_result = monte_carlo_model.run_model(no_refi_params)
     assert no_refi_result["Refi_Executed"] is False
     _assert_one_annual_cash_flow_bucket(no_refi_result)
 
@@ -79,7 +79,7 @@ def test_no_refi_case_has_no_duplicate_cash_flow_periods() -> None:
     params = _base_refi_params()
     params["refi_year"] = 0
 
-    result = rmc_model.run_model(params)
+    result = monte_carlo_model.run_model(params)
 
     assert result["Refi_Executed"] is False
     _assert_one_annual_cash_flow_bucket(result)

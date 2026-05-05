@@ -4,7 +4,7 @@ import math
 
 import numpy as np
 
-import rmc_model
+import monte_carlo_model
 import trace_tools
 
 
@@ -21,8 +21,8 @@ def _selected_run_row(df, run_idx: int):
 
 
 def test_trace_payload_recomputes_metrics_and_reconciles_terminal_bridge():
-    params = rmc_model.default_params()
-    df = rmc_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
+    params = monte_carlo_model.default_params()
+    df = monte_carlo_model.run_simulation(n=N, seed=SEED, params=params, parallel=True)
 
     run_idx, _ = trace_tools.find_median_run(df)
     selected = _selected_run_row(df, run_idx)
@@ -39,7 +39,7 @@ def test_trace_payload_recomputes_metrics_and_reconciles_terminal_bridge():
     assert 'error' not in bundle, bundle.get('error')
 
     derived_seed = trace_tools._derive_seed_for_run(SEED, run_idx)
-    res = rmc_model.run_model({**params, '_seed': derived_seed, '_RunIndex': run_idx, 'explain_mode': True})
+    res = monte_carlo_model.run_model({**params, '_seed': derived_seed, '_RunIndex': run_idx, 'explain_mode': True})
 
     assert res.get('_ExplainMode') is True
     assert res.get('_ExplainIdentity', {}).get('derived_seed') == derived_seed
@@ -50,8 +50,8 @@ def test_trace_payload_recomputes_metrics_and_reconciles_terminal_bridge():
     assert res['_CashFlowSeries'] == res['equity_cf']
     assert res['_ScheduleData']['cash_flows'] == equity_cf[1:]
 
-    irr_re = rmc_model.calculate_irr(equity_cf)
-    npv_re = rmc_model.calculate_npv(float(params['discount_rate']), equity_cf)
+    irr_re = monte_carlo_model.calculate_irr(equity_cf)
+    npv_re = monte_carlo_model.calculate_npv(float(params['discount_rate']), equity_cf)
 
     assert np.isfinite(irr_re)
     assert math.isclose(irr_re, float(res['IRR']), abs_tol=1e-8)
