@@ -1,0 +1,241 @@
+{
+  "attachments": [
+    {
+      "filename": "sample_business_summary.json",
+      "generated_in_current_package": true,
+      "purpose": "Source model summary for future business-system handoff.",
+      "relative_path": "artifacts/integration_demo/sample_business_summary.json"
+    },
+    {
+      "filename": "sample_odoo_handoff_payload.json",
+      "generated_in_current_package": true,
+      "purpose": "Local Odoo/ERP-style handoff demonstration payload.",
+      "relative_path": "artifacts/odoo_handoff_demo/sample_odoo_handoff_payload.json"
+    },
+    {
+      "filename": "simulation_results.csv",
+      "generated_in_current_package": false,
+      "purpose": "Future report-bundle attachment candidate.",
+      "relative_path": "future_report_bundle/simulation_results.csv"
+    },
+    {
+      "filename": "scenario_report.zip",
+      "generated_in_current_package": false,
+      "purpose": "Future reviewed report-bundle attachment candidate.",
+      "relative_path": "future_report_bundle/scenario_report.zip"
+    }
+  ],
+  "audit_trail": {
+    "assumptions_preserved": true,
+    "evidence_references": [
+      "tests/test_integration_payload_contract.py",
+      "tests/test_odoo_handoff_payload.py",
+      "docs/KEEWAYS_SAFE_CLAIMS.md",
+      "docs/KEEWAYS_AI_ERP_EXTENSION_ROADMAP.md"
+    ],
+    "generated_at": "2026-05-05T16:19:26Z",
+    "no_external_calls": true,
+    "source_business_summary_generated_at": "2026-05-05T16:19:26Z",
+    "validation_boundary": {
+      "annual_model_core_validated": true,
+      "hosted_release": false,
+      "live_crm_integration": false,
+      "live_erp_integration": false,
+      "live_mcp_server": false,
+      "live_odoo_integration": false,
+      "live_sap_integration": false,
+      "openai_agent_integration": false,
+      "visual_demo_ready": true
+    }
+  },
+  "deal_summary": {
+    "available_fields": {
+      "scenario_description": "Default annual-model assumptions exported for local portfolio review.",
+      "scenario_name": "Base demo scenario"
+    },
+    "deal_title": "Base demo scenario",
+    "description": "Default annual-model assumptions exported for local portfolio review.",
+    "key_assumption_note": "Detailed property and lease assumptions remain in the dashboard/model layer; this local payload maps only the current reviewed summary export.",
+    "unavailable_fields": [
+      {
+        "field": "Purchase price",
+        "reason": "Not included in the current business-summary export."
+      },
+      {
+        "field": "Total RSF",
+        "reason": "Not included in the current business-summary export."
+      },
+      {
+        "field": "Initial occupancy",
+        "reason": "Not included in the current business-summary export."
+      },
+      {
+        "field": "Detailed lease records",
+        "reason": "Future Odoo/ERP mapping candidate only."
+      }
+    ]
+  },
+  "explicit_non_claims": [
+    "No live Odoo connector is implemented.",
+    "No ERP sync is implemented.",
+    "No CRM or SAP integration is implemented.",
+    "A live MCP server is not included.",
+    "No hosted API is implemented.",
+    "No production workflow automation is implemented.",
+    "No investment advice is included."
+  ],
+  "generated_at": "2026-05-05T16:19:26Z",
+  "metrics_summary": {
+    "cash_on_cash": {
+      "available": true,
+      "label": "Cash-on-Cash",
+      "p50": 0.1592668855511168,
+      "unit": "decimal_rate"
+    },
+    "debt_yield": {
+      "available": true,
+      "label": "Debt Yield",
+      "p50": 0.2955399421573205,
+      "unit": "decimal_rate"
+    },
+    "dscr": {
+      "available": true,
+      "label": "DSCR",
+      "p50": 4.378369513441784,
+      "unit": "ratio"
+    },
+    "equity_multiple": {
+      "available": true,
+      "label": "Equity Multiple",
+      "p50": 2.2843129148832992,
+      "unit": "multiple"
+    },
+    "exit_cap": {
+      "available": true,
+      "label": "Exit Cap",
+      "p50": 0.08372425888815707,
+      "unit": "decimal_rate"
+    },
+    "irr": {
+      "available": true,
+      "label": "IRR",
+      "p5": 0.16286741182538714,
+      "p50": 0.19047672751436995,
+      "p95": 0.21884535355570484,
+      "unit": "decimal_rate"
+    },
+    "ltv": {
+      "available": true,
+      "label": "LTV",
+      "p50": 0.4624545493358454,
+      "unit": "decimal_rate"
+    },
+    "npv": {
+      "available": true,
+      "label": "NPV",
+      "p50": 39917674.15426601,
+      "unit": "dollars"
+    }
+  },
+  "package_metadata": {
+    "artifact_type": "local Odoo/ERP handoff payload demo",
+    "generated_at": "2026-05-05T16:19:26Z",
+    "local_demo_only": true,
+    "name": "monte-carlo-real-estate-demo",
+    "network_calls_made": false,
+    "schema_version": "odoo_handoff_demo.v1",
+    "source_app": "Streamlit Monte Carlo real-estate analytics dashboard",
+    "source_commit": "5a20fb3"
+  },
+  "proposed_business_actions": [
+    {
+      "action": "create_review_task",
+      "description": "Ask a reviewer to inspect assumptions, risk flags, and exported metrics.",
+      "future_odoo_concept": "project task or CRM activity",
+      "implemented_now": false
+    },
+    {
+      "action": "attach_report_bundle",
+      "description": "Attach reviewed JSON/CSV/report artifacts to a future deal or project record.",
+      "future_odoo_concept": "document attachment",
+      "implemented_now": false
+    },
+    {
+      "action": "add_internal_note",
+      "description": "Summarize model outputs and caveats for internal review.",
+      "future_odoo_concept": "record note or chatter message",
+      "implemented_now": false
+    },
+    {
+      "action": "request_assumption_review",
+      "description": "Route key assumptions and flagged metrics for human approval review.",
+      "future_odoo_concept": "approval or review activity",
+      "implemented_now": false
+    }
+  ],
+  "proposed_odoo_target": {
+    "connector_implemented": false,
+    "external_api_used": false,
+    "future_candidates_only": true,
+    "live_integration": false,
+    "requires_target_database_model_verification": true,
+    "suggested_model_names_future_candidates": [
+      "crm.lead",
+      "project.task",
+      "ir.attachment",
+      "mail.message"
+    ],
+    "suggested_record_types": [
+      "opportunity",
+      "project",
+      "document",
+      "review task"
+    ],
+    "target_system": "odoo_future"
+  },
+  "risk_summary": {
+    "caveats": [
+      "This payload is a local handoff demonstration only.",
+      "No Odoo, ERP, CRM, SAP, MCP, or hosted API record was created.",
+      "Sensitivity and financial interpretation remain inside the demo/local-review boundary."
+    ],
+    "missing_or_unsupported_fields": [
+      {
+        "field": "Purchase price",
+        "reason": "Not included in the current business-summary export."
+      },
+      {
+        "field": "Total RSF",
+        "reason": "Not included in the current business-summary export."
+      },
+      {
+        "field": "Initial occupancy",
+        "reason": "Not included in the current business-summary export."
+      },
+      {
+        "field": "Detailed lease records",
+        "reason": "Future Odoo/ERP mapping candidate only."
+      }
+    ],
+    "review_warnings": [
+      "Strong or weak metrics should be reviewed against assumptions before business reliance.",
+      "Future workflow records should route the analysis for human review rather than automated approval."
+    ],
+    "risk_flags": [
+      "Median IRR is above the 15% dashboard reference threshold.",
+      "Median DSCR is above the 1.25x lender-style reference threshold.",
+      "Median debt yield is above the 8% lender-style reference threshold.",
+      "Median LTV is within the 65% reference threshold."
+    ]
+  },
+  "source_simulation": {
+    "generated_from": "scripts.export_demo_business_summary.build_business_summary_payload",
+    "model_source": "rmc_model.run_simulation",
+    "scenario_description": "Default annual-model assumptions exported for local portfolio review.",
+    "scenario_name": "Base demo scenario",
+    "seed": 12345,
+    "simulation_count": 500,
+    "source_artifact": "artifacts/integration_demo/sample_business_summary.json",
+    "source_export_type": "local deterministic business-summary export"
+  }
+}

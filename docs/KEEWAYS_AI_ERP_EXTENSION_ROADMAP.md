@@ -41,6 +41,8 @@ A future business-system workflow could pull approved property, lease, tenant, i
 
 The current structured export payload is the bridge point for that future workflow. It demonstrates how model outputs can be shaped for downstream reporting or business process handoff without claiming that any live connector exists today.
 
+A local Odoo/ERP-style handoff demo payload can extend this bridge by reshaping the business-summary export into future record, attachment, review-task, and audit-trail concepts while remaining a local artifact only.
+
 ## Candidate Future Tool Surface
 
 If a tool-calling or MCP layer is ever built, candidate tool names could include:
