@@ -229,8 +229,8 @@ def calculate_irr(cash_flows):
 
 def calculate_npv(discount_rate, cash_flows):
     """
-    Correct NPV with CF0 at t=0 (undiscounted).
-    numpy_financial.npv discounts the first element at t=1, so add CF0 explicitly.
+    NPV using the same annual cash-flow timing basis as IRR.
+    CF0 occurs at t=0, Year 1 at t=1, Year 2 at t=2, and so on.
     """
     if not cash_flows:
         return 0.0
@@ -246,7 +246,10 @@ def calculate_npv(discount_rate, cash_flows):
         if not np.isfinite(discount_rate) or discount_rate <= -1:
             return np.nan
             
-        return cf0 + float(npf.npv(discount_rate, cash_flows[1:]))
+        return cf0 + sum(
+            float(cf) / ((1.0 + float(discount_rate)) ** t)
+            for t, cf in enumerate(cash_flows[1:], start=1)
+        )
     except Exception:
         return np.nan
 

@@ -30,6 +30,23 @@ class TestCoreModel:
         # Check Equity Multiple is positive
         assert result['EquityMultiple'] > 0, f"Equity Multiple should be positive: {result['EquityMultiple']}"
 
+    def test_npv_uses_annual_timing_basis(self):
+        """Year 1 cash flow is discounted one period, not treated as immediate cash."""
+        npv = m.calculate_npv(0.10, [-100.0, 110.0])
+
+        assert npv == pytest.approx(0.0, abs=1e-10)
+        assert npv != pytest.approx(10.0, abs=1e-10)
+
+    def test_npv_sign_tracks_irr_vs_discount_rate_for_conventional_cash_flows(self):
+        discount_rate = 0.10
+        below_hurdle = [-100.0, 105.0]
+        above_hurdle = [-100.0, 115.0]
+
+        assert m.calculate_irr(below_hurdle) < discount_rate
+        assert m.calculate_npv(discount_rate, below_hurdle) < 0.0
+        assert m.calculate_irr(above_hurdle) > discount_rate
+        assert m.calculate_npv(discount_rate, above_hurdle) > 0.0
+
     def test_parameter_sensitivity(self, test_params):
         """Test that changing parameters affects results"""
         # Baseline

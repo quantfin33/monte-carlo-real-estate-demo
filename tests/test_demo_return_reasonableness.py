@@ -27,7 +27,9 @@ def test_default_demo_returns_are_reasonable_for_portfolio_review() -> None:
     ltv_p50 = _p50(df, "LTV")
 
     assert 0.06 <= irr_p50 <= 0.14
-    assert -15_000_000 <= npv_p50 <= 20_000_000
+    assert -15_000_000 <= npv_p50 <= 5_000_000
+    if irr_p50 < params["discount_rate"]:
+        assert npv_p50 < 0
     assert 0.04 <= coc_p50 <= 0.16
     assert 1.25 <= dscr_p50 <= 4.00
     assert 0.30 <= ltv_p50 <= 0.70
