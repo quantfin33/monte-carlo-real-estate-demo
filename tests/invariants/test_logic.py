@@ -4,13 +4,17 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
-import logic_probe  # type: ignore
+ROOT = Path(__file__).resolve().parents[2]
+LOGIC_REPORT = ROOT / "artifacts" / "logic_report.json"
 
 
-def test_invariants_pass():
-    inv = logic_probe.invariants()
-    # All invariant checks should be True
-    assert all(bool(v) for v in inv.get("checks", {}).values())
+def test_included_logic_report_invariants_pass() -> None:
+    report = json.loads(LOGIC_REPORT.read_text(encoding="utf-8"))
+
+    assert report["all_pass"] is True
+    assert all(item["pass"] is True for item in report["directions"].values())
+    assert all(item["pass"] is True for item in report["occupancy"].values())
+    assert all(item["present"] is True for item in report["percentiles"].values())
+    assert all(item["monotonic"] is True for item in report["percentiles"].values())
+    assert report["trace_irr"]["pass"] is True

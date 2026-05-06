@@ -106,9 +106,9 @@ For a custom-software or digital-transformation team, the useful signal is the w
 
 ## Integration-Ready Export Roadmap
 
-The package includes a local deterministic business-summary export artifact at `artifacts/integration_demo/sample_business_summary.json`. It demonstrates how the current dashboard could later feed reporting, API wrapper, AI/MCP tool, or ERP/Odoo handoff workflows through a structured payload.
+The package includes a local deterministic business-summary export artifact at `artifacts/integration_demo/sample_business_summary.json`. It demonstrates how the current dashboard could later feed reporting, API wrapper, AI/MCP tool, or Odoo/ERP-style dry-run handoff workflows through a structured payload.
 
-The repo now includes a gated Odoo JSON-2 connector layer that has been sandbox-validated for controlled test workflows and is disabled by default. This is not production ERP/Odoo sync, not hosted workflow automation, and not an MCP/SAP integration. See [docs/AI_ERP_EXTENSION_ROADMAP.md](docs/AI_ERP_EXTENSION_ROADMAP.md) for the bounded roadmap and validation gates.
+The repo includes a local Odoo/ERP-style dry-run handoff payload and mapper for demonstrating how reporting data could be shaped for a future workflow. Sandbox validation evidence may be documented separately; no live or production Odoo/ERP integration is included. This is not ERP/Odoo sync, not hosted workflow automation, and not an MCP/SAP integration. See [docs/AI_ERP_EXTENSION_ROADMAP.md](docs/AI_ERP_EXTENSION_ROADMAP.md) and [docs/WORKFLOW_PRODUCT_ROADMAP.md](docs/WORKFLOW_PRODUCT_ROADMAP.md) for bounded roadmap notes.
 
 ## AI Analyst
 
@@ -136,6 +136,22 @@ python run_ui.py
 ```
 
 When Streamlit starts, open the local URL printed in the terminal.
+
+## Evidence Bundle And Optional Registry
+
+Generate a local review bundle with schema-validated artifacts:
+
+```bash
+python scripts/generate_demo_bundle.py --preset base --seed 123 --out /tmp/rmc_demo_bundle --n 2 --sims-per-case 1
+```
+
+Optionally record successful bundle runs in a local SQLite sidecar registry:
+
+```bash
+python scripts/generate_demo_bundle.py --preset base --seed 123 --out /tmp/rmc_demo_bundle --n 2 --sims-per-case 1 --registry-db /tmp/rmc_demo_registry.sqlite
+```
+
+The bundle creates local review artifacts for assumptions, business summary, AI context, scenario matrix, risk flags, dry-run Odoo/ERP-style handoff payload, validation report, and memo output. The SQLite registry is optional and sidecar-only; no network calls are made, and this is not live ERP/Odoo integration.
 
 ## Validation Evidence
 
@@ -170,10 +186,13 @@ monte-carlo-demo-package/
 ├── engine_output_contract.py   # Output contract helpers
 ├── trace_tools.py              # Trace / Explain support
 ├── ui_metrics.py               # UI-facing metrics helpers
+├── run_registry.py             # Optional local SQLite run registry
 ├── run_ui.py                   # Canonical local launcher
 ├── run_tests.py                # Test runner
-├── scripts/                    # Local export and verification helpers
-├── docs/                       # Safe claims, demo script, contracts
+├── scripts/generate_demo_bundle.py # Local evidence-bundle generator
+├── scripts/                    # Other local export and verification helpers
+├── schemas/export_contracts/   # JSON schemas for bundle artifacts
+├── docs/                       # Safe claims, workflow roadmap, demo script, contracts
 ├── tests/                      # Unit, integration, audit, and contract tests
 ├── screenshots/                # Curated review screenshots
 └── artifacts/                  # Logic and wiring reports
@@ -235,6 +254,7 @@ python -m pytest tests/test_metrics_full.py -q -o addopts=''
 - [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md)
 - [docs/DEMO_ASSUMPTION_BOUNDARY.md](docs/DEMO_ASSUMPTION_BOUNDARY.md)
 - [docs/AI_ERP_EXTENSION_ROADMAP.md](docs/AI_ERP_EXTENSION_ROADMAP.md)
+- [docs/WORKFLOW_PRODUCT_ROADMAP.md](docs/WORKFLOW_PRODUCT_ROADMAP.md)
 - [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md)
 - [docs/POSITIONING_MEMO.md](docs/POSITIONING_MEMO.md)
 - [docs/metrics_contract.md](docs/metrics_contract.md)
