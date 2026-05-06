@@ -11,9 +11,9 @@ The current audited claim boundary is:
 - intended for demo and local review, not for hosted release use
 - broader end-to-end product validation remains incomplete
 
-The package includes a local integration-ready export payload as a future handoff pattern. It also includes a gated Odoo JSON-2 sandbox connector path that is disabled by default and not part of the normal Streamlit app path.
+The package includes a local integration-ready export payload as a future handoff pattern. It also includes a local Odoo/ERP-style dry-run handoff payload that demonstrates how reporting data could be shaped for future workflow mapping.
 
-Sandbox Odoo validation completed for read-only model discovery, sandbox-marked CRM lead create/verify/cleanup, sandbox project task create/verify/cleanup, sandbox attachment upload/verify/cleanup, and sandbox internal note posting. No production Odoo/ERP call was executed, and production-ready Odoo integration remains incomplete.
+Sandbox validation evidence may be documented separately. No live or production Odoo/ERP integration is included in this public package, and no production Odoo/ERP call is claimed.
 
 The package also includes an AI Analyst layer for explaining current simulation outputs and surfacing number-sanity caveats, while keeping integrations and investment advice outside the claim boundary.
 
@@ -97,9 +97,9 @@ The curated `screenshots/` folder should contain:
 - `portfolio_smart_scenario_generator.png`
 - `portfolio_ai_analyst_chat.png`
 
-## Private GitHub Review Note
+## Public GitHub Review Note
 
-This repository is expected to start as a private GitHub portfolio repo. If it is shared while private, each reviewer needs collaborator access before the link will open. If the repo is made public later, verify that `README.md` and the embedded screenshots render correctly before sending it.
+This repository is public for portfolio review. Start with `README.md`, the embedded screenshots, and the local launch guide before inspecting deeper tests or artifacts.
 
 ## Known Limitations
 

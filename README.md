@@ -4,6 +4,13 @@ This is a Python/Streamlit portfolio project for business-facing real-estate sce
 
 For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md) for the concise handoff summary and [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for local launch instructions.
 
+## Reviewer Path
+
+1. Start with the screenshots below to see the dashboard surfaces.
+2. Use [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for a local run.
+3. Generate the evidence bundle to inspect schema-validated review artifacts.
+4. Read [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md) for the claim boundary before describing the project externally.
+
 ## Project Status
 
 | Area | Current status |
@@ -12,7 +19,7 @@ For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_
 | Model core | Validated annual-model core with current test evidence |
 | Deployment | Local/demo review only; no hosted release is claimed |
 | Broader validation | Incomplete across every advanced workflow surface |
-| Integrations | Sandbox-validated gated Odoo connector; disabled by default; no production ERP/Odoo sync is claimed |
+| Integrations | Local Odoo/ERP-style dry-run handoff payload only; no live or production ERP/Odoo sync is claimed |
 
 ## Visual Evidence
 
@@ -157,8 +164,14 @@ The bundle creates local review artifacts for assumptions, business summary, AI 
 
 The package includes test and audit material so technical reviewers can inspect more than screenshots:
 
+Quick checks:
+
 - Fresh-clone/startup verification has passed for the current GitHub package.
 - `python run_tests.py smoke` for a quick model smoke path
+- [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md) for the current claim boundary
+
+Deeper audit evidence:
+
 - `tests/test_core_model.py` for core model behavior checks
 - `tests/test_engine_output_contract.py` for engine output contract coverage
 - `tests/audit/test_trace_payload_contract.py` and `tests/audit/test_explain_p50.py` for trace/explain behavior
@@ -170,7 +183,6 @@ The package includes test and audit material so technical reviewers can inspect 
 - `tests/test_scenario_randomizer.py` for Smart Scenario Generator invariants
 - `artifacts/logic_report.json` with `all_pass: true` for the included sanity artifact
 - `artifacts/wiring_report.json` for UI-to-engine wiring visibility
-- [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md) for the current claim boundary
 
 The validation evidence supports the current demo and annual-model core. It does not prove that every visible control, advanced KPI, or preserved workflow surface has complete downstream model coverage.
 
@@ -261,13 +273,9 @@ python -m pytest tests/test_metrics_full.py -q -o addopts=''
 - [docs/metric_inputs_map.md](docs/metric_inputs_map.md)
 - [docs/adr/0001_domain_invariants.md](docs/adr/0001_domain_invariants.md)
 
-## Review Access Note
-
-This repository is intended to start private. If it is shared privately, reviewers need GitHub collaborator access before they can open the link. If it is made public later, verify that this README and the screenshots render correctly before sending it.
-
 ## Reviewer / Sharing Note
 
-This repo is intended as a private portfolio demo. Invite only trusted reviewers if it remains private. Non-technical reviewers can start with the screenshots, this README, [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md), and the [launch guide](README_UI_LAUNCH.md).
+This public repository is intended as a portfolio demo. Non-technical reviewers can start with the screenshots, this README, [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md), and the [launch guide](README_UI_LAUNCH.md).
 
 ## Future Workflow Direction
 

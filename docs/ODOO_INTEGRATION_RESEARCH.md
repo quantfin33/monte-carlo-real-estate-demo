@@ -16,9 +16,9 @@ Implemented in the local handoff path:
   - `connector_implemented`
   - `external_api_used`
 
-A gated Odoo JSON-2 connector layer also exists for dry-run request previews and
-sandbox-only probing. It is disabled by default and is not imported by the
-Streamlit app or the local handoff mapper.
+The public portfolio package should be described as a local Odoo/ERP-style
+dry-run handoff workflow only. Sandbox validation evidence may be documented
+separately; no live or production Odoo/ERP integration is included.
 
 Not implemented or not production-validated today:
 
@@ -32,24 +32,21 @@ Not implemented or not production-validated today:
 - ERP, CRM, SAP, MCP, or hosted API sync
 - production deployment
 
-Current safe claim: a gated Odoo JSON-2 connector layer exists for dry-run
-previews and sandbox-only probing. It is disabled by default. Sandbox Odoo
-validation completed against a trial sandbox, but production-ready Odoo
-integration is still not complete.
+Current safe claim: the repository includes a local Odoo/ERP-style dry-run
+handoff payload and mapping notes. It does not include live or production
+Odoo/ERP integration.
 
 ## Sandbox Validation Status
 
-Sandbox Odoo validation completed against a trial sandbox. The gated JSON-2
-connector successfully performed read-only model discovery, sandbox CRM lead
-create/verify/cleanup, sandbox project task create/verify/cleanup, sandbox
-attachment upload/verify/cleanup, and sandbox internal note posting. No
-production Odoo/ERP call was executed.
+Sandbox Odoo validation evidence may be documented separately from the public
+portfolio package. It should not be presented as live or production Odoo/ERP
+integration, and no production Odoo/ERP call is claimed.
 
-The validation run kept the API key redacted, used only sandbox-marked test
-records, and cleaned up the CRM lead, project task, attachment, and internal
-note created during validation. Production-ready integration remains incomplete
-pending hardening, idempotency, audit logging, permission review, secret
-rotation, retry policy, cleanup playbooks, and a deployment checklist.
+Any sandbox validation note must keep API keys redacted, use only sandbox-marked
+test records, and keep cleanup evidence separate from the default local demo
+path. Production integration remains incomplete pending hardening, idempotency,
+audit logging, permission review, secret rotation, retry policy, cleanup
+playbooks, and a deployment checklist.
 
 ## Official Odoo API Direction
 

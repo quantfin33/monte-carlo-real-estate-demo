@@ -4,7 +4,7 @@ Date: 2026-05-05
 
 ## Summary
 
-This plan describes how to move from the current local Odoo/ERP handoff demo toward a sandbox-only connector without weakening the current safety boundary.
+This plan describes how a future Odoo/ERP connector could grow from the current local Odoo/ERP-style dry-run handoff payload without weakening the current safety boundary.
 
 Current default handoff path remains local and dry-run only. In the local
 handoff payload and dry-run mapper, these flags must remain false:
@@ -14,27 +14,23 @@ handoff payload and dry-run mapper, these flags must remain false:
 - `connector_implemented`
 - `external_api_used`
 
-A gated Odoo JSON-2 connector layer now exists for dry-run previews and
-sandbox-only probing. It is disabled by default. Sandbox validation has been
-completed in a trial sandbox, and production-ready Odoo integration is not
-complete.
+The public portfolio package should be described as a local dry-run handoff
+workflow only. Sandbox validation evidence may be documented separately; no
+live or production Odoo/ERP integration is included.
 
 ## Sandbox Validation Status
 
-Sandbox Odoo validation completed against a trial sandbox. The gated JSON-2
-connector successfully performed read-only model discovery, sandbox CRM lead
-create/verify/cleanup, sandbox project task create/verify/cleanup, sandbox
-attachment upload/verify/cleanup, and sandbox internal note posting. No
-production Odoo/ERP call was executed.
+Sandbox Odoo validation evidence may be documented separately from this public
+presentation. It should not be presented as live or production Odoo/ERP
+integration, and no production Odoo/ERP call is claimed.
 
-The validation run kept the API key redacted, used only sandbox-marked test
-records, and cleaned up the CRM lead, project task, attachment, and internal
-note created during the validation. The integration test result for the
-write-enabled sandbox validation path was `2 passed, 4 skipped`.
+Any sandbox validation note must keep API keys redacted, use only sandbox-marked
+test records, and keep cleanup evidence separate from the default local demo
+path.
 
-Production-ready integration remains incomplete pending hardening, idempotency,
-audit logging, permission review, secret rotation, retry policy, cleanup
-playbooks, and a deployment checklist.
+Production integration remains incomplete pending hardening, idempotency, audit
+logging, permission review, secret rotation, retry policy, cleanup playbooks,
+and a deployment checklist.
 
 ## Architecture Principles
 
@@ -48,6 +44,10 @@ playbooks, and a deployment checklist.
 - Never claim production Odoo/ERP integration until production hardening is complete.
 
 ## Implementation Phases
+
+These phases are planning notes. The public portfolio claim remains the local
+Odoo/ERP-style dry-run handoff payload unless a later public package explicitly
+adds and validates more.
 
 ### Phase 0: Research Notes Only
 
@@ -65,7 +65,7 @@ No connector code, dependencies, network calls, or credentials.
 
 Goal: define connector contracts without live network behavior.
 
-Implemented files:
+Existing research/stub files:
 
 - `odoo_connector_contract.py`
 - `odoo_config.py`
@@ -90,7 +90,7 @@ Acceptance:
 
 Goal: connect to a sandbox Odoo instance for read-only discovery.
 
-Implemented scaffold files:
+Existing sandbox-research scaffold files:
 
 - `odoo_json2_client.py`
 - `odoo_model_discovery.py`
@@ -169,7 +169,7 @@ Required before production:
 
 ## Module Layout
 
-Implemented gated connector files:
+Existing connector-research files:
 
 - `odoo_config.py`: strict config parsing, sandbox guard, secret redaction.
 - `odoo_connector_contract.py`: connector request contracts and write guard.
