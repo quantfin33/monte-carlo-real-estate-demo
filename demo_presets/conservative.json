@@ -1,0 +1,11 @@
+{
+  "name": "conservative",
+  "label": "Conservative Demo Case",
+  "description": "Lower rent-growth range, higher exit cap, and lower initial occupancy for sensitivity review.",
+  "params": {
+    "market_rent_growth_min": 0.0,
+    "market_rent_growth_max": 0.02,
+    "exit_cap_override": 0.0925,
+    "override_initial_occupancy": 0.8
+  }
+}

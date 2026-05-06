@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "export_contracts/odoo_handoff_payload.schema.json",
+  "title": "Odoo Handoff Payload",
+  "type": "object",
+  "required": [
+    "contract_name",
+    "contract_version",
+    "source",
+    "generated_at_utc",
+    "handoff_mode",
+    "classification",
+    "seed",
+    "inputs",
+    "key_metrics",
+    "proposed_odoo_target",
+    "dry_run_actions",
+    "audit",
+    "non_claims",
+    "network_calls_made"
+  ],
+  "properties": {
+    "contract_name": { "type": "string", "const": "odoo_handoff_payload" },
+    "contract_version": { "type": "string" },
+    "source": { "type": "object" },
+    "generated_at_utc": { "type": "string" },
+    "handoff_mode": { "type": "string", "const": "local_dry_run_only" },
+    "classification": { "type": "string", "const": "portfolio_demo_handoff" },
+    "seed": { "type": "integer" },
+    "inputs": { "type": "object" },
+    "key_metrics": { "type": "object" },
+    "proposed_odoo_target": {
+      "type": "object",
+      "required": ["live_integration", "connector_implemented", "external_api_used"],
+      "properties": {
+        "live_integration": { "type": "boolean", "const": false },
+        "connector_implemented": { "type": "boolean", "const": false },
+        "external_api_used": { "type": "boolean", "const": false }
+      }
+    },
+    "dry_run_actions": { "type": "array", "minItems": 1 },
+    "audit": {
+      "type": "object",
+      "required": ["network_calls_made", "credentials_required"],
+      "properties": {
+        "network_calls_made": { "type": "boolean", "const": false },
+        "credentials_required": { "type": "boolean", "const": false }
+      }
+    },
+    "non_claims": { "type": "array", "minItems": 1 },
+    "network_calls_made": { "type": "boolean", "const": false }
+  }
+}

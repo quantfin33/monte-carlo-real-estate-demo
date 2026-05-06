@@ -1,0 +1,16 @@
+{
+  "name": "debt-stress",
+  "label": "Debt Stress Demo Case",
+  "description": "Higher interest rate and leverage for covenant-oriented review.",
+  "params": {
+    "interest_rate": 0.0825,
+    "debt_ratio": 0.62,
+    "refi_boxes": {
+      "enabled": true,
+      "lockout_years": 1,
+      "max_ltv": 0.65,
+      "min_dscr": 1.3,
+      "min_dy": 0.08
+    }
+  }
+}

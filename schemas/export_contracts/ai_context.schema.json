@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "export_contracts/ai_context.schema.json",
+  "title": "AI Context Export",
+  "type": "object",
+  "required": [
+    "contract_name",
+    "contract_version",
+    "source",
+    "generated_at_utc",
+    "classification",
+    "seed",
+    "preset",
+    "source_payload",
+    "boundaries",
+    "non_claims",
+    "network_calls_made"
+  ],
+  "properties": {
+    "contract_name": { "type": "string", "const": "ai_context" },
+    "contract_version": { "type": "string" },
+    "source": { "type": "object" },
+    "generated_at_utc": { "type": "string" },
+    "classification": { "type": "string", "const": "portfolio_demo_context" },
+    "seed": { "type": "integer" },
+    "preset": { "type": "string" },
+    "source_payload": { "type": "object" },
+    "boundaries": { "type": "array", "minItems": 1 },
+    "non_claims": { "type": "array", "minItems": 1 },
+    "network_calls_made": { "type": "boolean", "const": false }
+  }
+}

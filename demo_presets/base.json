@@ -1,0 +1,6 @@
+{
+  "name": "base",
+  "label": "Base Demo Case",
+  "description": "Uses model defaults as the neutral portfolio-demo baseline.",
+  "params": {}
+}

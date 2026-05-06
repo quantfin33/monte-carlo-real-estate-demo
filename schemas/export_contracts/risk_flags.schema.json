@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "export_contracts/risk_flags.schema.json",
+  "title": "Structured Risk Flags",
+  "type": "object",
+  "required": [
+    "contract_name",
+    "contract_version",
+    "source",
+    "generated_at_utc",
+    "seed",
+    "preset",
+    "flags",
+    "non_claims",
+    "network_calls_made"
+  ],
+  "properties": {
+    "contract_name": { "type": "string", "const": "risk_flags" },
+    "contract_version": { "type": "string" },
+    "source": { "type": "object" },
+    "generated_at_utc": { "type": "string" },
+    "seed": { "type": "integer" },
+    "preset": { "type": "string" },
+    "flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "severity",
+          "category",
+          "message",
+          "metric",
+          "threshold",
+          "observed_value",
+          "evidence_source",
+          "status"
+        ],
+        "properties": {
+          "severity": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+          "category": { "type": "string" },
+          "message": { "type": "string" },
+          "metric": { "type": "string" },
+          "threshold": { "type": "number" },
+          "observed_value": { "type": "number" },
+          "evidence_source": { "type": "string" },
+          "status": { "type": "string", "enum": ["OPEN", "ACKNOWLEDGED", "MITIGATED", "WAIVED", "CLOSED"] }
+        }
+      }
+    },
+    "non_claims": { "type": "array", "minItems": 1 },
+    "network_calls_made": { "type": "boolean", "const": false }
+  }
+}

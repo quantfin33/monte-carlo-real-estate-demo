@@ -15,6 +15,8 @@ __pycache__/
 *.log
 logs/
 log/
+*.sqlite
+*.db
 
 *.zip
 build/

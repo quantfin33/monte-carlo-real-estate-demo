@@ -1,0 +1,11 @@
+{
+  "name": "upside",
+  "label": "Upside Demo Case",
+  "description": "Higher rent-growth range, lower exit cap, and slightly lower debt cost for sensitivity review.",
+  "params": {
+    "market_rent_growth_min": 0.035,
+    "market_rent_growth_max": 0.055,
+    "exit_cap_override": 0.08,
+    "interest_rate": 0.06
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "downside",
+  "label": "Downside Demo Case",
+  "description": "Softer rent growth, higher interest rate, higher exit cap, and lower occupancy for stress review.",
+  "params": {
+    "market_rent_growth_min": 0.0,
+    "market_rent_growth_max": 0.01,
+    "exit_cap_override": 0.095,
+    "interest_rate": 0.0775,
+    "override_initial_occupancy": 0.78
+  }
+}

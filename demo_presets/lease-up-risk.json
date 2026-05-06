@@ -1,0 +1,12 @@
+{
+  "name": "lease-up-risk",
+  "label": "Lease-Up Risk Demo Case",
+  "description": "Lower initial occupancy and weaker renewal assumptions for operating-risk review.",
+  "params": {
+    "override_initial_occupancy": 0.74,
+    "renew_prob": 0.45,
+    "vacancy_auto_lease": true,
+    "market_rent_growth_min": 0.0,
+    "market_rent_growth_max": 0.025
+  }
+}

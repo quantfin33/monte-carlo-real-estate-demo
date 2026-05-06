@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "export_contracts/scenario_matrix.schema.json",
+  "title": "Scenario Matrix Export",
+  "type": "object",
+  "required": [
+    "contract_name",
+    "contract_version",
+    "source",
+    "generated_at_utc",
+    "label",
+    "seed",
+    "preset",
+    "inputs",
+    "sims_per_case",
+    "matrix",
+    "base_case_id",
+    "probabilities_sum",
+    "non_claims",
+    "network_calls_made"
+  ],
+  "properties": {
+    "contract_name": { "type": "string", "const": "scenario_matrix" },
+    "contract_version": { "type": "string" },
+    "source": { "type": "object" },
+    "generated_at_utc": { "type": "string" },
+    "label": { "type": "string", "const": "demo_sensitivity_not_forecast_or_advice" },
+    "seed": { "type": "integer" },
+    "preset": { "type": "string" },
+    "inputs": { "type": "object" },
+    "sims_per_case": { "type": "integer" },
+    "matrix": {
+      "type": "array",
+      "minItems": 27,
+      "items": {
+        "type": "object",
+        "required": [
+          "scenario_id",
+          "rent_growth_state",
+          "expense_growth_state",
+          "exit_cap_state",
+          "probability",
+          "seed",
+          "metrics"
+        ],
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "rent_growth_state": { "type": "string" },
+          "expense_growth_state": { "type": "string" },
+          "exit_cap_state": { "type": "string" },
+          "probability": { "type": "number" },
+          "seed": { "type": "integer" },
+          "metrics": { "type": "object" }
+        }
+      }
+    },
+    "base_case_id": { "type": "string", "const": "S-BASE-BASE-BASE" },
+    "probabilities_sum": { "type": "number" },
+    "non_claims": { "type": "array", "minItems": 1 },
+    "network_calls_made": { "type": "boolean", "const": false }
+  }
+}
