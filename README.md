@@ -178,6 +178,10 @@ curl -X POST http://127.0.0.1:8000/run-bundle \
 
 The API writes bundles under a server-controlled local folder, records successful validated runs in the optional SQLite sidecar registry, and exposes only fixed bundle artifacts by `run_id`. It is a local demo API only, not hosted deployment, not live ERP/Odoo/MCP/SAP integration, and not investment advice.
 
+## Local Container Run
+
+For local container reproducibility, see [docs/LOCAL_CONTAINER_RUN.md](docs/LOCAL_CONTAINER_RUN.md). This is a local container proof only, not hosted deployment, not production hardening, not live ERP/Odoo/MCP/SAP integration, and not investment advice.
+
 ## Validation Evidence
 
 The package includes test and audit material so technical reviewers can inspect more than screenshots:
