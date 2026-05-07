@@ -32,16 +32,6 @@ A short local walkthrough shows the dashboard, evidence-bundle workflow, FastAPI
 - **QA discipline:** focused tests cover docs truth, bundle contracts, registry behavior, API behavior, container docs, and smoke execution.
 - **Business-system handoff awareness:** local Odoo/ERP-style dry-run payloads show how data could later be shaped for workflow mapping and implementation discovery.
 
-## Project Status
-
-| Area | Current status |
-| --- | --- |
-| Visual demo | Ready for screenshots, walkthrough, and local review |
-| Model core | Validated annual-model core with current test evidence |
-| Deployment | Hosted Streamlit visual review plus local API/container evidence |
-| Broader validation | Incomplete across every advanced workflow surface |
-| Integrations | Local Odoo/ERP-style dry-run handoff payload for future workflow mapping |
-
 ## Visual Evidence
 
 This repo includes screenshots captured from the running Streamlit dashboard. They show the working surfaces a reviewer is most likely to inspect: KPI outputs, sensitivity views, the Smart Scenario Generator, and the AI Analyst fallback explanation layer.
