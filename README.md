@@ -160,6 +160,24 @@ python scripts/generate_demo_bundle.py --preset base --seed 123 --out /tmp/rmc_d
 
 The bundle creates local review artifacts for assumptions, business summary, AI context, scenario matrix, risk flags, dry-run Odoo/ERP-style handoff payload, validation report, and memo output. The SQLite registry is optional and sidecar-only; no network calls are made, and this is not live ERP/Odoo integration.
 
+## Local API Wrapper
+
+The repository also includes a small local-only FastAPI wrapper around the evidence-bundle workflow:
+
+```bash
+uvicorn api_app:app --reload
+```
+
+Example local request:
+
+```bash
+curl -X POST http://127.0.0.1:8000/run-bundle \
+  -H "Content-Type: application/json" \
+  -d '{"preset":"base","seed":123,"n":2,"sims_per_case":1}'
+```
+
+The API writes bundles under a server-controlled local folder, records successful validated runs in the optional SQLite sidecar registry, and exposes only fixed bundle artifacts by `run_id`. It is a local demo API only, not hosted deployment, not live ERP/Odoo/MCP/SAP integration, and not investment advice.
+
 ## Validation Evidence
 
 The package includes test and audit material so technical reviewers can inspect more than screenshots:

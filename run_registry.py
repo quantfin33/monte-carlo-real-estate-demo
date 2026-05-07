@@ -82,6 +82,31 @@ def record_bundle_run(db_path: Path | str, bundle_result: dict[str, Any]) -> dic
     }
 
 
+def fetch_bundle_run(db_path: Path | str, run_id: str) -> dict[str, Any] | None:
+    """Fetch one recorded bundle run without creating registry state."""
+    resolved_db_path = Path(db_path).expanduser()
+    if not resolved_db_path.exists() or not resolved_db_path.is_file():
+        return None
+
+    try:
+        with sqlite3.connect(resolved_db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            table = conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+                (RUN_REGISTRY_TABLE,),
+            ).fetchone()
+            if table is None:
+                return None
+            row = conn.execute(
+                f"SELECT * FROM {RUN_REGISTRY_TABLE} WHERE run_id=?",
+                (run_id,),
+            ).fetchone()
+    except sqlite3.Error:
+        return None
+
+    return dict(row) if row is not None else None
+
+
 def _build_record(bundle_result: dict[str, Any]) -> dict[str, Any]:
     manifest = _require_dict(bundle_result, "manifest")
     validation_report = _require_dict(bundle_result, "validation_report")
