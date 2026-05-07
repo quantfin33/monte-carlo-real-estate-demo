@@ -12,6 +12,12 @@ For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_
 4. Generate the evidence bundle or call the local API to inspect reproducible review artifacts.
 5. Read [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md) for the claim boundary before describing the project externally.
 
+## Demo Walkthrough
+
+A short local walkthrough shows the dashboard, evidence-bundle workflow, FastAPI API, and local container proof.
+
+[![Demo walkthrough](screenshots/portfolio_irr_kpi_results.png)](docs/media/demo_walkthrough.mp4)
+
 ## What This Proves
 
 - **Custom software workflow packaging:** inputs, model run, dashboard output, validation artifacts, and reviewer handoff are organized as one inspectable flow.
