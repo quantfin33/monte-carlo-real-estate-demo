@@ -1,8 +1,8 @@
 # Business Analytics Workflow Demo
 
-This is a local business analytics workflow demo built with Python, Streamlit, FastAPI, SQLite, and Docker. It uses real-estate Monte Carlo scenario analysis as the domain example, turning assumptions into dashboard views, schema-validated evidence bundles, risk flags, memo-style outputs, and a local API/container proof for reviewer inspection.
+This project demonstrates a business analytics workflow built with Python, Streamlit, FastAPI, SQLite, and Docker. It uses real-estate Monte Carlo scenario analysis as the domain example and shows how assumptions flow through a dashboard, schema-validated evidence bundle, SQLite run registry, local API layer, and containerized review path.
 
-For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md) for the concise handoff summary and [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for local launch instructions. The repo is intentionally scoped as a local portfolio/demo workflow with explicit safety boundaries, not as a hosted release product.
+For company review, start with the live demo and screenshots, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md) for the concise handoff summary and [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for local launch instructions. The package is scoped for portfolio review: the hosted link is visual, while the repo preserves deeper local workflow evidence.
 
 ## Reviewer Path
 
@@ -16,7 +16,7 @@ For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_
 
 [Open hosted Streamlit visual demo](https://monte-carlo-real-estate-demo-y4cunxqpckm9ynbgvfffgz.streamlit.app)
 
-This hosted link is for visual portfolio review only. It is not production deployment, not investment advice, and not live ERP/Odoo/MCP/SAP integration.
+The hosted Streamlit link is the quickest visual review path. Deeper technical review remains in the local repo: evidence bundle, SQLite registry, FastAPI wrapper, Docker path, and tests.
 
 ## Demo Walkthrough
 
@@ -28,9 +28,9 @@ A short local walkthrough shows the dashboard, evidence-bundle workflow, FastAPI
 
 - **Custom software workflow packaging:** inputs, model run, dashboard output, validation artifacts, and reviewer handoff are organized as one inspectable flow.
 - **API/backend capability:** the evidence-bundle workflow is exposed through a local FastAPI wrapper with server-controlled paths and SQLite run tracking.
-- **Client-facing documentation:** launch, handoff, safe-claim, API, and local container instructions are written for reviewers, not only for the original developer.
+- **Reviewer/client handoff documentation:** launch, handoff, safe-claim, API, and local container instructions are written for reviewers and future maintainers.
 - **QA discipline:** focused tests cover docs truth, bundle contracts, registry behavior, API behavior, container docs, and smoke execution.
-- **Business-system awareness:** local Odoo/ERP-style dry-run payloads show how data could later be shaped for workflow handoff without claiming live integration.
+- **Business-system handoff awareness:** local Odoo/ERP-style dry-run payloads show how data could later be shaped for workflow mapping and implementation discovery.
 
 ## Project Status
 
@@ -38,9 +38,9 @@ A short local walkthrough shows the dashboard, evidence-bundle workflow, FastAPI
 | --- | --- |
 | Visual demo | Ready for screenshots, walkthrough, and local review |
 | Model core | Validated annual-model core with current test evidence |
-| Deployment | Local/demo review only; no hosted release is claimed |
+| Deployment | Hosted Streamlit visual review plus local API/container evidence |
 | Broader validation | Incomplete across every advanced workflow surface |
-| Integrations | Local Odoo/ERP-style dry-run handoff payload only; no live or production ERP/Odoo sync is claimed |
+| Integrations | Local Odoo/ERP-style dry-run handoff payload for future workflow mapping |
 
 ## Visual Evidence
 
@@ -68,7 +68,7 @@ This repo includes screenshots captured from the running Streamlit dashboard. Th
 
 ## Tested Evidence
 
-Latest local verification covers the core demo paths without claiming production readiness:
+Latest local verification covers the core demo paths and reviewer workflow evidence:
 
 - Smoke test: passed
 - Odoo local/unit suite: passed
@@ -116,27 +116,19 @@ For a custom-software or digital-transformation team, the useful signal is the w
 - AI Analyst fallback/live explanation layer
 - QA/testing discipline
 
-## What This Demo Does Not Claim
-
-- Not production financial software
-- Not investment advice
-- Not a fully validated institutional underwriting engine
-- Not production ERP/Odoo/MCP/SAP integration
-- Not hosted enterprise deployment
-
 ## Business Workflow Fit
 
 - **Dashboard UI:** Streamlit interface for configuring property, leasing, debt, tax, reserve, and risk assumptions.
 - **Scenario analysis:** Monte Carlo runs with IRR, NPV, cash-on-cash, equity multiple, and risk/covenant views.
 - **Decision support:** Sensitivity views, Heatmaps, Tornado, and Trace / Explain surfaces are preserved with explicit validation boundaries.
 - **Reporting path:** Export surfaces and structured artifacts show how the workflow could later support repeatable client-facing outputs.
-- **Future integration path:** The current repo can be framed as a candidate for future reporting, API, assistant, or business-system workflows without claiming those integrations already exist.
+- **Future integration path:** The current repo can be framed as a candidate for future reporting, API, assistant, or business-system workflows, with implementation scope made explicit below.
 
 ## Integration-Ready Export Roadmap
 
 The package includes a local deterministic business-summary export artifact at `artifacts/integration_demo/sample_business_summary.json`. It demonstrates how the current dashboard could later feed reporting, API wrapper, AI/MCP tool, or Odoo/ERP-style dry-run handoff workflows through a structured payload.
 
-The repo includes a local Odoo/ERP-style dry-run handoff payload and mapper for demonstrating how reporting data could be shaped for a future workflow. Sandbox validation evidence may be documented separately; no live or production Odoo/ERP integration is included. This is not ERP/Odoo sync, not hosted workflow automation, and not an MCP/SAP integration. See [docs/AI_ERP_EXTENSION_ROADMAP.md](docs/AI_ERP_EXTENSION_ROADMAP.md) and [docs/WORKFLOW_PRODUCT_ROADMAP.md](docs/WORKFLOW_PRODUCT_ROADMAP.md) for bounded roadmap notes.
+The repo includes a local Odoo/ERP-style dry-run handoff payload and mapper for demonstrating how reporting data could be shaped for a future workflow. Sandbox validation evidence may be documented separately; external ERP/Odoo connectivity remains a future implementation path tied to a company's actual models, permissions, workflow rules, and deployment environment. See [docs/AI_ERP_EXTENSION_ROADMAP.md](docs/AI_ERP_EXTENSION_ROADMAP.md) and [docs/WORKFLOW_PRODUCT_ROADMAP.md](docs/WORKFLOW_PRODUCT_ROADMAP.md) for bounded roadmap notes.
 
 ## AI Analyst
 
@@ -144,7 +136,7 @@ The dashboard includes an AI Analyst surface for explaining the current simulati
 
 Demo analyst mode works without an API key and remains available for local review. Live LLM responses are attempted only when `OPENAI_API_KEY` is configured and the optional OpenAI SDK is available in the local environment.
 
-The AI Analyst explains what the model currently shows, why strong outputs may appear, and what assumptions should be reviewed. It is not investment advice, not a production AI agent, and not a live MCP, Odoo, ERP, CRM, SAP, or hosted API integration. Future MCP/API/ERP handoff remains roadmap-only.
+The AI Analyst explains what the model currently shows, why strong outputs may appear, and what assumptions should be reviewed. Advisory output, production AI-agent behavior, and live business-system connectivity remain outside the current implementation scope.
 
 ## Quick Start
 
@@ -179,7 +171,7 @@ Optionally record successful bundle runs in a local SQLite sidecar registry:
 python scripts/generate_demo_bundle.py --preset base --seed 123 --out /tmp/rmc_demo_bundle --n 2 --sims-per-case 1 --registry-db /tmp/rmc_demo_registry.sqlite
 ```
 
-The bundle creates local review artifacts for assumptions, business summary, AI context, scenario matrix, risk flags, dry-run Odoo/ERP-style handoff payload, validation report, and memo output. The SQLite registry is optional and sidecar-only; no network calls are made, and this is not live ERP/Odoo integration.
+The bundle creates local review artifacts for assumptions, business summary, AI context, scenario matrix, risk flags, dry-run Odoo/ERP-style handoff payload, validation report, and memo output. The SQLite registry is optional and sidecar-only; bundle generation records `network_calls_made=false`.
 
 ## Local API Wrapper
 
@@ -197,11 +189,21 @@ curl -X POST http://127.0.0.1:8000/run-bundle \
   -d '{"preset":"base","seed":123,"n":2,"sims_per_case":1}'
 ```
 
-The API writes bundles under a server-controlled local folder, records successful validated runs in the optional SQLite sidecar registry, and exposes only fixed bundle artifacts by `run_id`. It is a local demo API only, not hosted deployment, not live ERP/Odoo/MCP/SAP integration, and not investment advice.
+The API writes bundles under a server-controlled local folder, records successful validated runs in the optional SQLite sidecar registry, and exposes only fixed bundle artifacts by `run_id`. It is a local demo API for inspecting the evidence-bundle workflow.
 
 ## Local Container Run
 
-For local container reproducibility, see [docs/LOCAL_CONTAINER_RUN.md](docs/LOCAL_CONTAINER_RUN.md). This is a local container proof only, not hosted deployment, not production hardening, not live ERP/Odoo/MCP/SAP integration, and not investment advice.
+For local container reproducibility, see [docs/LOCAL_CONTAINER_RUN.md](docs/LOCAL_CONTAINER_RUN.md). This is a local container proof for technical review; deployment, security, and integration boundaries are summarized below.
+
+## Current Scope And Future Extensions
+
+The current implementation is a local/demo and portfolio-review workflow. The hosted Streamlit URL is a visual portfolio review only path, while production deployment would require security, authentication, monitoring, release hardening, and operating runbooks.
+
+ERP/Odoo is represented through local dry-run handoff payloads because real business-system integration depends on a company's Odoo models, permissions, workflows, and deployment environment. This is not live ERP/Odoo/MCP/SAP integration.
+
+Investment/advisory use is outside scope because the project demonstrates analytics workflow software rather than financial recommendations. This is not investment advice.
+
+Commercial underwriting-platform parity is outside scope because the project is a custom workflow demo. This local container proof only covers technical reproducibility. This is not production deployment, not hosted deployment, or production hardening; those are future implementation paths, not missing promises.
 
 ## Validation Evidence
 
