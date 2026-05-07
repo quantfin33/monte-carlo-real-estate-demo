@@ -42,3 +42,17 @@ docker run --rm -p 8000:8000 \
 ```
 
 The mounted folder is for local review artifacts only. Do not mount or commit real secrets, `.env` files, SQLite registries, or generated bundle output.
+
+## Verified Local Container Check
+
+Local container build/run verified for the FastAPI evidence API:
+
+- `docker build -t rmc-evidence-api .` completed successfully.
+- `docker run --rm -d -p 8000:8000 --name rmc-evidence-api-check rmc-evidence-api` started successfully.
+- `GET /health` returned `200` with `status=ok`, `service=rmc-evidence-api`, and `network_calls_made=false`.
+- `POST /run-bundle` returned `200` with a `run_id`, `validation_report.all_valid=true`, `network_calls_made=false`, `generated_files`, and `artifact_endpoints`.
+- `GET /bundle/{run_id}`, `GET /risk-flags/{run_id}`, and `GET /memo/{run_id}` returned `200`.
+- `GET /bundle/not-a-real-run-id` returned `404`.
+- The container stopped successfully, and no repo files were edited during verification.
+
+This verifies local container behavior only. No ERP/Odoo/MCP/SAP connectivity, advisory workflow, hosted service, or security hardening was exercised.
