@@ -1,0 +1,94 @@
+{
+  "description": "High-risk numeric Streamlit controls covered by fast AppTest boundary contracts.",
+  "cases": [
+    {
+      "label": "Simulations",
+      "category": "ui_workflow",
+      "values": [200, 50000]
+    },
+    {
+      "label": "Seed",
+      "category": "ui_workflow",
+      "values": [0, 123456]
+    },
+    {
+      "label": "In-place Rent ($/RSF/YR)",
+      "category": "engine_input",
+      "values": [0.0, 500.0]
+    },
+    {
+      "label": "Total RSF",
+      "category": "engine_input",
+      "values": [10000, 2000000]
+    },
+    {
+      "label": "Initial Occupancy (%)",
+      "category": "engine_input",
+      "values": [0.0, 100.0]
+    },
+    {
+      "label": "Market Rent ($/RSF/YR)",
+      "category": "engine_input",
+      "values": [0.0, 500.0]
+    },
+    {
+      "label": "Purchase Price ($)",
+      "category": "engine_input",
+      "values": [1000000, 1000000000]
+    },
+    {
+      "label": "Operating Expenses Start ($)",
+      "category": "engine_input",
+      "values": [100000, 10000000]
+    },
+    {
+      "label": "Debt Ratio (LTV %)",
+      "category": "engine_input",
+      "values": [0.0, 75.0]
+    },
+    {
+      "label": "Interest Rate (%)",
+      "category": "engine_input",
+      "values": [0.0, 20.0]
+    },
+    {
+      "label": "Discount Rate (%)",
+      "category": "engine_input",
+      "values": [0.0, 50.0]
+    },
+    {
+      "label": "Sale Cost Rate (%)",
+      "category": "engine_input",
+      "values": [0.0, 10.0]
+    },
+    {
+      "label": "Working Capital Reserve ($)",
+      "category": "engine_input",
+      "values": [0, 10000000]
+    },
+    {
+      "label": "Exit Cap Rate Override (%)",
+      "category": "engine_input",
+      "activation_checkbox": "Enable Exit Cap Rate Override",
+      "values": [5.0, 15.0]
+    },
+    {
+      "label": "Minimum DSCR",
+      "category": "engine_input",
+      "activation_checkbox": "Monitor Debt Covenants",
+      "values": [0.5, 3.0]
+    },
+    {
+      "label": "Minimum Debt Yield (%)",
+      "category": "engine_input",
+      "activation_checkbox": "Monitor Debt Covenants",
+      "values": [1.0, 20.0]
+    },
+    {
+      "label": "Maximum LTV (%)",
+      "category": "engine_input",
+      "activation_checkbox": "Monitor Debt Covenants",
+      "values": [10.0, 90.0]
+    }
+  ]
+}

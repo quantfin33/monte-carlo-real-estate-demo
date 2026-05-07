@@ -1,0 +1,89 @@
+{
+  "description": "Fast UI option matrix for Streamlit user-facing choices.",
+  "selectboxes": [
+    {
+      "label": "Scenario profile",
+      "category": "ui_workflow",
+      "options": ["Base Variation", "Conservative", "Upside", "Downside", "Debt Stress", "Lease-Up Risk", "Random Plausible"]
+    },
+    {
+      "label": "Scenario",
+      "category": "engine_input",
+      "options": ["Base", "Downside", "Upside"]
+    },
+    {
+      "label": "Tax Mode",
+      "category": "engine_input",
+      "options": ["independent", "rent_indexed"]
+    },
+    {
+      "label": "Recovery Type",
+      "category": "engine_input",
+      "options": ["NNN", "CAM_CAP", "BASE_YEAR"]
+    },
+    {
+      "label": "Payment Frequency",
+      "category": "engine_input",
+      "options": ["annual", "monthly"]
+    },
+    {
+      "label": "Prepayment Method",
+      "category": "engine_input",
+      "options": ["none", "stepdown", "ym", "defeasance"]
+    },
+    {
+      "label": "Discount Method",
+      "category": "engine_input",
+      "activation_selectbox": {"label": "Prepayment Method", "value": "defeasance"},
+      "options": ["flat", "curve"]
+    },
+    {
+      "label": "Reserve Policy",
+      "category": "engine_input",
+      "options": ["accrue_only", "offset_building"]
+    },
+    {
+      "label": "Violation Response",
+      "category": "engine_input",
+      "activation_checkbox": "Monitor Debt Covenants",
+      "options": ["Warn", "Flag"]
+    },
+    {
+      "label": "Tornado metric",
+      "category": "ui_workflow",
+      "options": ["IRR", "NPV", "CoC", "EquityMultiple"]
+    },
+    {
+      "label": "Tornado statistic",
+      "category": "ui_workflow",
+      "options": ["p50", "mean", "p5", "p95"]
+    },
+    {
+      "label": "Answer style",
+      "category": "ui_workflow",
+      "options": ["Short", "Detailed", "Client summary"]
+    }
+  ],
+  "checkboxes": [
+    "Enable Exit Cap Rate Override",
+    "Enable Latent Market Strength",
+    "Enable Stage 2 Correlations",
+    "Tax Reassess on Refi",
+    "Tax Reassess on Sale",
+    "Vacancy Auto-Lease",
+    "Count Recoveries During Free Months",
+    "Monitor Debt Covenants",
+    "Enable Refinance Rules",
+    "Apply Prepayment at Sale",
+    "Include Debt Schedule in Results",
+    "Price with Buyer Tax"
+  ],
+  "multiselects": [
+    {
+      "label": "Correlation Variables",
+      "activation_checkbox": "Enable Stage 2 Correlations",
+      "options": ["occ0", "rg_bias", "exit_cap_q", "rate_q"],
+      "cases": [[], ["occ0"], ["occ0", "rg_bias", "exit_cap_q", "rate_q"]]
+    }
+  ]
+}
