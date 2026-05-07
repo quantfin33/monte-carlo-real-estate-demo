@@ -12,6 +12,12 @@ For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_
 4. Generate the evidence bundle or call the local API to inspect reproducible review artifacts.
 5. Read [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md) for the claim boundary before describing the project externally.
 
+## Open Live Demo
+
+[Open hosted Streamlit visual demo](https://monte-carlo-real-estate-demo-y4cunxqpckm9ynbgvfffgz.streamlit.app)
+
+This hosted link is for visual portfolio review only. It is not production deployment, not investment advice, and not live ERP/Odoo/MCP/SAP integration.
+
 ## Demo Walkthrough
 
 A short local walkthrough shows the dashboard, evidence-bundle workflow, FastAPI API, and local container proof.
