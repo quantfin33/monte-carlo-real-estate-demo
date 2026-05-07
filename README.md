@@ -1,15 +1,24 @@
-# Monte Carlo Real Estate Analytics Dashboard
+# Business Analytics Workflow Demo
 
-This is a Python/Streamlit portfolio project for business-facing real-estate scenario analysis. It demonstrates dashboard development, Monte Carlo simulation workflow, local setup documentation, screenshots, tests, and bounded handoff notes for reviewers. The project is positioned as a local visual demo with a validated annual-model core, not as a hosted release product.
+This is a local business analytics workflow demo built with Python, Streamlit, FastAPI, SQLite, and Docker. It uses real-estate Monte Carlo scenario analysis as the domain example, turning assumptions into dashboard views, schema-validated evidence bundles, risk flags, memo-style outputs, and a local API/container proof for reviewer inspection.
 
-For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md) for the concise handoff summary and [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for local launch instructions.
+For company review, start here, then use [COMPANY_DEMO_HANDOFF.md](COMPANY_DEMO_HANDOFF.md) for the concise handoff summary and [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for local launch instructions. The repo is intentionally scoped as a local portfolio/demo workflow with explicit safety boundaries, not as a hosted release product.
 
 ## Reviewer Path
 
 1. Start with the screenshots below to see the dashboard surfaces.
-2. Use [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for a local run.
-3. Generate the evidence bundle to inspect schema-validated review artifacts.
-4. Read [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md) for the claim boundary before describing the project externally.
+2. Review the proof chain: dashboard UI -> schema-validated exports -> SQLite run registry -> local FastAPI wrapper -> local Docker run.
+3. Use [README_UI_LAUNCH.md](README_UI_LAUNCH.md) for a local UI run.
+4. Generate the evidence bundle or call the local API to inspect reproducible review artifacts.
+5. Read [docs/SAFE_CLAIMS.md](docs/SAFE_CLAIMS.md) for the claim boundary before describing the project externally.
+
+## What This Proves
+
+- **Custom software workflow packaging:** inputs, model run, dashboard output, validation artifacts, and reviewer handoff are organized as one inspectable flow.
+- **API/backend capability:** the evidence-bundle workflow is exposed through a local FastAPI wrapper with server-controlled paths and SQLite run tracking.
+- **Client-facing documentation:** launch, handoff, safe-claim, API, and local container instructions are written for reviewers, not only for the original developer.
+- **QA discipline:** focused tests cover docs truth, bundle contracts, registry behavior, API behavior, container docs, and smoke execution.
+- **Business-system awareness:** local Odoo/ERP-style dry-run payloads show how data could later be shaped for workflow handoff without claiming live integration.
 
 ## Project Status
 
