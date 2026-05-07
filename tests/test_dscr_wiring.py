@@ -1,9 +1,9 @@
 """
-DSCR Wiring Tests - current annual-model contract.
+DSCR Wiring Tests - Financial Metric Sensitivity Contract v1.
 
-These tests keep DSCR output and variance coverage in the broad suite while the
-OpEx/tax DSCR directional contract is audited separately. The current model
-moves return metrics for OpEx/tax shocks, but Year 1 NOI and DSCR are unchanged.
+These tests keep DSCR output and variance coverage in the broad suite. GROSS
+recovery mode means expenses are not recovered from tenants, so OpEx/tax shocks
+must flow through Year 1 NOI and DSCR.
 """
 
 import pytest
@@ -32,7 +32,7 @@ class TestDSCRWiring:
         return params
     
     def test_dscr_moves_with_opex(self, base_params):
-        """Document current DSCR behavior when OpEx increases by 20%."""
+        """Verify DSCR decreases when unrecovered OpEx increases by 20%."""
         print("\n🧪 TESTING: DSCR vs OpEx +20%")
         
         # Base case
@@ -80,18 +80,14 @@ class TestDSCRWiring:
         print(f"   DSCR Variance: {dscr_variance:.6f}")
         assert dscr_variance > 1e-6, f"DSCR appears constant (variance={dscr_variance:.6f})"
         
-        # Direction check - DSCR should decrease with higher OpEx
         assert shocked_irr < base_irr, "OpEx shock should still reduce current-contract return metrics"
-        assert shocked_noi == pytest.approx(base_noi), "Current annual contract leaves NOI_Y1 unchanged for OpEx shocks"
-        assert shocked_dscr_mean == pytest.approx(base_dscr_mean), (
-            "Current annual contract leaves DSCR unchanged for OpEx shocks; "
-            "a model-level directional DSCR fix requires separate approval"
-        )
+        assert shocked_noi < base_noi, "GROSS OpEx shock should reduce NOI_Y1"
+        assert shocked_dscr_mean < base_dscr_mean, "GROSS OpEx shock should reduce DSCR"
         
-        print("✅ DSCR current contract documented for OpEx increase")
+        print("✅ DSCR decreases under unrecovered OpEx increase")
     
     def test_dscr_moves_with_tax(self, base_params):
-        """Document current DSCR behavior when property tax increases by 50bps."""
+        """Verify DSCR decreases when unrecovered property tax increases by 50bps."""
         print("\n🧪 TESTING: DSCR vs Tax Rate +50bps")
         
         # Base case
@@ -123,12 +119,9 @@ class TestDSCRWiring:
         print(f"   DSCR Change: {dscr_change:+.3f}")
         
         assert shocked_npv < base_npv, "Tax shock should still reduce current-contract value metrics"
-        assert shocked_dscr_mean == pytest.approx(base_dscr_mean), (
-            "Current annual contract leaves DSCR unchanged for tax shocks; "
-            "a model-level directional DSCR fix requires separate approval"
-        )
+        assert shocked_dscr_mean < base_dscr_mean, "GROSS tax shock should reduce DSCR"
         
-        print("✅ DSCR current contract documented for tax rate increase")
+        print("✅ DSCR decreases under unrecovered tax increase")
     
     def test_dscr_variance_exists(self, base_params):
         """Test that DSCR shows variance across Monte Carlo scenarios."""

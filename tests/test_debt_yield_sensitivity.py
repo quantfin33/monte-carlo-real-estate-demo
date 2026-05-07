@@ -1,10 +1,9 @@
 """
-Debt Yield Sensitivity Tests - current annual-model contract.
+Debt Yield Sensitivity Tests - Financial Metric Sensitivity Contract v1.
 
 These tests keep debt-yield output and variance coverage in the broad suite
-while the OpEx/tax Year 1 NOI and debt-yield directional contract is audited
-separately. The current model moves return metrics for OpEx/tax shocks, leaves
-DebtYield_Y1 unchanged, and moves MinDebtYield only slightly.
+while asserting the GROSS recovery contract: unrecovered OpEx/tax shocks should
+flow through Year 1 NOI, DebtYield_Y1, and MinDebtYield.
 """
 
 import pytest
@@ -33,7 +32,7 @@ class TestDebtYieldSensitivity:
         return params
     
     def test_dy_moves_with_opex_up(self, base_params):
-        """Document current debt-yield behavior when OpEx increases by 20%."""
+        """Verify debt yield decreases when unrecovered OpEx increases by 20%."""
         print("\n🧪 TESTING: Debt Yield vs OpEx +20%")
         
         # Base case
@@ -90,31 +89,14 @@ class TestDebtYieldSensitivity:
         assert min_dy_variance > 1e-6, f"Min DY appears constant (variance={min_dy_variance:.6f})"
         
         assert shocked_irr < base_irr, "OpEx shock should still reduce current-contract return metrics"
-        assert shocked_noi == pytest.approx(base_noi), "Current annual contract leaves NOI_Y1 unchanged for OpEx shocks"
-        assert shocked_dy_y1.mean() == pytest.approx(base_dy_y1.mean()), (
-            "Current annual contract leaves DebtYield_Y1 unchanged for OpEx shocks; "
-            "a model-level Year 1 NOI/debt-yield fix requires separate approval"
-        )
-        
-        # Min DY sensitivity is weaker due to multi-year averaging - accept smaller changes
-        # The key is that it should not move in the wrong direction by more than 0.01%
-        if min_dy_change > 0.0001:  # If increase is more than 0.01%
-            print(f"⚠️  Min DY increased slightly: {min_dy_change:+.3%} - investigating...")
-            # Still acceptable if increase is very small (< 0.05%)
-            assert min_dy_change < 0.0005, (
-                f"Min DY increased too much with OpEx +20%: "
-                f"{base_min_dy.mean():.3%} → {shocked_min_dy.mean():.3%} (change: {min_dy_change:+.3%})"
-            )
-            print(f"✅ Min DY increase is within acceptable range (<0.05%)")
-        else:
-            print(f"✅ Min DY correctly decreased: {min_dy_change:+.3%}")
-        
-        assert abs(min_dy_change) > 1e-8, "Min DY should show some response to OpEx changes"
-        
-        print("✅ Debt-yield current contract documented for OpEx increase")
+        assert shocked_noi < base_noi, "GROSS OpEx shock should reduce NOI_Y1"
+        assert shocked_dy_y1.mean() < base_dy_y1.mean(), "GROSS OpEx shock should reduce DebtYield_Y1"
+        assert shocked_min_dy.mean() < base_min_dy.mean(), "GROSS OpEx shock should reduce MinDebtYield"
+
+        print("✅ Debt-yield decreases under unrecovered OpEx increase")
     
     def test_dy_moves_with_opex_down(self, base_params):
-        """Document current debt-yield behavior when OpEx decreases by 20%."""
+        """Verify debt yield increases when unrecovered OpEx decreases by 20%."""
         print("\n🧪 TESTING: Debt Yield vs OpEx -20%")
         
         # Base case
@@ -151,27 +133,10 @@ class TestDebtYieldSensitivity:
         print(f"   Min DY Change: {min_dy_change:+.3%}")
         
         assert shocked_irr > base_irr, "OpEx reduction should still improve current-contract return metrics"
-        assert shocked_dy_y1.mean() == pytest.approx(base_dy_y1.mean()), (
-            "Current annual contract leaves DebtYield_Y1 unchanged for OpEx shocks; "
-            "a model-level Year 1 NOI/debt-yield fix requires separate approval"
-        )
-        
-        # Min DY sensitivity is weaker due to multi-year averaging - accept smaller changes
-        # The key is that it should not move dramatically in the wrong direction
-        if min_dy_change < -0.0001:  # If decrease is more than 0.01%
-            print(f"⚠️  Min DY decreased slightly: {min_dy_change:+.3%} - investigating...")
-            # Still acceptable if decrease is very small (< 0.05%)
-            assert min_dy_change > -0.0005, (
-                f"Min DY decreased too much with OpEx -20%: "
-                f"{base_min_dy.mean():.3%} → {shocked_min_dy.mean():.3%} (change: {min_dy_change:+.3%})"
-            )
-            print(f"✅ Min DY decrease is within acceptable range (<0.05%)")
-        else:
-            print(f"✅ Min DY correctly increased: {min_dy_change:+.3%}")
-        
-        assert abs(min_dy_change) > 1e-8, "Min DY should show some response to OpEx changes"
-        
-        print("✅ Debt-yield current contract documented for OpEx decrease")
+        assert shocked_dy_y1.mean() > base_dy_y1.mean(), "GROSS OpEx reduction should increase DebtYield_Y1"
+        assert shocked_min_dy.mean() > base_min_dy.mean(), "GROSS OpEx reduction should increase MinDebtYield"
+
+        print("✅ Debt-yield increases under unrecovered OpEx decrease")
     
     def test_dy_variance_exists(self, base_params):
         """Test that both DY metrics show variance across Monte Carlo scenarios."""
@@ -210,7 +175,7 @@ class TestDebtYieldSensitivity:
         print("✅ Both DY metrics show appropriate variance across scenarios")
     
     def test_dy_sensitivity_to_tax_rate(self, base_params):
-        """Document current debt-yield behavior when property tax increases."""
+        """Verify debt yield decreases when unrecovered property tax increases."""
         print("\n🧪 TESTING: Debt Yield vs Tax Rate +50bps")
         
         # Base case
@@ -240,12 +205,9 @@ class TestDebtYieldSensitivity:
         print(f"   DY Y1 Change: {dy_change:+.3%}")
         
         assert shocked_npv < base_npv, "Tax shock should still reduce current-contract value metrics"
-        assert shocked_dy_y1 == pytest.approx(base_dy_y1), (
-            "Current annual contract leaves DebtYield_Y1 unchanged for tax shocks; "
-            "a model-level Year 1 NOI/debt-yield fix requires separate approval"
-        )
+        assert shocked_dy_y1 < base_dy_y1, "GROSS tax shock should reduce DebtYield_Y1"
         
-        print("✅ Debt-yield current contract documented for tax rate increase")
+        print("✅ Debt-yield decreases under unrecovered tax increase")
 
 
 if __name__ == "__main__":

@@ -100,10 +100,10 @@ def test_dscr_drops_with_opex(bump):
 
 
 def test_coc_decreases_when_tax_rate_rises_100bps():
-    """Document current CoC tax sensitivity as not directionally guaranteed.
+    """Test that CoC decreases when unrecovered property tax rises.
 
-    Current model tax shocks move IRR/NPV, while same-seed CoC is effectively
-    unchanged. Tax-return direction is covered in the broader sensitivity tests.
+    GROSS recovery mode means property taxes are not recovered from tenants, so
+    same-seed Year 1 cash flow should worsen.
     """
     base_df = run_df(seed=46)
     base_params = monte_carlo_model.default_params()
@@ -118,7 +118,7 @@ def test_coc_decreases_when_tax_rate_rises_100bps():
     
     assert np.isfinite(b.mean())
     assert np.isfinite(s.mean())
-    assert abs(b.mean() - s.mean()) < 1e-12
+    assert s.mean() < b.mean()
 
 
 if __name__ == "__main__":

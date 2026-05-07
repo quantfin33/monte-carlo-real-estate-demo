@@ -1,8 +1,9 @@
-"""Audit current DSCR, debt-yield, and NOI shock behavior.
+"""Audit DSCR, debt-yield, and NOI shock behavior.
 
-This is an audit lock, not a model-fix test. It records the current annual
-model contract so broad diagnostics can distinguish stale expectations from a
-future approved financial-model change.
+This audit locks the Financial Metric Sensitivity Contract v1 behavior after
+recovery-type routing was fixed. GROSS recovery mode means expenses are not
+recovered from tenants, so OpEx/tax shocks flow through Year 1 NOI, DSCR, and
+debt yield.
 """
 
 from __future__ import annotations
@@ -82,34 +83,32 @@ def test_current_dscr_debt_yield_noi_shock_contract():
     rate_up["interest_rate"] += 0.005
     shocks["rate_up"] = _means(_run(rate_up))
 
-    # OpEx moves current return metrics and operating-expense ratio, but not
-    # current Year 1 NOI/DSCR/DebtYield_Y1 outputs.
+    # GROSS OpEx shocks move Year 1 NOI, coverage, and return metrics.
     assert shocks["opex_up"]["IRR"] < base["IRR"]
     assert shocks["opex_up"]["NPV"] < base["NPV"]
     assert shocks["opex_up"]["CoC"] < base["CoC"]
     assert shocks["opex_up"]["OperatingExpenseRatio"] > base["OperatingExpenseRatio"]
-    _same(shocks["opex_up"]["NOI_Y1"], base["NOI_Y1"], abs_tol=1e-6)
-    _same(shocks["opex_up"]["DSCR"], base["DSCR"])
-    _same(shocks["opex_up"]["DebtYield_Y1"], base["DebtYield_Y1"])
+    assert shocks["opex_up"]["NOI_Y1"] < base["NOI_Y1"]
+    assert shocks["opex_up"]["DSCR"] < base["DSCR"]
+    assert shocks["opex_up"]["DebtYield_Y1"] < base["DebtYield_Y1"]
     assert shocks["opex_up"]["MinDebtYield"] < base["MinDebtYield"]
 
     assert shocks["opex_down"]["IRR"] > base["IRR"]
     assert shocks["opex_down"]["NPV"] > base["NPV"]
     assert shocks["opex_down"]["CoC"] > base["CoC"]
     assert shocks["opex_down"]["OperatingExpenseRatio"] < base["OperatingExpenseRatio"]
-    _same(shocks["opex_down"]["NOI_Y1"], base["NOI_Y1"], abs_tol=1e-6)
-    _same(shocks["opex_down"]["DSCR"], base["DSCR"])
-    _same(shocks["opex_down"]["DebtYield_Y1"], base["DebtYield_Y1"])
+    assert shocks["opex_down"]["NOI_Y1"] > base["NOI_Y1"]
+    assert shocks["opex_down"]["DSCR"] > base["DSCR"]
+    assert shocks["opex_down"]["DebtYield_Y1"] > base["DebtYield_Y1"]
     assert shocks["opex_down"]["MinDebtYield"] > base["MinDebtYield"]
 
-    # Tax moves IRR/NPV and MinDebtYield but leaves CoC and Year 1
-    # NOI/DSCR/DebtYield_Y1 unchanged under the current annual contract.
+    # GROSS tax shocks move Year 1 NOI, coverage, and return metrics.
     assert shocks["tax_up"]["IRR"] < base["IRR"]
     assert shocks["tax_up"]["NPV"] < base["NPV"]
-    _same(shocks["tax_up"]["CoC"], base["CoC"])
-    _same(shocks["tax_up"]["NOI_Y1"], base["NOI_Y1"], abs_tol=1e-6)
-    _same(shocks["tax_up"]["DSCR"], base["DSCR"])
-    _same(shocks["tax_up"]["DebtYield_Y1"], base["DebtYield_Y1"])
+    assert shocks["tax_up"]["CoC"] < base["CoC"]
+    assert shocks["tax_up"]["NOI_Y1"] < base["NOI_Y1"]
+    assert shocks["tax_up"]["DSCR"] < base["DSCR"]
+    assert shocks["tax_up"]["DebtYield_Y1"] < base["DebtYield_Y1"]
     assert shocks["tax_up"]["MinDebtYield"] < base["MinDebtYield"]
 
     # Non-expense shocks prove the risk metrics are not globally inert.

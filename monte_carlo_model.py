@@ -41,9 +41,10 @@ plt.rcParams.update({
 })
 
 # === GLOBAL RECOVERY OVERRIDE ===
-# If set to 'NNN', 'BASE_YEAR', or 'CAM_CAP', this will override all tenant recovery types.
+# If set to 'NNN', 'BASE_YEAR', 'CAM_CAP', 'GROSS', or 'NONE',
+# this will override all tenant recovery types.
 # Set to None to use individual tenant settings.
-#•	NNN = landlord pays nothing (best for landlord). •	BASE_YEAR = landlord pays year 1 baseline forever •	CAM_CAP = landlord pays anything above a set cap. •	None = landlord pays everything (worst for landlord).
+#•	NNN = landlord pays nothing (best for landlord). •	BASE_YEAR = landlord pays year 1 baseline forever •	CAM_CAP = landlord pays anything above a set cap. •	GROSS/NONE = landlord pays everything.
 
 GLOBAL_RECOVERY_TYPE = 'NNN'
 
@@ -700,6 +701,16 @@ def sample_sale_year():       # fixed per run
 
 # ============== lease roll helpers ==============
 
+def _resolve_recovery_type(p):
+    """Resolve recovery override from params first, then module default."""
+    recovery_type = p.get('GLOBAL_RECOVERY_TYPE', None)
+    if recovery_type is None:
+        recovery_type = GLOBAL_RECOVERY_TYPE
+    if recovery_type is None:
+        recovery_type = 'NNN'
+    recovery_type = str(recovery_type).strip().upper()
+    return recovery_type or 'NNN'
+
 def _reconstruct_lease_roll(p):
     """
     Dynamically reconstruct lease_roll based on current parameters.
@@ -711,6 +722,7 @@ def _reconstruct_lease_roll(p):
     walt_years = float(p.get('walt_years', 7.0))
     in_place_rent_psf = float(p.get('in_place_rent_psf', 23.64))
     renew_prob = float(p.get('renew_prob', 0.60))
+    recovery_type = _resolve_recovery_type(p)
     
     # Reconstruct lease_roll with current parameters
     lease_roll = [
@@ -726,7 +738,7 @@ def _reconstruct_lease_roll(p):
             'lc_pct_renew': 0.06,
             'renew_prob': renew_prob,
             'downtime_months': 6,
-            'recovery_type': GLOBAL_RECOVERY_TYPE if GLOBAL_RECOVERY_TYPE is not None else 'NNN',
+            'recovery_type': recovery_type,
             'controllable_cap_pct': 0.05,
         },
         {
@@ -742,7 +754,7 @@ def _reconstruct_lease_roll(p):
             'lc_pct_renew': 0.06,
             'renew_prob': renew_prob,
             'downtime_months': 3,
-            'recovery_type': GLOBAL_RECOVERY_TYPE if GLOBAL_RECOVERY_TYPE is not None else 'NNN',
+            'recovery_type': recovery_type,
             'controllable_cap_pct': 0.05,
         },
     ]
@@ -906,6 +918,7 @@ def _compute_recoveries(p, lease_state, controllable_opex, noncontrollable_opex,
       - NNN: pro-rata share of (total opex + property tax) scaled by occupancy-months.
       - BASE_YEAR: share of (current total opex - base-year total opex), floored at 0, scaled by occupancy.
       - CAM_CAP: full non-controllable pass-through + controllable increase above a NON-COMPOUNDING cap.
+      - GROSS/NONE: no tenant recoveries.
     """
     
     # Input validation
@@ -946,6 +959,8 @@ def _compute_recoveries(p, lease_state, controllable_opex, noncontrollable_opex,
         try:
             if rtype == 'NNN':
                 recov = share * (total_opex + property_tax) * occ_frac
+            elif rtype in ('GROSS', 'NONE'):
+                recov = 0.0
             elif rtype == 'BASE_YEAR':
                 base_total = item.get('base_year_total_opex')
                 if base_total is None or not np.isfinite(base_total):
