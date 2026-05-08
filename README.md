@@ -24,17 +24,7 @@ A short local walkthrough shows the dashboard, evidence-bundle workflow, FastAPI
 
 [![Demo walkthrough](screenshots/portfolio_irr_kpi_results.png)](docs/media/demo_walkthrough.mp4)
 
-## What This Proves
-
-- **Custom software workflow packaging:** inputs, model run, dashboard output, validation artifacts, and reviewer handoff are organized as one inspectable flow.
-- **API/backend capability:** the evidence-bundle workflow is exposed through a local FastAPI wrapper with server-controlled paths and SQLite run tracking.
-- **Reviewer/client handoff documentation:** launch, handoff, safe-claim, API, and local container instructions are written for reviewers and future maintainers.
-- **QA discipline:** focused tests cover docs truth, bundle contracts, registry behavior, API behavior, container docs, and smoke execution.
-- **Business-system handoff awareness:** local Odoo/ERP-style dry-run payloads show how data could later be shaped for workflow mapping and implementation discovery.
-
 ## Visual Evidence
-
-This repo includes screenshots captured from the running Streamlit dashboard. They show the working surfaces a reviewer is most likely to inspect: KPI outputs, sensitivity views, the Smart Scenario Generator, and the AI Analyst fallback explanation layer.
 
 ### KPI / IRR Results
 

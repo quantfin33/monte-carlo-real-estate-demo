@@ -1,123 +1,95 @@
 # Company Demo Handoff
 
-## What This Project Is
+## What This Project Demonstrates
 
-This repository contains a Streamlit-based Monte Carlo real-estate investment analytics dashboard. It is suitable today as a visual demo and portfolio project for underwriting-style scenario analysis, risk inspection, sensitivity review, and exportable reporting.
+This repository is a business analytics workflow demo built with Python, Streamlit, FastAPI, SQLite, and Docker. Real-estate Monte Carlo scenario analysis is the domain example; the stronger signal is how assumptions move through a dashboard, schema-validated evidence bundle, SQLite run registry, local API layer, containerized review path, and automated test coverage.
 
-The current audited claim boundary is:
+The project is suitable for company review as a portfolio example of workflow packaging, backend/API boundaries, reviewer documentation, QA discipline, and ERP-adjacent handoff thinking.
 
-- visual demo ready
-- validated annual-model core
-- intended for demo and local review, not for hosted release use
-- broader end-to-end product validation remains incomplete
+## Why It Matters For Software / Digital Transformation Review
 
-The package includes a local integration-ready export payload as a future handoff pattern. It also includes a local Odoo/ERP-style dry-run handoff payload that demonstrates how reporting data could be shaped for future workflow mapping.
-
-Sandbox validation evidence may be documented separately. No live or production Odoo/ERP integration is included in this public package, and no production Odoo/ERP call is claimed.
-
-The package also includes an AI Analyst layer for explaining current simulation outputs and surfacing number-sanity caveats, while keeping integrations and investment advice outside the claim boundary.
+- **Custom software workflow:** input capture, model execution, dashboard output, validation artifacts, and reviewer handoff are organized as one inspectable flow.
+- **API/backend capability:** the evidence-bundle workflow is exposed through a local FastAPI wrapper with controlled paths and SQLite run tracking.
+- **QA/testing discipline:** docs truth, public claim boundaries, UI/control coverage, evidence-bundle contracts, registry behavior, API behavior, container docs, smoke checks, and broad model tests are covered.
+- **Client handoff readiness:** README, launch notes, safe-claim docs, container notes, and structured artifacts give reviewers multiple inspection paths.
+- **Business-system awareness:** the package includes a local Odoo/ERP-style dry-run handoff payload as a future mapping pattern for workflow discovery.
 
 ## What Is Verified Now
 
-Based on the current handoff verification materials prepared for this package:
+Current verification evidence covers the main reviewer workflow:
 
-- the app launches locally from the verified virtual environment
-- the smoke path passes
-- current core-model tests pass
-- current engine output contract tests pass
-- current trace payload and explainability tests pass
-- the main demo path is suitable for screenshots and live walkthroughs
-- Heatmap 1, Tornado, Heatmap 2, Trace / Explain, and exports remain visible in the product
+- hosted Streamlit visual demo link is available from `README.md`
+- local Streamlit launch path is documented in `README_UI_LAUNCH.md`
+- core model and engine output contract tests pass
+- broad pytest suite passes in the current public package
+- rigorous UI/control and public workflow tests are included
+- Financial Metric Sensitivity Contract v1 is covered by targeted tests
+- schema-validated evidence bundle generation is covered
+- optional SQLite run registry behavior is covered
+- local FastAPI evidence-bundle wrapper is covered
+- local Docker/container run is documented and verified
+- screenshots and demo walkthrough media are included for visual review
 
-## What Is Preserved But Still Qualified
+## Technical Proof Chain
 
-Some richer UI surfaces are intentionally preserved because they matter to the workflow story, but they should still be described carefully:
+The review path is:
 
-- advanced KPI groups may still rely on guarded placeholders or partial runtime coverage
-- sensitivity views are appropriate as directional decision-support surfaces
-- Trace / Explain is visible and materially restored at the engine level, but it should not be described as a finished explainability delivery stack
-- `sale_month` remains outside the safe claim boundary and should not be presented as validated timing-aware analytics
+```text
+Streamlit dashboard
+-> schema-validated evidence bundle
+-> SQLite run registry
+-> local FastAPI wrapper
+-> local Docker/container proof
+-> automated tests and safe-claim checks
+```
 
-## Exact Local Run Commands
+The workflow also includes a local Odoo/ERP-style dry-run handoff payload that demonstrates how reporting data can be shaped for future ERP discovery. External ERP/Odoo connectivity would require a company-specific implementation against real models, permissions, workflows, and deployment constraints.
 
-Use the verified local environment:
+## Local Review Commands
+
+Run the dashboard locally:
 
 ```bash
 source .venv/bin/activate
 python run_ui.py
 ```
 
-Smoke check:
+Run the smoke check:
 
 ```bash
 source .venv/bin/activate
 python run_tests.py smoke
 ```
 
-When the app starts, use the local URL printed by Streamlit.
+Generate a local evidence bundle:
 
-## Included Package Structure
+```bash
+python scripts/generate_demo_bundle.py --preset base --seed 123 --out /tmp/rmc_demo_bundle --n 2 --sims-per-case 1
+```
 
-The clean handoff package should center on:
+Start the local API wrapper:
 
-- `README.md`
-- `README_UI_LAUNCH.md`
-- `COMPANY_DEMO_HANDOFF.md`
-- `UI.py`
-- `monte_carlo_model.py`
-- `engine_output_contract.py`
-- `trace_tools.py`
-- `ui_metrics.py`
-- `metrics_schema.py`
-- `metrics_utils.py`
-- `metrics_registry.py`
-- `run_ui.py`
-- `run_ui.sh`
-- `run.sh`
-- `run_tests.py`
-- `scripts/export_demo_business_summary.py`
-- `pyproject.toml`
-- `requirements.txt`
-- `requirements_testing.txt`
-- `.streamlit/`
-- `docs/`
-- `tests/`
-- `screenshots/`
-- `artifacts/logic_report.json`
-- `artifacts/wiring_report.json`
-- `artifacts/integration_demo/sample_business_summary.json`
+```bash
+uvicorn api_app:app --reload
+```
 
-## Screenshots Included
+Run the local container path:
 
-The curated `screenshots/` folder should contain:
+```bash
+docker build -t rmc-evidence-api .
+docker run --rm -p 8000:8000 rmc-evidence-api
+```
 
-- `portfolio_irr_kpi_results.png`
-- `portfolio_heatmap_sensitivity.png`
-- `portfolio_tornado_sensitivity.png`
-- `portfolio_smart_scenario_generator.png`
-- `portfolio_ai_analyst_chat.png`
+## Current Scope And Future Extensions
 
-## Public GitHub Review Note
+The current repo is a portfolio-review workflow and local technical proof. A managed release would require security review, authentication, deployment operations, monitoring, data governance, and client-specific runbooks.
 
-This repository is public for portfolio review. Start with `README.md`, the embedded screenshots, and the local launch guide before inspecting deeper tests or artifacts.
+ERP/Odoo appears as a local dry-run payload and mapping pattern. Connecting to a real ERP environment would depend on actual company data models, permissions, business rules, and deployment process.
 
-## Known Limitations
+The analytics outputs support workflow demonstration and model inspection. Financial advisory use, production underwriting reliance, and commercial platform parity are outside the current implementation scope.
 
-- this package is intended for demo and local review rather than hosted release use
-- some advanced workflow surfaces remain visible with qualified wording rather than full end-to-end revalidation
-- `sale_month` is still excluded from safe company-facing claims
-- hosted release security and release readiness have not been established
+Future implementation paths could include a company-specific ERP/Odoo module, hosted backend deployment, authentication, richer role-based workflows, and release operations after separate scoping.
 
-## Explicit Non-Claims
+## Safe Company-Facing Summary
 
-Do not claim any of the following:
-
-- ready for hosted release use
-- complete validation of every financial workflow
-- validated intra-year timing support
-- business-system or assistant-workflow integrations already shipped
-- proof that every visible control has a verified downstream model effect
-
-## Safe Company-Facing Claim
-
-This project is a polished Monte Carlo real-estate analytics dashboard with a validated annual-model core, preserved advanced workflow surfaces, current demo evidence, and a possible future path toward deeper reporting or business-system workflows.
+This is a public business analytics workflow demo that uses real-estate scenario modeling to demonstrate custom software delivery: dashboard UI, evidence bundles, audit registry, local API, container reproducibility, automated tests, and bounded ERP-adjacent handoff artifacts.
